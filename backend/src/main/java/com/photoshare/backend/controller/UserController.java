@@ -1,0 +1,43 @@
+package com.photoshare.backend.controller;
+
+import com.photoshare.backend.dto.response.UserResponse;
+import com.photoshare.backend.entity.User;
+import com.photoshare.backend.service.impl.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/users")
+@Slf4j
+public class UserController {
+
+    private final UserServiceImpl userService;
+
+    @Autowired
+    public UserController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(UserResponse.mapUserToDTO(userService.findById(id)), HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<Page<UserResponse>> findAll(Pageable pageable) {
+        return new ResponseEntity<>(UserResponse.mapListUserToDTO(userService.findAll(pageable)), HttpStatus.OK);
+    }
+
+}
