@@ -1,10 +1,12 @@
-package com.photoshare.backend.dto.response;
+package com.photoshare.backend.controller.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class MessageResponse {
     private String message;
 

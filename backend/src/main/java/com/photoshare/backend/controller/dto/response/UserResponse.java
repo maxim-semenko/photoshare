@@ -1,8 +1,9 @@
-package com.photoshare.backend.dto.response;
+package com.photoshare.backend.controller.dto.response;
 
 import com.photoshare.backend.entity.User;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
+@ToString
 public class UserResponse {
     private Long id;
     private String username;

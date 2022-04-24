@@ -1,10 +1,10 @@
 package com.photoshare.backend.service.impl;
 
-import com.photoshare.backend.dto.request.LoginRequest;
-import com.photoshare.backend.dto.request.RegisterRequest;
-import com.photoshare.backend.dto.response.JwtResponse;
-import com.photoshare.backend.dto.response.MessageResponse;
-import com.photoshare.backend.dto.response.UserResponse;
+import com.photoshare.backend.controller.dto.request.LoginRequest;
+import com.photoshare.backend.controller.dto.request.RegisterRequest;
+import com.photoshare.backend.controller.dto.response.JwtResponse;
+import com.photoshare.backend.controller.dto.response.MessageResponse;
+import com.photoshare.backend.controller.dto.response.UserResponse;
 import com.photoshare.backend.entity.Bookmark;
 import com.photoshare.backend.entity.User;
 import com.photoshare.backend.entity.enums.RoleEnum;
@@ -84,7 +84,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new ResourseNotFoundException("Error: User not found!"));
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtils.generateJwtToken(authentication);

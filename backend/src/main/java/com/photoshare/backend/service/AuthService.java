@@ -1,9 +1,9 @@
 package com.photoshare.backend.service;
 
-import com.photoshare.backend.dto.request.LoginRequest;
-import com.photoshare.backend.dto.request.RegisterRequest;
-import com.photoshare.backend.dto.response.JwtResponse;
-import com.photoshare.backend.dto.response.MessageResponse;
+import com.photoshare.backend.controller.dto.request.LoginRequest;
+import com.photoshare.backend.controller.dto.request.RegisterRequest;
+import com.photoshare.backend.controller.dto.response.JwtResponse;
+import com.photoshare.backend.controller.dto.response.MessageResponse;
 
 public interface AuthService {
 

@@ -1,13 +1,15 @@
-package com.photoshare.backend.dto.request;
+package com.photoshare.backend.controller.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@ToString
 public class LoginRequest {
 
     @NotBlank(message = "Username must be not blank!")

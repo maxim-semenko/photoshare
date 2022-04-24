@@ -1,14 +1,14 @@
-package com.photoshare.backend.dto.response;
+package com.photoshare.backend.controller.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Set;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
 public class JwtResponse {
     private String token;
     private UserResponse user;
