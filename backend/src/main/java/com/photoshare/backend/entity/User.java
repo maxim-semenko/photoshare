@@ -39,7 +39,7 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(unique = true)
-    @Size(min = 7, max = 70)
+    @Size(min = 7, max = 40)
     @NotBlank
     @Email
     private String email;

@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class Comment extends BaseEntity{
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
