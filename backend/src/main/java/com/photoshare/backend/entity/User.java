@@ -23,14 +23,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity {
 
@@ -64,18 +65,16 @@ public class User extends BaseEntity {
     private String about;
 
     @Column(columnDefinition = "MEDIUMBLOB")
+    @JsonIgnore
     private String image;
 
     @NotNull
     @CreatedDate
     private Date registerDate;
 
-    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private Bookmark bookmark;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Post> posts = new HashSet<>();
+    private List<Post> posts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -83,6 +82,31 @@ public class User extends BaseEntity {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "users_m2m_bookmarks_items",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "bookmark_item")}
+    )
+    @JsonIgnore
+    private List<BookmarkItem> bookmarkItems = new ArrayList<>();
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", about='" + about + '\'' +
+                ", image='" + image + '\'' +
+                ", registerDate=" + registerDate +
+                '}';
+    }
 }

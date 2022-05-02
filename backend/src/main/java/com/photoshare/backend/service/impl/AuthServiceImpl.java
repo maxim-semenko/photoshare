@@ -5,7 +5,6 @@ import com.photoshare.backend.controller.dto.request.RegisterRequest;
 import com.photoshare.backend.controller.dto.response.JwtResponse;
 import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.controller.dto.response.UserResponse;
-import com.photoshare.backend.entity.Bookmark;
 import com.photoshare.backend.entity.User;
 import com.photoshare.backend.entity.enums.RoleEnum;
 import com.photoshare.backend.exception.EmailExistsException;
@@ -58,7 +57,6 @@ public class AuthServiceImpl implements AuthService {
         }
 
         User user = new User();
-        Bookmark bookmark = new Bookmark();
 
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -70,9 +68,6 @@ public class AuthServiceImpl implements AuthService {
         user.setRegisterDate(new Date());
         user.setRoles(Set.of(roleRepository.findByName(RoleEnum.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."))));
-
-        bookmark.setUser(user);
-        user.setBookmark(bookmark);
 
         userRepository.save(user);
         return new MessageResponse("User registered successfully!");

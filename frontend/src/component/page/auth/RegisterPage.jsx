@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -11,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from "../../common/Copyright";
 import UserValidator from "../../../validator/UserValidator";
+import {Link} from "react-router-dom";
 
 const paper = {
     marginTop: '64px',
@@ -211,7 +211,7 @@ export default function SignUp() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href={"/sign-in"} variant="body2">
+                            <Link to={"/login"}>
                                 Already have an account? Sign in
                             </Link>
                         </Grid>

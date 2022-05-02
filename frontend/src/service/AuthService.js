@@ -1,6 +1,7 @@
 import axios from "axios"
-
+import {Cookies} from "react-cookie"
 const API_URL = "/api/v1/auth"
+const cookies = new Cookies();
 
 class AuthService {
 
@@ -24,8 +25,8 @@ class AuthService {
     }
 
     // Logout user
-    async logout(cookies) {
-        cookies.remove("jwt", {path: "/"})
+    async logout() {
+        cookies.remove("token", {path: "/"})
         localStorage.removeItem("user")
     }
 }

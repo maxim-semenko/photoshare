@@ -1,5 +1,7 @@
 package com.photoshare.backend.security;
 
+import com.photoshare.backend.entity.Role;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -12,7 +14,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.Base64;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @PropertySource("/jwt.properties")
@@ -23,12 +29,18 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${jwt.token.expired}")
-    private int jwtExpirationMs;
+    private long jwtExpirationMs;
+
+    @PostConstruct
+    protected void init() {
+        jwtSecret = Base64.getEncoder().encodeToString(jwtSecret.getBytes());
+    }
 
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
         return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
+                .setClaims(Jwts.claims().setSubject(userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

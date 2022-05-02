@@ -6,9 +6,9 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import HeaderComponent from "../common/HeaderComponent";
-import DrawerComponent from "../common/DrawerComponent";
-
+import DrawerComponent from "../../common/DrawerComponent";
+import HeaderComponent from "../../common/HeaderComponent";
+import Post from "../../common/Post";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -27,14 +27,13 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
-    fixedHeight: {
-        height: 240,
-    },
+    fixedHeight: {},
 }));
 
 function ProfilePage() {
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+    const user = JSON.parse(localStorage.getItem("user"))
 
     return (
         <Box sx={{display: 'flex'}}>
@@ -47,7 +46,19 @@ function ProfilePage() {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper className={fixedHeightPaper}>
-                                NEWS PAGE
+                                PROFILE
+                                <h1>Email: {user.email}</h1>
+                                <Grid container spacing={3}>
+                                    <Grid item xs={12} md={12} lg={4}>
+                                        <Post/>
+                                    </Grid>
+                                    <Grid item xs={12} md={12} lg={4}>
+                                        <Post/>
+                                    </Grid>
+                                    <Grid item xs={12} md={12} lg={4}>
+                                        <Post/>
+                                    </Grid>
+                                </Grid>
                             </Paper>
                         </Grid>
                     </Grid>

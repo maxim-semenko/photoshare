@@ -57,7 +57,7 @@ class UserValidator {
         let error = "";
         if (!password || password === '') {
             error = 'password cannot be empty!';
-        } else if (password.length < 8) {
+        } else if (password.length < 4) {
             error = 'password is too short!';
         } else if (password.length > 255) {
             error = 'password is too long!';

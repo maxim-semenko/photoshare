@@ -26,6 +26,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean deleteById(Long id) {
+        userRepository.deleteById(id);
+
+        return true;
+    }
+
+    @Override
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }

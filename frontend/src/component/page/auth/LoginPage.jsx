@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -11,6 +10,10 @@ import Typography from '@mui/material/Typography';
 import Copyright from "../../common/Copyright";
 import UserValidator from "../../../validator/UserValidator";
 import AuthService from "../../../service/AuthService";
+import {Cookies} from "react-cookie"
+import {Link, useNavigate} from 'react-router-dom';
+
+import jwt from 'jwt-decode'
 
 const root = {
     height: '100vh',
@@ -44,7 +47,9 @@ const submit = {
     margin: '24px 0px 16px',
 }
 
-export default function SignInPage() {
+export default function LoginPage() {
+    const navigate = useNavigate();
+    const cookies = new Cookies()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -88,12 +93,15 @@ export default function SignInPage() {
             AuthService.login(request)
                 .then(response => {
                     console.log(response.data)
-                    // setShowSuccessfulSignUp(true)
-                    // setTimeout(function () {
-                    //     if (props.show) {
-                    //         props.onHide()
-                    //     }
-                    // }, 5000);
+                    console.log(jwt(response.data.token)); // decode your token here
+
+                    localStorage.setItem("user", JSON.stringify(response.data.user))
+                    cookies.set("token", response.data.token, {
+                        path: "/",
+                        sameSite: "strict",
+                        maxAge: 2678400
+                    })
+                    navigate('/profile');
                 })
                 .catch(error => {
                     console.log(error.response.data)
@@ -107,7 +115,7 @@ export default function SignInPage() {
         <Grid container component="main" style={root}>
             <CssBaseline/>
             <Grid item xs={false} sm={4} md={7} style={image}/>
-            <Grid item xs={12} sm={8} md={5} elevation={6} square>
+            <Grid item xs={12} sm={8} md={5} elevation={6}>
                 <div style={paper}>
                     <Avatar style={avatar}><LockOutlinedIcon/></Avatar>
                     <Typography component="h1" variant="h5">Sign in</Typography>
@@ -149,10 +157,10 @@ export default function SignInPage() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href={""} variant="body2">Forgot password?</Link>
+                                <Link to={""} variant="body2">Forgot password?</Link>
                             </Grid>
                             <Grid item>
-                                <Link href={"/sign-up"} variant="body2">{"Don't have an account? Sign Up"}</Link>
+                                <Link to={"/register"} variant="body2">{"Don't have an account? Sign Up"}</Link>
                             </Grid>
                         </Grid>
                         <Box mt={5}>
