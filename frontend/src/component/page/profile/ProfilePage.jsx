@@ -1,5 +1,4 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, {useEffect, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
 import {Paper} from "@mui/material";
@@ -8,63 +7,71 @@ import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
 import DrawerComponent from "../../common/DrawerComponent";
 import HeaderComponent from "../../common/HeaderComponent";
-import Post from "../../common/Post";
+import PostService from "../../../service/PostService";
+import PostsList from "./PostsList";
+import AboutProfile from "./AboutProfile";
+import ImageProfile from "./ImageProfile";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
+    button: {
+        margin: theme.spacing(1),
     },
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-    },
-    paper: {
-        padding: theme.spacing(2),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-    },
-    fixedHeight: {},
 }));
+
+const containerStyle = {
+    paddingTop: '32px',
+    paddingBottom: '32px',
+}
+
+const contentStyle = {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+}
+
+const paperStyle = {
+    padding: '24px 24px 24px 24px',
+}
 
 function ProfilePage() {
     const classes = useStyles();
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const user = JSON.parse(localStorage.getItem("user"))
+    const [posts, setPosts] = useState([])
+    const [totalPosts, setTotalPosts] = useState(0)
+
+    useEffect(() => {
+        PostService.getAllPostsByUserId(user.id).then(resp => {
+            setPosts(resp.data.content)
+            setTotalPosts(resp.data.totalElements)
+        })
+    }, [])
 
     return (
-        <Box sx={{display: 'flex'}}>
-            <CssBaseline/>
-            <HeaderComponent/>
-            <DrawerComponent/>
-            <main className={classes.content}>
-                <div className={classes.appBarSpacer}/>
-                <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={fixedHeightPaper}>
-                                PROFILE
-                                <h1>Email: {user.email}</h1>
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12} md={12} lg={4}>
-                                        <Post/>
+        <div>
+            <Box sx={{display: 'flex'}}>
+                <CssBaseline/>
+                <HeaderComponent/>
+                <DrawerComponent/>
+                <main style={contentStyle}>
+                    <div className={classes.appBarSpacer}/>
+                    <Container maxWidth="lg" style={containerStyle}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} md={12} lg={12}>
+                                <Paper style={paperStyle}>
+                                    <Grid container spacing={3}>
+                                        <ImageProfile/>
+                                        <AboutProfile totalPosts={totalPosts}/>
                                     </Grid>
-                                    <Grid item xs={12} md={12} lg={4}>
-                                        <Post/>
-                                    </Grid>
-                                    <Grid item xs={12} md={12} lg={4}>
-                                        <Post/>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
+                                    <br/>
+                                    <PostsList posts={posts}/>
+                                </Paper>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Container>
-            </main>
-        </Box>
+                    </Container>
+                </main>
+            </Box>
+        </div>
     );
 }
 

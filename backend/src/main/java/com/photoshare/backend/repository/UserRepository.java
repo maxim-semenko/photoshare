@@ -15,6 +15,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
+    /**
+     * Method that finds all users by username.
+     *
+     * @param pageable contain any params (size, page, etc)
+     * @param username params for search
+     * @return page of users
+     */
+    Page<User> findAllByUsernameContaining(Pageable pageable, String username);
+
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);

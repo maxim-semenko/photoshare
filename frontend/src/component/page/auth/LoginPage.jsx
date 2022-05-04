@@ -99,7 +99,7 @@ export default function LoginPage() {
                     cookies.set("token", response.data.token, {
                         path: "/",
                         sameSite: "strict",
-                        maxAge: 2678400
+                        maxAge: 86400000
                     })
                     navigate('/profile');
                 })

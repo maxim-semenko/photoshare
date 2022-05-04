@@ -6,6 +6,8 @@ import com.photoshare.backend.entity.User;
 import com.photoshare.backend.repository.PostRepository;
 import com.photoshare.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,6 +26,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Page<Post> findAllByUserId(Pageable pageable, Long userId) {
+        User user = userService.findById(userId);
+        return postRepository.findAllByUser(pageable, user);
+    }
+
+    @Override
     public Post create(CreatePostRequest request) {
         User user = userService.findById(request.getUserId());
 
@@ -34,5 +42,11 @@ public class PostServiceImpl implements PostService {
         post.setCreatedDate(new Date());
 
         return postRepository.save(post);
+    }
+
+    @Override
+    public Page<Post> findAllByUserIdSubscribes(Pageable pageable, Long userId) {
+        User user = userService.findById(userId);
+        return postRepository.findAllByUserSubscribes(pageable, user);
     }
 }

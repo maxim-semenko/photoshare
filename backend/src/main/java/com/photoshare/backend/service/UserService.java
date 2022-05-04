@@ -8,6 +8,8 @@ public interface UserService {
 
     Page<User> findAll(Pageable pageable);
 
+    Page<User> findAllByUsernameContaining(Pageable pageable, String username);
+
     User findById(Long id);
 
     Boolean deleteById(Long id);

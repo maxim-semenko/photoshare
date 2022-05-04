@@ -3,7 +3,7 @@ import {Navigate} from 'react-router-dom'
 import jwt from "jsonwebtoken"
 import {Cookies} from "react-cookie"
 
-const ProtectedRoute = ({accessIfAuth = true, children}) => {
+const ProtectedRoute = ({children}) => {
         const cookies = new Cookies();
         let token = cookies.get("token")
         jwt.verify(token, 'my_secret_key', function (err) {
@@ -13,14 +13,19 @@ const ProtectedRoute = ({accessIfAuth = true, children}) => {
                 token = false
             }
         });
+        const path = window.location.pathname
         if (token) {
-            if (accessIfAuth) {
-                return children;
-            } else {
+            if (path === '/login' || path === '/register') {
                 return <Navigate to={"/profile"} replace/>;
+            } else {
+                return children;
             }
         } else {
-            return children
+            if (path === '/login' || path === '/register') {
+                return children;
+            } else {
+                return <Navigate to={"/login"} replace/>;
+            }
         }
     }
 ;
