@@ -13,6 +13,8 @@ public interface SubscribeService {
 
     Subscribe delete(DeleteSubscribeRequest request);
 
-    Page<Subscribe> findAllByUserId(Pageable pageable, Long userId);
+    Page<Subscribe> findAllFollowersByUserId(Pageable pageable, Long userId);
+
+    Page<Subscribe> findAllFollowingByUserId(Pageable pageable, Long userId);
 
 }

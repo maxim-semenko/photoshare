@@ -1,5 +1,7 @@
 import axios from "axios"
 import {Cookies} from "react-cookie"
+import SockJS from "sockjs-client";
+import {Stomp} from "@stomp/stompjs";
 const API_URL = "/api/v1/auth"
 const cookies = new Cookies();
 
@@ -26,6 +28,11 @@ class AuthService {
 
     // Logout user
     async logout() {
+        let socket = new SockJS('/ws');
+        let stompClient = Stomp.over(socket);
+        if (stompClient !== null) {
+            stompClient.disconnect()
+        }
         cookies.remove("token", {path: "/"})
         localStorage.removeItem("user")
     }

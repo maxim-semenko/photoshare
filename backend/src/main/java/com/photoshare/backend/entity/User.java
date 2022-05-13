@@ -1,6 +1,7 @@
 package com.photoshare.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.photoshare.backend.entity.chat.ChatRoom;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -90,15 +91,31 @@ public class User extends BaseEntity {
             inverseJoinColumns = {@JoinColumn(name = "bookmark_item")}
     )
     @JsonIgnore
-    private List<BookmarkItem> bookmarkItems = new ArrayList<>();
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Subscribe> subscribes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "following", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Subscribe> following = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<ChatRoom> chatRoomsSender = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<ChatRoom> chatRoomsRecipient = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Comment> comments = new ArrayList<>();
 
     @Override
     public String toString() {

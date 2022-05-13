@@ -8,7 +8,7 @@ class LikeService {
 
     // Get all posts by userId
     async addLike(postId, userId) {
-        return axios.post(`${API_URL}/posts/${postId}/users/${userId}`, {
+        return axios.post(`${API_URL}/posts/${postId}/users/${userId}`, null, {
             headers: {
                 'Authorization': `Bearer ${cookies.get("token")}`,
             }

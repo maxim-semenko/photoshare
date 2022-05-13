@@ -1,5 +1,6 @@
 package com.photoshare.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,14 +18,18 @@ import java.util.Date;
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = false)
-public class BookmarkItem extends BaseEntity {
+public class Bookmark extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
+    @JsonIgnore
+    private User user;
+
+    @OneToOne
     private Post post;
 
-    private Date createdAt;
+    private Date createdDate;
 }

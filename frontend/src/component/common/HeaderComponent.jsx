@@ -72,7 +72,6 @@ export default function HeaderComponent() {
                         />
                     </Search>
                     <Avatar alt="Remy Sharp" src={image} />
-
                 </Box>
             </Toolbar>
         </AppBar>

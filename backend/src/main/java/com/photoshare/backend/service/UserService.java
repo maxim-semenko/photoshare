@@ -8,6 +8,10 @@ public interface UserService {
 
     Page<User> findAll(Pageable pageable);
 
+    User findByUsername(String username);
+
+    User findByEmail(String email);
+
     Page<User> findAllByUsernameContaining(Pageable pageable, String username);
 
     User findById(Long id);

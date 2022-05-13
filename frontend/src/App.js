@@ -1,7 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import ProfilePage from "./component/page/profile/ProfilePage";
-import NewsPage from "./component/page/NewsPage";
-import MessagesPage from "./component/page/MessagesPage";
+import NewsPage from "./component/page/news/NewsPage";
 import NotFoundPage from "./component/page/NotFoundPage";
 import SignUpPage from "./component/page/auth/RegisterPage";
 import LoginPage from "./component/page/auth/LoginPage";
@@ -11,6 +10,7 @@ import SearchPage from "./component/page/SearchPage";
 import FeedbackPage from "./component/page/FeedbackPage";
 import BookmarkPage from "./component/page/BookmarkPage";
 import SettingsPage from "./component/page/SettingsPage";
+import MessagesPage from "./component/page/messanger/MessagesPage";
 
 function App() {
     return (

@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import clsx from 'clsx';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
 import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import HeaderComponent from "../common/HeaderComponent";
-import DrawerComponent from "../common/DrawerComponent";
-import PostComponent from "../common/PostComponent";
-import PostService from "../../service/PostService";
+import HeaderComponent from "../../common/HeaderComponent";
+import DrawerComponent from "../../common/DrawerComponent";
+import PostComponent from "../../common/PostComponent";
+import PostService from "../../../service/PostService";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,24 +28,41 @@ const useStyles = makeStyles((theme) => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
-    fixedHeight: {
-        height: 240,
-    },
 }));
 
-function ProfilePage() {
+function NewsPage() {
     const classes = useStyles();
-    const fixedHeightPaper = clsx(classes.paper);
 
     const user = JSON.parse(localStorage.getItem("user"))
     const [posts, setPosts] = useState([])
+    const [currentPage, setCurrentPage] = useState(0)
+    const [loading, setLoading] = useState(true)
+    const [totalElements, setTotalElements] = useState(2)
 
     useEffect(() => {
-        PostService.getAllPostsByUserIdSubscribes(user.id).then(resp => {
-            setPosts(resp.data.content)
-            // setTotalPosts(resp.data.totalElements)
-        })
+        if (loading && posts.length < totalElements) {
+            PostService.getAllPostsByUserIdSubscribes(user.id, currentPage, 2)
+                .then(response => {
+                    setTotalElements(response.data.totalElements)
+                    setPosts([...posts, ...response.data.content])
+                    setCurrentPage(prevState => prevState + 1)
+                })
+                .finally(() => setLoading(false))
+        }
+    }, [loading])
+
+    useEffect(() => {
+        document.addEventListener('scroll', scrollHandler, true)
+        return function () {
+            document.removeEventListener('scroll', scrollHandler, true)
+        }
     }, [])
+
+    const scrollHandler = (e) => {
+        if (e.target.scrollHeight - (e.target.scrollTop + window.innerHeight) < 100) {
+            setLoading(true)
+        }
+    }
 
     return (
         <Box sx={{display: 'flex'}}>
@@ -58,7 +74,7 @@ function ProfilePage() {
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={fixedHeightPaper} style={{paddingLeft: "15%", paddingRight: "15%"}}>
+                            <Paper className={classes.paper} style={{paddingLeft: "15%", paddingRight: "15%"}}>
                                 <Grid container spacing={3}>
                                     {
                                         posts.map(post => (
@@ -77,4 +93,4 @@ function ProfilePage() {
     );
 }
 
-export default ProfilePage;
+export default NewsPage;

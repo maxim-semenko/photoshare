@@ -7,16 +7,26 @@ const cookies = new Cookies();
 class PostService {
 
     // Get all posts by userId
-    async getAllPostsByUserId(userId) {
+    async getAllPostsByUserId(userId, page = 0, size = 0) {
         return axios.get(`${API_URL}/users/${userId}`, {
+            params: {
+                sort: 'createdDate,desc',
+                page: page,
+                size: size,
+            },
             headers: {
                 'Authorization': `Bearer ${cookies.get("token")}`,
             }
         })
     }
 
-    async getAllPostsByUserIdSubscribes(userId) {
-        return axios.get(`${API_URL}/subscribes/users/${userId}?sort=createdDate,desc`, {
+    async getAllPostsByUserIdSubscribes(userId, page = 0, size = 0) {
+        return axios.get(`${API_URL}/subscribes/users/${userId}`, {
+            params: {
+                sort: 'createdDate,desc',
+                page: page,
+                size: size,
+            },
             headers: {
                 'Authorization': `Bearer ${cookies.get("token")}`,
             }

@@ -14,6 +14,7 @@ import {Cookies} from "react-cookie"
 import {Link, useNavigate} from 'react-router-dom';
 
 import jwt from 'jwt-decode'
+import {connect} from "../../test/WebSocketConfig";
 
 const root = {
     height: '100vh',
@@ -101,7 +102,14 @@ export default function LoginPage() {
                         sameSite: "strict",
                         maxAge: 86400000
                     })
-                    navigate('/profile');
+
+                    // addHandler(ChatPage.getMessage)
+                    // connect(response.data.user.username)
+                    //     .then(() => {
+                    //     })
+                    setTimeout(function () {
+                        navigate('/profile');
+                    }, 1000);
                 })
                 .catch(error => {
                     console.log(error.response.data)

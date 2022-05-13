@@ -22,9 +22,15 @@ public class SubscribeController {
         this.subscribeService = subscribeService;
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/{id}/followers")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<Page<Subscribe>> findAllByUserId(@PathVariable Long id, Pageable pageable) {
-        return new ResponseEntity<>(subscribeService.findAllByUserId(pageable, id), HttpStatus.OK);
+    public ResponseEntity<Page<Subscribe>> findAllFollowersByUserId(@PathVariable Long id, Pageable pageable) {
+        return new ResponseEntity<>(subscribeService.findAllFollowersByUserId(pageable, id), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{id}/followings")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<Page<Subscribe>> findAllFollowingByUserId(@PathVariable Long id, Pageable pageable) {
+        return new ResponseEntity<>(subscribeService.findAllFollowingByUserId(pageable, id), HttpStatus.OK);
     }
 }

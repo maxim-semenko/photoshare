@@ -3,6 +3,7 @@ package com.photoshare.backend.service.impl;
 import com.photoshare.backend.controller.dto.request.CreatePostRequest;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.entity.User;
+import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.PostRepository;
 import com.photoshare.backend.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,12 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findAllByUserId(Pageable pageable, Long userId) {
         User user = userService.findById(userId);
         return postRepository.findAllByUser(pageable, user);
+    }
+
+    @Override
+    public Post findById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new ResourseNotFoundException("Error: Post not found!"));
     }
 
     @Override

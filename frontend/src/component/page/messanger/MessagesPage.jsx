@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
 import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import Button from "@mui/material/Button";
-import {styled} from "@mui/material/styles";
-import HeaderComponent from "../common/HeaderComponent";
-import DrawerComponent from "../common/DrawerComponent";
+import HeaderComponent from "../../common/HeaderComponent";
+import DrawerComponent from "../../common/DrawerComponent";
+import Chat from "./Chat";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -22,21 +21,13 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
-        padding: theme.spacing(3),
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
-    },
-    button: {
-        margin: theme.spacing(1),
+        height: "590px"
     },
 }));
 
-const Item = styled(Button)(({theme}) => ({
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: 'rgb(33,33,33)'
-}));
 
 function MessagesPage() {
     const classes = useStyles();
@@ -53,7 +44,7 @@ function MessagesPage() {
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={12} lg={12}>
                                 <Paper className={classes.paper}>
-                                    <h1>MESSAGES PAGE</h1>
+                                    <Chat/>
                                 </Paper>
                             </Grid>
                         </Grid>

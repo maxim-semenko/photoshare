@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class SubscribeServiceImpl implements SubscribeService {
 
@@ -26,7 +28,15 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     @Override
     public Subscribe create(CreateSubscribeRequest request) {
-        return subscribeRepository.save(new Subscribe());
+        User user = userService.findById(request.getUserId());
+        User following = userService.findById(request.getFollowingId());
+
+        Subscribe subscribe = new Subscribe();
+        subscribe.setUser(user);
+        subscribe.setFollowing(following);
+        subscribe.setSubscribedDate(new Date());
+
+        return subscribeRepository.save(subscribe);
     }
 
     @Override
@@ -35,8 +45,14 @@ public class SubscribeServiceImpl implements SubscribeService {
     }
 
     @Override
-    public Page<Subscribe> findAllByUserId(Pageable pageable, Long userId) {
+    public Page<Subscribe> findAllFollowersByUserId(Pageable pageable, Long userId) {
         User user = userService.findById(userId);
         return subscribeRepository.findAllByUser(pageable, user);
+    }
+
+    @Override
+    public Page<Subscribe> findAllFollowingByUserId(Pageable pageable, Long userId) {
+        User user = userService.findById(userId);
+        return subscribeRepository.findAllByFollowing(pageable, user);
     }
 }

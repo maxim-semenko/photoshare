@@ -2,7 +2,6 @@ package com.photoshare.backend.controller;
 
 import com.photoshare.backend.controller.dto.request.CreatePostRequest;
 import com.photoshare.backend.entity.Post;
-import com.photoshare.backend.entity.User;
 import com.photoshare.backend.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,8 +30,8 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> findPostById(@PathVariable String id) {
-        return null;
+    public ResponseEntity<Post> findPostById(@PathVariable Long id) {
+        return new ResponseEntity<>(postService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}")
@@ -47,19 +46,17 @@ public class PostController {
         return new ResponseEntity<>(postService.create(request), HttpStatus.CREATED);
     }
 
+    /**
+     * The method that returns subscriber's posts of user that he subscribed.
+     *
+     * @param pageable page and size
+     * @param userId   needed user's id
+     * @return Page of posts
+     */
     @GetMapping("/subscribes/users/{userId}")
     public ResponseEntity<Page<Post>> findAllByUserIdSubscribes(Pageable pageable, @PathVariable Long userId) {
         return new ResponseEntity<>(postService.findAllByUserIdSubscribes(pageable, userId), HttpStatus.OK);
 
     }
-
-
-
-//    @PostMapping("/login")
-//    @PreAuthorize("permitAll()")
-//    public ResponseEntity<JwtResponse> loginUser(@Valid @RequestBody LoginRequest request) {
-//        postService.create(new CreatePostRequest());
-//        return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
-//    }
 
 }

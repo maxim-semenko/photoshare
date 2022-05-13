@@ -8,4 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class CreateSubscribeRequest {
+    private Long userId;
+    private Long followingId;
 }

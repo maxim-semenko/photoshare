@@ -27,22 +27,22 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> findUserById(@PathVariable Long id) {
         return new ResponseEntity<>(UserResponse.mapUserToDTO(userService.findById(id)), HttpStatus.OK);
-    }
-
-    @GetMapping("/{username}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Page<UserResponse>> findAllByUsername(Pageable pageable, @PathVariable String username) {
-        return new ResponseEntity<>(
-                UserResponse.mapListUserToDTO(userService.findAllByUsernameContaining(pageable, username)),
-                HttpStatus.OK);
     }
 
     @GetMapping("/")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<Page<UserResponse>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<UserResponse>> findAllUsers(Pageable pageable) {
         return new ResponseEntity<>(UserResponse.mapListUserToDTO(userService.findAll(pageable)), HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Page<UserResponse>> findAllUsersByUsername(Pageable pageable, @PathVariable String username) {
+        return new ResponseEntity<>(
+                UserResponse.mapListUserToDTO(userService.findAllByUsernameContaining(pageable, username)),
+                HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

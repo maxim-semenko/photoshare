@@ -1,5 +1,6 @@
 package com.photoshare.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,14 +52,15 @@ public class Post extends BaseEntity {
 
     @OneToMany(
             mappedBy = "post",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true
     )
+    @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "post",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.REMOVE,
             orphanRemoval = true
     )
     private List<Like> likes = new ArrayList<>();

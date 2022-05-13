@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
 import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import Button from "@mui/material/Button";
-import {styled} from "@mui/material/styles";
 import HeaderComponent from "../common/HeaderComponent";
 import DrawerComponent from "../common/DrawerComponent";
 
@@ -30,12 +28,6 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
     },
-}));
-
-const Item = styled(Button)(({theme}) => ({
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: 'rgb(33,33,33)'
 }));
 
 function SettingsPage() {

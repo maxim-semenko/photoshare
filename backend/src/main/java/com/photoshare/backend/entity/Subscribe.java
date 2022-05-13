@@ -31,7 +31,6 @@ public class Subscribe extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotNull
-    @JsonIgnore
     private User user;
 
     @ManyToOne
@@ -41,5 +40,5 @@ public class Subscribe extends BaseEntity {
 
     @NotNull
     @CreatedDate
-    private Date subscribed;
+    private Date subscribedDate;
 }

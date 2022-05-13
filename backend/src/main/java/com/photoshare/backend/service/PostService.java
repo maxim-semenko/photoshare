@@ -11,6 +11,7 @@ public interface PostService {
 
     Page<Post> findAllByUserId(Pageable pageable, Long userId);
 
+    Post findById(Long id);
 
     Post create(CreatePostRequest request);
 
