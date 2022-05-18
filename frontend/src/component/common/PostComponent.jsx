@@ -11,12 +11,13 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import image from '../../image/img.png'
 import image1 from '../../image/img_1.png'
 import moment from "moment-timezone";
 import {Badge} from "@mui/material";
 import LikeService from "../../service/LikeService";
+import StarIcon from '@mui/icons-material/Star';
+import BookmarkService from "../../service/BookmarkService";
 
 const ExpandMore = styled((props) => {
     const {expand, ...other} = props;
@@ -30,11 +31,14 @@ const ExpandMore = styled((props) => {
 
 export default function PostComponent(props) {
     const user = JSON.parse(localStorage.getItem("user"))
-    const [isContain, setIsContain] = React.useState(false);
+    const [isContainLike, setIsContainLike] = React.useState(false);
+    const [isContainBookmark, setIsContainBookmark] = React.useState(false);
     const [countLikes, setCountLikes] = React.useState(0);
 
     useEffect(() => {
-        setIsContain(checkLike(props.object.likes, user.id))
+        console.log(props.object)
+        setIsContainLike(checkLike(props.object.likes, user.id))
+        setIsContainBookmark(checkBookmark(props.bookmarksList, props.object.id))
         setCountLikes(props.object.likes.length)
     }, [])
 
@@ -47,8 +51,17 @@ export default function PostComponent(props) {
         return false
     }
 
+    const checkBookmark = (bookmarks, postId) => {
+        for (let key in bookmarks) {
+            if (bookmarks[key].id === postId) {
+                return true
+            }
+        }
+        return false
+    }
+
     const addLike = (postId, userId) => {
-        setIsContain(true)
+        setIsContainLike(true)
         setCountLikes(countLikes + 1)
         LikeService.addLike(postId, userId)
             .then(resp => {
@@ -56,13 +69,13 @@ export default function PostComponent(props) {
             })
             .catch(error => {
                 console.log(error)
-                setIsContain(false)
+                setIsContainLike(false)
                 setCountLikes(countLikes - 1)
             })
     }
 
     const deleteLike = (postId, userId) => {
-        setIsContain(false)
+        setIsContainLike(false)
         setCountLikes(countLikes - 1)
         LikeService.deleteLike(postId, userId)
             .then(resp => {
@@ -70,35 +83,75 @@ export default function PostComponent(props) {
             })
             .catch(error => {
                 console.log(error)
-                setIsContain(true)
+                setIsContainLike(true)
                 setCountLikes(countLikes + 1)
+            })
+    }
+
+    const addBookmark = (postId, userId) => {
+        setIsContainBookmark(true)
+        BookmarkService.addBookmark(postId, userId)
+            .then(resp => {
+                props.bookmarksList.push(resp.data)
+            })
+            .catch(error => {
+                console.log(error)
+                setIsContainBookmark(false)
+            })
+    }
+
+    const deleteBookmark = (postId, userId) => {
+        setIsContainBookmark(false)
+        BookmarkService.deleteBookmark(postId, userId)
+            .then(resp => {
+                props.bookmarksList.pop(resp.data)
+            })
+            .catch(error => {
+                console.log(error)
+                setIsContainBookmark(true)
             })
     }
 
     const buttonLike = (post) => {
         return (<IconButton aria-label="add to favorites">
             <Badge badgeContent={countLikes === 0 ? '0' : countLikes} color="primary">
-                <FavoriteIcon style={isContain ? {fill: "red"} : null}
-                              onClick={isContain ?
+                <FavoriteIcon style={isContainLike ? {fill: "red"} : null}
+                              onClick={isContainLike ?
                                   () => deleteLike(post.id, user.id) :
-                                  () => addLike(post.id, user.id)}/>
+                                  () => addLike(post.id, user.id)}
+                />
             </Badge>
         </IconButton>)
     }
 
-    return (<Card>
-        <CardHeader avatar={<Avatar alt="Remy Sharp" src={image}/>}
-                    action={<IconButton aria-label="settings"><MoreVertIcon/></IconButton>}
-                    title={<b>{props.object.user.username}</b>}
-                    subheader={moment(props.object.createdDate).format('MMMM D YYYY, h:mm A')}
-        />
-        <CardMedia component="img" height={props.height} image={image1} alt="Paella dish"/>
-        <CardContent>
-            <Typography variant="body2" color="text.secondary">{props.object.description}</Typography>
-        </CardContent>
-        <CardActions disableSpacing>
-            {buttonLike(props.object)}
-            <ExpandMore><StarBorderIcon/></ExpandMore>
-        </CardActions>
-    </Card>);
+    const buttonBookmark = (post) => {
+        return (
+            <ExpandMore>
+                <StarIcon
+                    style={isContainBookmark ? {fill: "#ffe900"} : null}
+                    onClick={isContainBookmark ?
+                        () => deleteBookmark(post.id, user.id) :
+                        () => addBookmark(post.id, user.id)}
+                />
+            </ExpandMore>
+        )
+    }
+
+    return (
+        <Card>
+            <CardHeader avatar={<Avatar alt="Remy Sharp" src={image}/>}
+                        action={<IconButton aria-label="settings"><MoreVertIcon/></IconButton>}
+                        title={<b>{props.object.user.username}</b>}
+                        subheader={moment(props.object.createdDate).format('MMMM D YYYY, h:mm A')}
+            />
+            <CardMedia component="img" height={props.height} image={props.object.image} alt="user"/>
+            <CardContent>
+                <Typography variant="body2" color="text.secondary">{props.object.description}</Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+                {buttonLike(props.object)}
+                {buttonBookmark(props.object)}
+            </CardActions>
+        </Card>
+    );
 }

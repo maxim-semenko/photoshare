@@ -20,8 +20,10 @@ class PostService {
         })
     }
 
+
+
     async getAllPostsByUserIdSubscribes(userId, page = 0, size = 0) {
-        return axios.get(`${API_URL}/subscribes/users/${userId}`, {
+        return axios.get(`${API_URL}/users/${userId}/subscribes`, {
             params: {
                 sort: 'createdDate,desc',
                 page: page,
@@ -33,6 +35,26 @@ class PostService {
         })
     }
 
+    async getAllBookmarkPostsByUserId(userId, page = 0, size = 0) {
+        return axios.get(`${API_URL}/users/${userId}/bookmarks`, {
+            params: {
+                sort: 'bookmarkItem.createdDate,asc',
+                page: page,
+                size: size,
+            },
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
+    async savePost(request) {
+        return axios.post(`${API_URL}/`, request, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
 }
 
 export default new PostService()

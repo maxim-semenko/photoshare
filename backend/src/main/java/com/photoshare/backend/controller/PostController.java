@@ -30,12 +30,13 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Post> findPostById(@PathVariable Long id) {
         return new ResponseEntity<>(postService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}")
-    @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<Post>> findAllPostsByUserId(@PathVariable Long userId, Pageable pageable) {
         return new ResponseEntity<>(postService.findAllByUserId(pageable, userId), HttpStatus.OK);
     }
@@ -53,10 +54,15 @@ public class PostController {
      * @param userId   needed user's id
      * @return Page of posts
      */
-    @GetMapping("/subscribes/users/{userId}")
-    public ResponseEntity<Page<Post>> findAllByUserIdSubscribes(Pageable pageable, @PathVariable Long userId) {
-        return new ResponseEntity<>(postService.findAllByUserIdSubscribes(pageable, userId), HttpStatus.OK);
+    @GetMapping("/users/{userId}/subscribes")
+    public ResponseEntity<Page<Post>> findAllSubscribesPostByUserId(Pageable pageable, @PathVariable Long userId) {
+        return new ResponseEntity<>(postService.findAllSubscribesByUserId(pageable, userId), HttpStatus.OK);
+    }
 
+    @GetMapping("/users/{userId}/bookmarks")
+    @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
+    public ResponseEntity<Page<Post>> findAllBookmarksPostByUserId(@PathVariable Long userId, Pageable pageable) {
+        return new ResponseEntity<>(postService.findAllBookmarksByUserId(pageable, userId), HttpStatus.OK);
     }
 
 }

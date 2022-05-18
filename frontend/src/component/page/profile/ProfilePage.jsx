@@ -11,6 +11,9 @@ import PostService from "../../../service/PostService";
 import PostsList from "./PostsList";
 import AboutProfile from "./AboutProfile";
 import ImageProfile from "./ImageProfile";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import CreatePostDialog from "../../common/dialog/CreatePostDialog";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -39,6 +42,8 @@ function ProfilePage() {
     const user = JSON.parse(localStorage.getItem("user"))
     const [posts, setPosts] = useState([])
     const [totalPosts, setTotalPosts] = useState(0)
+    const [openCreatePostDialog, setOpenCreatePostDialog] = useState(false);
+
 
     useEffect(() => {
         PostService.getAllPostsByUserId(user.id).then(resp => {
@@ -47,8 +52,17 @@ function ProfilePage() {
         })
     }, [])
 
+    const handleClickOpen = () => {
+        setOpenCreatePostDialog(true);
+    };
+
+    const handleClose = () => {
+        setOpenCreatePostDialog(false);
+    };
+
     return (
         <div>
+            <CreatePostDialog open={openCreatePostDialog} close={handleClose}/>
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <HeaderComponent/>
@@ -64,6 +78,15 @@ function ProfilePage() {
                                         <AboutProfile totalPosts={totalPosts}/>
                                     </Grid>
                                     <br/>
+                                    <b>All posts:</b>
+                                    <Button fullWidth
+                                            variant="contained"
+                                            startIcon={<AddIcon/>}
+                                            style={{marginBottom: "10px"}}
+                                            onClick={handleClickOpen}
+                                            color="success">
+                                        New post
+                                    </Button>
                                     <PostsList posts={posts}/>
                                 </Paper>
                             </Grid>

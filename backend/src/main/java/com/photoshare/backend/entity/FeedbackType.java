@@ -2,7 +2,6 @@ package com.photoshare.backend.entity;
 
 
 import com.photoshare.backend.entity.enums.FeedbackTypeEnum;
-import com.photoshare.backend.entity.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -19,7 +18,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 

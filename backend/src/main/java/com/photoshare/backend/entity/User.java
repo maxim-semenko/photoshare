@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -71,6 +72,11 @@ public class User extends BaseEntity {
     @CreatedDate
     private Date registerDate;
 
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(name = "bookmark_storage_id", referencedColumnName = "id")
+    @JsonIgnore
+    private BookmarkStorage bookmarkStorage;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Post> posts = new ArrayList<>();
@@ -83,15 +89,6 @@ public class User extends BaseEntity {
     )
     @JsonIgnore
     private Set<Role> roles = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "users_m2m_bookmarks_items",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "bookmark_item")}
-    )
-    @JsonIgnore
-    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore

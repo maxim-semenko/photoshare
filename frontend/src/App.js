@@ -11,6 +11,7 @@ import FeedbackPage from "./component/page/FeedbackPage";
 import BookmarkPage from "./component/page/BookmarkPage";
 import SettingsPage from "./component/page/SettingsPage";
 import MessagesPage from "./component/page/messanger/MessagesPage";
+import CreatePostDialog from "./component/common/dialog/CreatePostDialog";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="bookmarks" element={<ProtectedRoute><BookmarkPage/></ProtectedRoute>}/>
                 <Route path="feedback" element={<ProtectedRoute><FeedbackPage/></ProtectedRoute>}/>
                 <Route path="settings" element={<ProtectedRoute><SettingsPage/></ProtectedRoute>}/>
+                <Route path="test" element={<ProtectedRoute><CreatePostDialog/></ProtectedRoute>}/>
                 <Route path='*' exact={true} element={<NotFoundPage/>}/>
             </Routes>
         </div>

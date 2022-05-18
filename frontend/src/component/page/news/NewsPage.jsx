@@ -7,9 +7,8 @@ import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
 import HeaderComponent from "../../common/HeaderComponent";
 import DrawerComponent from "../../common/DrawerComponent";
-import PostComponent from "../../common/PostComponent";
 import PostService from "../../../service/PostService";
-
+import PostListComponent from "../../common/PostListComponent";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -35,21 +34,22 @@ function NewsPage() {
 
     const user = JSON.parse(localStorage.getItem("user"))
     const [posts, setPosts] = useState([])
+
     const [currentPage, setCurrentPage] = useState(0)
-    const [loading, setLoading] = useState(true)
+    const [loadingPosts, setLoadingPosts] = useState(true)
     const [totalElements, setTotalElements] = useState(2)
 
-    useEffect(() => {
-        if (loading && posts.length < totalElements) {
+        useEffect(() => {
+        if (loadingPosts && posts.length < totalElements) {
             PostService.getAllPostsByUserIdSubscribes(user.id, currentPage, 2)
                 .then(response => {
                     setTotalElements(response.data.totalElements)
                     setPosts([...posts, ...response.data.content])
                     setCurrentPage(prevState => prevState + 1)
                 })
-                .finally(() => setLoading(false))
+                .finally(() => setLoadingPosts(false))
         }
-    }, [loading])
+    }, [loadingPosts])
 
     useEffect(() => {
         document.addEventListener('scroll', scrollHandler, true)
@@ -60,7 +60,7 @@ function NewsPage() {
 
     const scrollHandler = (e) => {
         if (e.target.scrollHeight - (e.target.scrollTop + window.innerHeight) < 100) {
-            setLoading(true)
+            setLoadingPosts(true)
         }
     }
 
@@ -76,13 +76,7 @@ function NewsPage() {
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper className={classes.paper} style={{paddingLeft: "15%", paddingRight: "15%"}}>
                                 <Grid container spacing={3}>
-                                    {
-                                        posts.map(post => (
-                                            <Grid item xs={12} md={12} lg={12}>
-                                                <PostComponent object={post} height={400}/>
-                                            </Grid>
-                                        ))
-                                    }
+                                    <PostListComponent postsList={posts}/>
                                 </Grid>
                             </Paper>
                         </Grid>

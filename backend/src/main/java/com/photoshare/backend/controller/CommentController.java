@@ -2,8 +2,6 @@ package com.photoshare.backend.controller;
 
 import com.photoshare.backend.controller.dto.request.CreatedCommentRequest;
 import com.photoshare.backend.entity.Comment;
-import com.photoshare.backend.entity.Like;
-import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.service.impl.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -52,8 +52,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> findAllByUserIdSubscribes(Pageable pageable, Long userId) {
+    public Page<Post> findAllSubscribesByUserId(Pageable pageable, Long userId) {
         User user = userService.findById(userId);
         return postRepository.findAllByUserSubscribes(pageable, user);
     }
+
+    @Override
+    public Page<Post> findAllBookmarksByUserId(Pageable pageable, Long userId) {
+        User user = userService.findById(userId);
+        return postRepository.findAllByUserBookmarks(pageable, user);
+    }
+
 }

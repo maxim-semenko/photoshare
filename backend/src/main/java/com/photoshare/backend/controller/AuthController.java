@@ -1,12 +1,10 @@
 package com.photoshare.backend.controller;
 
-import com.photoshare.backend.controller.dto.request.CreatePostRequest;
 import com.photoshare.backend.controller.dto.request.LoginRequest;
 import com.photoshare.backend.controller.dto.request.RegisterRequest;
 import com.photoshare.backend.controller.dto.response.JwtResponse;
 import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.service.impl.AuthServiceImpl;
-import com.photoshare.backend.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

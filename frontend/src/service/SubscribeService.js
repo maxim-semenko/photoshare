@@ -8,7 +8,7 @@ class SubscribeService {
 
     // Get all posts by userId
     async getAllByUserId(userId, page = 0, size = 0) {
-        return axios.get(`${API_URL}/users/${userId}`, {
+        return axios.get(`${API_URL}/users/${userId}/followers`, {
             params: {
                 sort: 'following.username,asc',
                 page: page,

@@ -14,7 +14,6 @@ import {Cookies} from "react-cookie"
 import {Link, useNavigate} from 'react-router-dom';
 
 import jwt from 'jwt-decode'
-import {connect} from "../../test/WebSocketConfig";
 
 const root = {
     height: '100vh',

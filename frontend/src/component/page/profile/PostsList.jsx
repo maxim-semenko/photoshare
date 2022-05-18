@@ -7,14 +7,6 @@ import PostComponent from "../../common/PostComponent";
 function PostsList(props) {
     return (
         <div>
-            <b>All posts:</b>
-            <Button fullWidth
-                    variant="contained"
-                    startIcon={<AddIcon/>}
-                    style={{marginBottom: "10px"}}
-                    color="success">
-                New post
-            </Button>
             <Grid container spacing={3}>
                 {
                     props.posts.map(post => (

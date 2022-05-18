@@ -37,7 +37,7 @@ public class UserController {
         return new ResponseEntity<>(UserResponse.mapListUserToDTO(userService.findAll(pageable)), HttpStatus.OK);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/byUsername/{username}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<UserResponse>> findAllUsersByUsername(Pageable pageable, @PathVariable String username) {
         return new ResponseEntity<>(

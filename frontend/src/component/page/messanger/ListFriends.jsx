@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from "@mui/styles";
-import {ListItem, ListItemText} from "@mui/material";
+import {ListItem} from "@mui/material";
 import {FixedSizeList} from "react-window";
 import PropTypes from 'prop-types';
 import Avatar from "@mui/material/Avatar";
@@ -41,7 +41,7 @@ function ListFriends(props) {
                            itemSize={60}
                            itemCount={props.list.length}
                            itemData={props.list}
-                           >
+            >
                 {renderRow}
             </FixedSizeList>
         </div>

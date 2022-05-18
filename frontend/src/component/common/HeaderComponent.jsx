@@ -71,7 +71,7 @@ export default function HeaderComponent() {
                             inputProps={{'aria-label': 'search'}}
                         />
                     </Search>
-                    <Avatar alt="Remy Sharp" src={image} />
+                    <Avatar alt="Remy Sharp" src={image}/>
                 </Box>
             </Toolbar>
         </AppBar>

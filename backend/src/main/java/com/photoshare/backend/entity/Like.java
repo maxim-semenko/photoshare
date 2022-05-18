@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-@Table(name = "post_likes")
+@Table(name = "post_like")
 public class Like {
 
     @Id

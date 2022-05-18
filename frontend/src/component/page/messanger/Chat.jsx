@@ -39,6 +39,7 @@ const Chat = () => {
 
     const user = JSON.parse(localStorage.getItem("user"))
     const [users, setUsers] = useState([])
+    const [containerUsers, setContainerUsers] = useState([])
     const [currentChatRoom, setCurrentChatRoom] = useState(null)
     const [messages, setMessages] = useState([])
     const [currentText, setCurrentText] = useState("")
@@ -50,6 +51,7 @@ const Chat = () => {
         SubscribeService.getAllByUserId(user.id)
             .then(response => {
                 setUsers(response.data.content)
+                setContainerUsers(response.data.content)
             })
     }, [])
 
@@ -112,21 +114,37 @@ const Chat = () => {
         setCurrentText(event.target.value)
     }
 
+    const handlerSearchUsername = (event) => {
+        let value = event.target.value;
+        if (value === '') {
+            setUsers(containerUsers);
+        } else {
+            const filterUserList = containerUsers.filter(user => {
+                return user.following.username.toLowerCase().includes(value.toLowerCase())
+            })
+            setUsers(filterUserList)
+        }
+    }
+
     const LeftMessage = (content, index) => {
         return (
             <ListItem key={index}>
                 <Grid container>
                     <Grid item xs={12}>
                         <ListItemText align="left" primary={content} style={{
-                            backgroundColor: "green",
+                            backgroundColor: "#616062",
+                            color: "white",
                             display: "inline-block",
+                            maxWidth: "50%",
+                            textAlign: "left",
                             float: "left",
-                            padding: "3px",
+                            padding: "5px 8px 5px 8px",
                             borderRadius: "5px"
                         }}
                         />
                     </Grid>
-                    <Grid item xs={12}><ListItemText align="left" secondary="09:31"/></Grid>
+                    <ListItemText align="left" secondary="09:31"/>
+                    {/*<Grid item xs={12}></Grid>*/}
                 </Grid>
             </ListItem>
         )
@@ -139,10 +157,13 @@ const Chat = () => {
                     <Grid item xs={12}>
                         <ListItemText align="right" primary={content}
                                       style={{
-                                          backgroundColor: "red",
+                                          backgroundColor: "#6c359d",
+                                          color: "white",
                                           display: "inline-block",
+                                          maxWidth: "50%",
+                                          textAlign: "left",
                                           float: "right",
-                                          padding: "3px",
+                                          padding: "5px 8px 5px 8px",
                                           borderRadius: "5px"
                                       }}/>
                     </Grid>
@@ -183,7 +204,7 @@ const Chat = () => {
                     </List>
                     <Divider/>
                     <Grid item xs={12} style={{padding: '10px'}}>
-                        <TextField label="Search" variant="outlined" fullWidth/>
+                        <TextField label="Search" variant="outlined" fullWidth onChange={handlerSearchUsername}/>
                     </Grid>
                     <Divider/>
                     <List>
@@ -202,32 +223,40 @@ const Chat = () => {
                     </List>
                 </Grid>
                 <Grid item xs={9}>
-                    <List className={classes.messageArea}>
-                        {
-                            messages.map((message, index) => (
-                                <div>
-                                    {PrintMessage(message, index)}
-                                    <div ref={chatRef}/>
-                                </div>
-                            ))
-                        }
-                    </List>
-                    <Divider/>
-                    <Grid container style={{padding: '20px'}}>
-                        <Grid item xs={11}>
-                            <TextField
-                                       label="Type message"
-                                       fullWidth
-                                       autoComplete="off"
-                                       value={currentText}
-                                       onChange={handlerChangeText}/>
-                        </Grid>
-                        <Grid xs={1} align="right">
-                            <Fab color="primary" disabled={!connected} onClick={() => sendMessageHandler()}>
-                                <SendIcon/>
-                            </Fab>
-                        </Grid>
-                    </Grid>
+                    {
+                        currentChatRoom !== null ?
+                            <div>
+                                <List className={classes.messageArea}>
+                                    {
+                                        messages.map((message, index) => (
+                                            <div>
+                                                {PrintMessage(message, index)}
+                                                <div ref={chatRef}/>
+                                            </div>
+                                        ))
+                                    }
+                                </List>
+                                <Divider/>
+                                <Grid container style={{padding: '20px'}}>
+                                    <Grid item xs={11}>
+                                        <TextField
+                                            label="Type message"
+                                            fullWidth
+                                            autoComplete="off"
+                                            value={currentText}
+                                            onChange={handlerChangeText}/>
+                                    </Grid>
+                                    <Grid xs={1} align="right">
+                                        <Fab color="primary" disabled={!connected} onClick={() => sendMessageHandler()}>
+                                            <SendIcon/>
+                                        </Fab>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                            :
+                            null
+                    }
+
                 </Grid>
             </Grid>
         </div>

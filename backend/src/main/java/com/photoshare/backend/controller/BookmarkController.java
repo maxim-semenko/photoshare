@@ -1,6 +1,6 @@
 package com.photoshare.backend.controller;
 
-import com.photoshare.backend.entity.Bookmark;
+import com.photoshare.backend.entity.BookmarkItem;
 import com.photoshare.backend.service.impl.BookmarkServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,19 +28,19 @@ public class BookmarkController {
 
     @GetMapping("/users/{userId}")
     @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
-    public ResponseEntity<Page<Bookmark>> findAllBookmarksByUserId(@PathVariable Long userId, Pageable pageable) {
+    public ResponseEntity<Page<BookmarkItem>> findAllBookmarksByUserId(@PathVariable Long userId, Pageable pageable) {
         return new ResponseEntity<>(bookmarkService.findAllByUserId(pageable, userId), HttpStatus.OK);
     }
 
     @PostMapping("/posts/{postId}/users/{userId}")
     @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
-    public ResponseEntity<Bookmark> saveLike(@PathVariable Long postId, @PathVariable Long userId) {
+    public ResponseEntity<BookmarkItem> saveBookmark(@PathVariable Long postId, @PathVariable Long userId) {
         return new ResponseEntity<>(bookmarkService.save(postId, userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/posts/{postId}/users/{userId}")
     @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
-    public ResponseEntity<Bookmark> deleteLike(@PathVariable Long postId, @PathVariable Long userId) {
+    public ResponseEntity<BookmarkItem> deleteBookmark(@PathVariable Long postId, @PathVariable Long userId) {
         return new ResponseEntity<>(bookmarkService.delete(postId, userId), HttpStatus.OK);
     }
 

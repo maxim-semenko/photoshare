@@ -2,7 +2,6 @@ package com.photoshare.backend.service.impl;
 
 import com.photoshare.backend.entity.User;
 import com.photoshare.backend.exception.ResourseNotFoundException;
-import com.photoshare.backend.repository.ChatRoomRepository;
 import com.photoshare.backend.repository.UserRepository;
 import com.photoshare.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

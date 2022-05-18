@@ -1,7 +1,5 @@
 package com.photoshare.backend.security;
 
-import com.photoshare.backend.entity.Role;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -17,8 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Component
 @PropertySource("/jwt.properties")

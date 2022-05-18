@@ -5,10 +5,11 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import Button from "@mui/material/Button";
-import {styled} from "@mui/material/styles";
 import HeaderComponent from "../common/HeaderComponent";
 import DrawerComponent from "../common/DrawerComponent";
+import PostService from "../../service/PostService";
+import PostListComponent from "../common/PostListComponent";
+
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -22,46 +23,68 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(4),
     },
     paper: {
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
     },
-    button: {
-        margin: theme.spacing(1),
-    },
 }));
 
-const Item = styled(Button)(({theme}) => ({
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: 'rgb(33,33,33)'
-}));
-
-function BookmarksPage() {
+function BookmarkPage() {
     const classes = useStyles();
 
+    const user = JSON.parse(localStorage.getItem("user"))
+    const [posts, setPosts] = useState([])
+    const [currentPage, setCurrentPage] = useState(0)
+    const [loading, setLoading] = useState(true)
+    const [totalElements, setTotalElements] = useState(2)
+
+    useEffect(() => {
+        if (loading && posts.length < totalElements) {
+            PostService.getAllBookmarkPostsByUserId(user.id, currentPage, 2)
+                .then(response => {
+                    setTotalElements(response.data.totalElements)
+                    setPosts([...posts, ...response.data.content])
+                    setCurrentPage(prevState => prevState + 1)
+                })
+                .finally(() => setLoading(false))
+        }
+    }, [loading])
+
+    useEffect(() => {
+        document.addEventListener('scroll', scrollHandler, true)
+        return function () {
+            document.removeEventListener('scroll', scrollHandler, true)
+        }
+    }, [])
+
+    const scrollHandler = (e) => {
+        if (e.target.scrollHeight - (e.target.scrollTop + window.innerHeight) < 100) {
+            setLoading(true)
+        }
+    }
+
     return (
-        <div>
-            <Box sx={{display: 'flex'}}>
-                <CssBaseline/>
-                <HeaderComponent/>
-                <DrawerComponent/>
-                <main className={classes.content}>
-                    <div className={classes.appBarSpacer}/>
-                    <Container maxWidth="lg" className={classes.container}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={12} lg={12}>
-                                <Paper className={classes.paper}>
-                                    <h1>BOOKMARKS PAGE</h1>
-                                </Paper>
-                            </Grid>
+        <Box sx={{display: 'flex'}}>
+            <CssBaseline/>
+            <HeaderComponent/>
+            <DrawerComponent/>
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer}/>
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={12} lg={12}>
+                            <Paper className={classes.paper} style={{paddingLeft: "15%", paddingRight: "15%"}}>
+                                <Grid container spacing={3}>
+                                    <PostListComponent postsList={posts}/>
+                                </Grid>
+                            </Paper>
                         </Grid>
-                    </Container>
-                </main>
-            </Box>
-        </div>
+                    </Grid>
+                </Container>
+            </main>
+        </Box>
     );
 }
 
-export default BookmarksPage;
+export default BookmarkPage;
