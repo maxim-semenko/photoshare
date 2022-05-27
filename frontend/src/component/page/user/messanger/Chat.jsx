@@ -7,11 +7,12 @@ import {Fab, ListItem, ListItemIcon, ListItemText, Paper, TextField} from "@mui/
 import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import SendIcon from '@mui/icons-material/Send';
-import image from "../../../image/img.png";
-import SubscribeService from "../../../service/SubscribeService";
-import ChatRoomService from "../../../service/ChatRoomService";
+import image from "../../../../image/img.png";
+import SubscribeService from "../../../../service/SubscribeService";
+import ChatRoomService from "../../../../service/ChatRoomService";
 import SockJS from "sockjs-client";
 import {over} from "stompjs";
+import ListFriends from "./ListFriends";
 
 const useStyles = makeStyles({
     table: {
@@ -106,6 +107,7 @@ const Chat = () => {
                 ChatRoomService.getHistory(responseChatRoom.data.id)
                     .then(responseMessages => {
                         setMessages(responseMessages.data)
+                        console.log("AAAA")
                     })
             })
     }
@@ -144,7 +146,6 @@ const Chat = () => {
                         />
                     </Grid>
                     <ListItemText align="left" secondary="09:31"/>
-                    {/*<Grid item xs={12}></Grid>*/}
                 </Grid>
             </ListItem>
         )
@@ -207,20 +208,7 @@ const Chat = () => {
                         <TextField label="Search" variant="outlined" fullWidth onChange={handlerSearchUsername}/>
                     </Grid>
                     <Divider/>
-                    <List>
-                        {
-                            users.map((item, index) => (
-                                <ListItem button key={index}
-                                          onClick={() => getChatRoom(user.id, item.following.id)}>
-                                    <ListItemIcon>
-                                        <Avatar alt="Remy Sharp"
-                                                src="https://material-ui.com/static/images/avatar/1.jpg"/>
-                                    </ListItemIcon>
-                                    <ListItemText primary={item.following.username}/>
-                                </ListItem>
-                            ))
-                        }
-                    </List>
+                    <ListFriends list={users} getChatRoom={getChatRoom}/>
                 </Grid>
                 <Grid item xs={9}>
                     {

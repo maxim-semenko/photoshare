@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Grid from "@mui/material/Grid";
 import PostComponent from "./PostComponent";
 import PostService from "../../service/PostService";
+import {CircularProgress} from "@mui/material";
 
 function PostListComponent(props) {
     const user = JSON.parse(localStorage.getItem("user"))
@@ -9,7 +10,6 @@ function PostListComponent(props) {
     const [loadingBookmarks, setLoadingBookmarks] = useState(true)
 
     useEffect(() => {
-        console.log("EFFECT")
         PostService.getAllBookmarkPostsByUserId(user.id)
             .then(response => {
                 setBookmarks(response.data.content)
@@ -19,29 +19,29 @@ function PostListComponent(props) {
     }, [])
 
     const Content = () => {
-        if (loadingBookmarks) {
-            return <div>loading...</div>
+        if (loadingBookmarks || props.postsList.length === 0) {
+            return (
+                <Grid container spacing={3} direction="column" alignItems="center" style={{paddingTop: "3%"}}>
+                    <CircularProgress/>
+                </Grid>
+            )
         } else {
             return (
-                <div>
+                <Grid container spacing={3}>
                     {
                         props.postsList.map(post => (
-                            <Grid item xs={12} md={12} lg={12}>
-                                <PostComponent object={post}
-                                               height={400}
-                                               bookmarksList={bookmarks}/>
+                            <Grid item xs={props.xs} md={props.md} lg={props.lg}>
+                                <PostComponent object={post} bookmarksList={bookmarks} height={props.height}/>
                             </Grid>
                         ))
                     }
-                </div>
+                </Grid>
             )
         }
     }
 
     return (
-        <div>
-            {Content()}
-        </div>
+        <div>{Content()}</div>
     );
 }
 

@@ -19,6 +19,32 @@ class UserService {
         })
     }
 
+    async getAllFollowersByUserId(userId, page = 0, size = 0) {
+        return axios.get(`${API_URL}/users/${userId}/followers`, {
+            params: {
+                sort: 'username,asc',
+                page: page,
+                size: size,
+            },
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
+    async getAllFollowingsByUserId(userId, page = 0, size = 0) {
+        return axios.get(`${API_URL}/users/${userId}/followings`, {
+            params: {
+                sort: 'username,asc',
+                page: page,
+                size: size,
+            },
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
 }
 
 export default new UserService()

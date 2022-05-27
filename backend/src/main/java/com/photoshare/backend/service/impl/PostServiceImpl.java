@@ -63,4 +63,12 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByUserBookmarks(pageable, user);
     }
 
+    @Override
+    public Post deleteById(Long id) {
+        Post post = findById(id);
+        postRepository.delete(post);
+
+        return post;
+    }
+
 }

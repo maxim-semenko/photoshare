@@ -18,7 +18,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -70,12 +69,7 @@ public class User extends BaseEntity {
 
     @NotNull
     @CreatedDate
-    private Date registerDate;
-
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "bookmark_storage_id", referencedColumnName = "id")
-    @JsonIgnore
-    private BookmarkStorage bookmarkStorage;
+    private Date registerDate = new Date();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
@@ -92,7 +86,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
-    private List<Subscribe> subscribes = new ArrayList<>();
+    private List<Subscribe> followers = new ArrayList<>();
 
     @OneToMany(mappedBy = "following", cascade = CascadeType.REMOVE)
     @JsonIgnore
@@ -113,6 +107,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @Override
     public String toString() {

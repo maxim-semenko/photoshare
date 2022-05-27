@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.CascadeType;
@@ -25,7 +24,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode(callSuper = false)
 public class Post extends BaseEntity {
 
@@ -63,4 +61,21 @@ public class Post extends BaseEntity {
     )
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "post",
+            cascade = CascadeType.REMOVE,
+            orphanRemoval = true
+    )
+    private List<Bookmark> bookmarks = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", user=" + user +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }

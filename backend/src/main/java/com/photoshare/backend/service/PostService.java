@@ -17,4 +17,6 @@ public interface PostService {
 
     Page<Post> findAllBookmarksByUserId(Pageable pageable, Long userId);
 
+    Post deleteById(Long id);
+
 }

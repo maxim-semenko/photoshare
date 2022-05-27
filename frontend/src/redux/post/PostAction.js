@@ -1,144 +1,112 @@
 import * as types from "./PostActionType"
-import FilmService from "../../service/FilmService";
+import PostService from "../../service/PostService";
 
-const gotFilmsSuccess = (films) => ({
-    type: types.GET_FILMS,
-    payload: films,
+const gotPostsSuccess = (posts) => ({
+    type: types.GET_POSTS_BY_ID,
+    payload: posts,
 })
 
-const gotFilmSuccess = (film) => ({
-    type: types.GET_FILM,
-    payload: film,
+const gotPostSuccess = (post) => ({
+    type: types.GET_POST_BY_ID,
+    payload: post,
 })
 
-const createdFilmSuccess = (film) => ({
-    type: types.CREATE_FILM,
-    payload: film,
+const createdPostSuccess = (post) => ({
+    type: types.CREATE_POST,
+    payload: post,
 })
 
-const updatedFilmSuccess = (film) => ({
-    type: types.UPDATE_FILM,
-    payload: film,
-})
-
-const deletedFilmSuccess = (id) => ({
-    type: types.DELETE_FILM,
+const deletedPostSuccess = (id) => ({
+    type: types.DELETE_POST,
     payload: id,
 })
 
 export const setCurrentPage = (page) => ({
-    type: types.SET_CURRENT_PAGE,
+    type: types.SET_CURRENT_PAGE_POST,
     payload: page
 })
 
 export const setSizePage = (size) => ({
-    type: types.SET_SIZE_PAGE_FILM,
+    type: types.SET_SIZE_PAGE_POST,
     payload: size
 })
 
-export const setLoadingFilms = (loading) => ({
-    type: types.SET_LOADING_FILMS,
+export const setLoadingPosts = (loading) => ({
+    type: types.SET_LOADING_POSTS,
     payload: loading
 })
 
-export const setLoadingFilm = (loading) => ({
-    type: types.SET_LOADING_FILM,
+export const setLoadingPost = (loading) => ({
+    type: types.SET_LOADING_POST,
     payload: loading
 })
 
 //============================================ Axios requests ==========================================================
 
-export const getFilms = (currentPage = 0, sizePage = 0) => {
+export const getAllPostsByUserId = (userId, currentPage = 0, sizePage = 0) => {
     return function (dispatch) {
-        dispatch(setLoadingFilms(true))
-        FilmService.getAll(currentPage, sizePage)
+        dispatch(setLoadingPosts(true))
+        PostService.getAllPostsByUserId(userId, currentPage, sizePage)
+            .then(response => {
+                dispatch(gotPostsSuccess(response.data))
+                console.log(response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(() => {
+                setLoadingPosts(false)
+            })
+    }
+}
+
+export const getPostById = (id) => {
+    return function (dispatch) {
+        dispatch(setLoadingPost(true))
+        PostService.getPostById(id)
             .then((resp) => {
-                dispatch(gotFilmsSuccess(resp.data))
+                dispatch(gotPostSuccess(resp.data))
                 console.log(resp.data)
             })
             .catch(error => {
-                dispatch(setLoadingFilms(false))
                 console.log(error)
+            })
+            .finally(() => {
+                setLoadingPost(false)
             })
     }
 }
 
-export const getFilmsByName = (name, currentPage = 0, sizePage = 0) => {
-    return function (dispatch) {
-        dispatch(setLoadingFilms(true))
-        FilmService.getAllByName(currentPage, sizePage, name)
-            .then((resp) => {
-                dispatch(gotFilmsSuccess(resp.data))
-            })
-            .catch(error => {
-                dispatch(setLoadingFilms(false))
-                console.log(error)
-            })
-    }
+export function createPost(post) {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            PostService.createPost(post)
+                .then((response) => {
+                    dispatch(createdPostSuccess(response.data))
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
+    };
 }
 
-export const getFilmById = (id) => {
-    return function (dispatch) {
-        dispatch(setLoadingFilm(true))
-        FilmService.getById(id)
-            .then((resp) => {
-                dispatch(gotFilmSuccess(resp.data))
-                console.log(resp.data)
-            })
-            .catch(error => {
-                dispatch(setLoadingFilm(false))
-                console.log(error)
-            })
+export const deletePostById = (postId, userId) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            PostService.deletePostById(postId, userId)
+                .then((response) => {
+                    dispatch(deletedPostSuccess(postId))
+                    console.log(response)
+                    return resolve(response);
+                })
+                .catch(error => {
+                    console.log(error)
+                    return reject(error);
+                })
+        })
     }
 }
-
-// export function createFilm(film) {
-//     return (dispatch) => {
-//         return new Promise((resolve, reject) => {
-//             FilmService.create(film)
-//                 .then((response) => {
-//                     dispatch(createdFilmSuccess(response.data))
-//                     console.log(response)
-//                     return resolve(response);
-//                 })
-//                 .catch(error => {
-//                     console.log(error)
-//                     return reject(error);
-//                 })
-//         })
-//     };
-// }
-
-// export const updateFilm = (film, id) => {
-//     return (dispatch) => {
-//         return new Promise((resolve, reject) => {
-//             FilmService.update(film, id)
-//                 .then((response) => {
-//                     dispatch(updatedFilmSuccess(response.data))
-//                     console.log(response)
-//                     return resolve(response);
-//                 })
-//                 .catch(error => {
-//                     console.log(error)
-//                     return reject(error);
-//                 })
-//         })
-//     };
-// }
-//
-// export const deleteFilmById = (id) => {
-//     return (dispatch) => {
-//         return new Promise((resolve, reject) => {
-//             FilmService.deleteById(id)
-//                 .then((response) => {
-//                     dispatch(deletedFilmSuccess(id))
-//                     console.log(response)
-//                     return resolve(response);
-//                 })
-//                 .catch(error => {
-//                     console.log(error)
-//                     return reject(error);
-//                 })
-//         })
-//     }
-// }

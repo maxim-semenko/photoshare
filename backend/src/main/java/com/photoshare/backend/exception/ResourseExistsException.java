@@ -1,0 +1,11 @@
+package com.photoshare.backend.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.CONFLICT)
+public class ResourseExistsException extends RuntimeException {
+    public ResourseExistsException(String message) {
+        super(message);
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function EditProfilePage(props) {
+function RemovePostDialog(props) {
     return (
         <div>
 
@@ -8,4 +8,4 @@ function EditProfilePage(props) {
     );
 }
 
-export default EditProfilePage;
+export default RemovePostDialog;

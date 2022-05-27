@@ -5,8 +5,8 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import HeaderComponent from "../../common/HeaderComponent";
-import DrawerComponent from "../../common/DrawerComponent";
+import HeaderComponent from "../../../common/HeaderComponent";
+import DrawerComponent from "../../../common/DrawerComponent";
 import Chat from "./Chat";
 
 const useStyles = makeStyles((theme) => ({

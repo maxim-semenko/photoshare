@@ -1,10 +1,16 @@
 import React from 'react';
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import image from "../../../image/img.png";
+import image from "../../../../image/img.png";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Grid from "@mui/material/Grid";
+import {Link} from "react-router-dom";
+
+const linkStyle = {
+    textDecoration: 'none',
+    color: 'rgb(33,33,33)'
+}
 
 function ImageProfile(props) {
     return (
@@ -16,13 +22,15 @@ function ImageProfile(props) {
                     image={image}
                     alt="Paella dish"
                 />
-                <Button fullWidth
-                        variant="contained"
-                        color="primary"
-                        startIcon={<CloudUploadIcon/>}
-                        style={{marginTop: "1px"}}>
-                    Edit profile
-                </Button>
+                <Link to={"/edit"} style={linkStyle}>
+                    <Button fullWidth
+                            variant="contained"
+                            color="primary"
+                            startIcon={<CloudUploadIcon/>}
+                            style={{marginTop: "1px"}}>
+                        Edit profile
+                    </Button>
+                </Link>
             </Card>
         </Grid>
     );

@@ -45,6 +45,22 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/users/{id}/followers")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<Page<UserResponse>> findAllFollowersByUserId(@PathVariable Long id, Pageable pageable) {
+        return new ResponseEntity<>(
+                UserResponse.mapListUserToDTO(userService.findAllFollowersByUserId(pageable, id)),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{id}/followings")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<Page<UserResponse>> findAllFollowingsByUserId(@PathVariable Long id, Pageable pageable) {
+        return new ResponseEntity<>(
+                UserResponse.mapListUserToDTO(userService.findAllFollowingsByUserId(pageable, id)),
+                HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') and #id == authentication.principal.id")
     public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {

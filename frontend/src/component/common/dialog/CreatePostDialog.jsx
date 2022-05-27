@@ -5,14 +5,17 @@ import Dialog from '@mui/material/Dialog';
 import Button from "@mui/material/Button";
 import {DialogActions, DialogContent, TextField} from "@mui/material";
 import FileService from "../../../service/FileService";
-import Card from "@mui/material/Card";
 import PostService from "../../../service/PostService";
+import {useDispatch, useSelector} from "react-redux";
+import {createPost} from "../../../redux/post/PostAction";
 
 export default function CreatePostDialog(props) {
+    const dispatch = useDispatch()
+    const {posts, totalElements} = useSelector(state => state.dataPosts)
+
     const [image, setImage] = useState("")
     const [imageError, setImageError] = useState('')
     const user = JSON.parse(localStorage.getItem("user"))
-
 
     const saveHandler = () => {
         const request = {
@@ -20,22 +23,20 @@ export default function CreatePostDialog(props) {
             image: image,
             description: "empty"
         }
-        PostService.savePost(request)
-            .then(response => {
-                console.log(response.data)
+        dispatch(createPost(request))
+            .then(() => {
+                console.log("SUCCESS")
             })
     };
 
     const changeImageHandler = async (event) => {
         const file = event.target.files[0];
-        console.log(file.height)
-        console.log(file.width)
         const base64 = await FileService.convertBase64(file);
         setImage(await FileService.convertBase64(file))
         setImageError('')
 
 
-        var img = document.createElement("img")
+        const img = document.createElement("img");
         img.setAttribute("src", base64)
         setTimeout(function () {
             console.log(img.height, img.width);
@@ -45,16 +46,19 @@ export default function CreatePostDialog(props) {
     const ShowImage = () => {
         if (image !== '') {
             return (
-                <Card>
-                    <img style={{height: 'auto', width: '100%'}} src={image} alt={"upload"}/>
-                </Card>
-
+                <div style={{textAlign: "center"}}>
+                    <img style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                    }}
+                         src={image} alt={"upload"}/>
+                </div>
             )
         }
     }
 
     return (
-        <Dialog open={props.open} onClose={props.close} fullWidth>
+        <Dialog open={props.open} onClose={props.close} fullWidth maxWidth="lg">
             <DialogTitle>Create a new post</DialogTitle>
             <DialogContent>
                 <Button variant="contained" component="label" style={{marginBottom: "10px"}}>
@@ -66,7 +70,7 @@ export default function CreatePostDialog(props) {
                     multiline
                     rows={4}
                     margin="dense"
-                    label="Description"
+                    label="Description (not optional)"
                     fullWidth
                     variant="standard"
                 />

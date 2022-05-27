@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,12 @@ public class PostController {
     @PreAuthorize("hasRole('USER') and #request.userId == authentication.principal.id")
     public ResponseEntity<Post> createPost(@Valid @RequestBody CreatePostRequest request) {
         return new ResponseEntity<>(postService.create(request), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{postId}/users/{userId}")
+    @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
+    public ResponseEntity<Post> deletePost(@PathVariable Long postId, @PathVariable Long userId) {
+        return new ResponseEntity<>(postService.deleteById(postId), HttpStatus.OK);
     }
 
     /**

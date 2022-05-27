@@ -5,8 +5,8 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import HeaderComponent from "../common/HeaderComponent";
-import DrawerComponent from "../common/DrawerComponent";
+import HeaderComponent from "../../common/HeaderComponent";
+import DrawerComponent from "../../common/DrawerComponent";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FeedbackPage() {
+function SettingsPage() {
     const classes = useStyles();
 
     return (
@@ -45,7 +45,7 @@ function FeedbackPage() {
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={12} lg={12}>
                                 <Paper className={classes.paper}>
-                                    <h1>FEEDBACK PAGE</h1>
+                                    <h1>SETTINGS PAGE</h1>
                                 </Paper>
                             </Grid>
                         </Grid>
@@ -56,4 +56,4 @@ function FeedbackPage() {
     );
 }
 
-export default FeedbackPage;
+export default SettingsPage;

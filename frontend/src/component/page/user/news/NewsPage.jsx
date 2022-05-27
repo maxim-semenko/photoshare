@@ -5,10 +5,10 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import HeaderComponent from "../../common/HeaderComponent";
-import DrawerComponent from "../../common/DrawerComponent";
-import PostService from "../../../service/PostService";
-import PostListComponent from "../../common/PostListComponent";
+import HeaderComponent from "../../../common/HeaderComponent";
+import DrawerComponent from "../../../common/DrawerComponent";
+import PostService from "../../../../service/PostService";
+import PostListComponent from "../../../common/PostListComponent";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -34,12 +34,11 @@ function NewsPage() {
 
     const user = JSON.parse(localStorage.getItem("user"))
     const [posts, setPosts] = useState([])
-
     const [currentPage, setCurrentPage] = useState(0)
     const [loadingPosts, setLoadingPosts] = useState(true)
     const [totalElements, setTotalElements] = useState(2)
 
-        useEffect(() => {
+    useEffect(() => {
         if (loadingPosts && posts.length < totalElements) {
             PostService.getAllPostsByUserIdSubscribes(user.id, currentPage, 2)
                 .then(response => {
@@ -74,9 +73,15 @@ function NewsPage() {
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={12} lg={12}>
-                            <Paper className={classes.paper} style={{paddingLeft: "15%", paddingRight: "15%"}}>
-                                <Grid container spacing={3}>
-                                    <PostListComponent postsList={posts}/>
+                            <Paper className={classes.paper} style={{padding: "4% 25% 4% 25%"}}>
+                                <Grid
+                                    container
+                                    spacing={3}
+                                    direction="column"
+                                    alignItems="center"
+                                    style={{paddingTop: "3%"}}
+                                >
+                                    <PostListComponent xs={12} md={12} lg={12} postsList={posts} height={600}/>
                                 </Grid>
                             </Paper>
                         </Grid>

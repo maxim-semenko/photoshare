@@ -21,52 +21,46 @@ const postReducers = (state = initialState, action = {}) => {
                 totalElements: action.payload.totalElements,
                 totalPages: action.payload.totalPages,
                 numberOfElements: action.payload.numberOfElements,
-                loadingFilms: false,
+                loadingPosts: false,
             }
         case types.GET_POST_BY_ID:
             return {
                 ...state,
-                film: action.payload,
-                loadingFilm: false,
+                post: action.payload,
+                loadingPost: false,
             }
-        // case types.CREATE_FILM:
-        //     return {
-        //         ...state,
-        //         films: [...state.films, action.payload]
-        //     }
-        // case types.UPDATE_FILM:
-        //     const objIndex = state.films.findIndex((item => item.id === action.payload.id));
-        //     let updatedFilms = state.films;
-        //     updatedFilms[objIndex] = action.payload
-        //     return {
-        //         ...state,
-        //         films: updatedFilms,
-        //     }
-        // case types.DELETE_FILM:
-        //     return {
-        //         ...state,
-        //         films: state.films.filter(item => item.id !== action.payload),
-        //     }
-        // case types.SET_CURRENT_PAGE:
-        //     return {
-        //         ...state,
-        //         currentPage: action.payload
-        //     }
-        // case types.SET_SIZE_PAGE_FILM:
-        //     return {
-        //         ...state,
-        //         sizePage: action.payload
-        //     }
-        // case types.SET_LOADING_FILMS:
-        //     return {
-        //         ...state,
-        //         loading: action.payload
-        //     }
-        // case types.SET_LOADING_FILM:
-        //     return {
-        //         ...state,
-        //         loadingFilm: action.payload
-        //     }
+        case types.CREATE_POST:
+            return {
+                ...state,
+                posts: [...state.posts.slice(0, 0), action.payload, ...state.posts.slice(0)],
+                totalElements: state.totalElements + 1,
+            }
+        case types.DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter(item => item.id !== action.payload),
+                totalElements: state.totalElements - 1,
+            }
+        case types.SET_CURRENT_PAGE_POST:
+            return {
+                ...state,
+                currentPage: action.payload
+            }
+        case types.SET_SIZE_PAGE_POST:
+            return {
+                ...state,
+                sizePage: action.payload
+            }
+        case types.SET_LOADING_POSTS:
+            return {
+                ...state,
+                loadingPosts: action.payload
+            }
+        case types.SET_LOADING_POST:
+            return {
+                ...state,
+                loadingPost: action.payload
+            }
         default:
             return state
     }

@@ -1,8 +1,6 @@
 import React from 'react';
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
 import Grid from "@mui/material/Grid";
-import PostComponent from "../../common/PostComponent";
+import PostComponent from "../../../common/PostComponent";
 
 function PostsList(props) {
     return (

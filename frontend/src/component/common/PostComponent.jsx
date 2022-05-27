@@ -10,14 +10,15 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import image from '../../image/img.png'
-import image1 from '../../image/img_1.png'
 import moment from "moment-timezone";
 import {Badge} from "@mui/material";
 import LikeService from "../../service/LikeService";
 import StarIcon from '@mui/icons-material/Star';
 import BookmarkService from "../../service/BookmarkService";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {useDispatch, useSelector} from "react-redux";
+import {deletePostById} from "../../redux/post/PostAction";
 
 const ExpandMore = styled((props) => {
     const {expand, ...other} = props;
@@ -34,9 +35,9 @@ export default function PostComponent(props) {
     const [isContainLike, setIsContainLike] = React.useState(false);
     const [isContainBookmark, setIsContainBookmark] = React.useState(false);
     const [countLikes, setCountLikes] = React.useState(0);
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log(props.object)
         setIsContainLike(checkLike(props.object.likes, user.id))
         setIsContainBookmark(checkBookmark(props.bookmarksList, props.object.id))
         setCountLikes(props.object.likes.length)
@@ -137,10 +138,20 @@ export default function PostComponent(props) {
         )
     }
 
+    const remove = (id) => {
+        dispatch(deletePostById(id, user.id))
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     return (
         <Card>
             <CardHeader avatar={<Avatar alt="Remy Sharp" src={image}/>}
-                        action={<IconButton aria-label="settings"><MoreVertIcon/></IconButton>}
+                        action={
+                            <IconButton aria-label="settings" onClick={() => remove(props.object.id)}>
+                                <DeleteIcon/>
+                            </IconButton>}
                         title={<b>{props.object.user.username}</b>}
                         subheader={moment(props.object.createdDate).format('MMMM D YYYY, h:mm A')}
             />

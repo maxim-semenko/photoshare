@@ -14,6 +14,10 @@ public interface UserService {
 
     Page<User> findAllByUsernameContaining(Pageable pageable, String username);
 
+    Page<User> findAllFollowersByUserId(Pageable pageable, Long userId);
+
+    Page<User> findAllFollowingsByUserId(Pageable pageable, Long userId);
+
     User findById(Long id);
 
     Boolean deleteById(Long id);

@@ -20,6 +20,13 @@ class PostService {
         })
     }
 
+    async getPostById(id) {
+        return axios.get(`${API_URL}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
 
 
     async getAllPostsByUserIdSubscribes(userId, page = 0, size = 0) {
@@ -38,7 +45,7 @@ class PostService {
     async getAllBookmarkPostsByUserId(userId, page = 0, size = 0) {
         return axios.get(`${API_URL}/users/${userId}/bookmarks`, {
             params: {
-                sort: 'bookmarkItem.createdDate,asc',
+                sort: 'bookmark.createdDate,desc',
                 page: page,
                 size: size,
             },
@@ -48,8 +55,16 @@ class PostService {
         })
     }
 
-    async savePost(request) {
+    async createPost(request) {
         return axios.post(`${API_URL}/`, request, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
+    async deletePostById(postId, userId) {
+        return axios.delete(`${API_URL}/${postId}/users/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${cookies.get("token")}`,
             }

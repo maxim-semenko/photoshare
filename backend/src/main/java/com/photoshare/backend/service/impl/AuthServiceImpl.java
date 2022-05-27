@@ -22,7 +22,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -65,7 +64,6 @@ public class AuthServiceImpl implements AuthService {
         user.setLastname(request.getLastname());
         user.setAbout(request.getAbout());
         user.setImage(request.getImage());
-        user.setRegisterDate(new Date());
         user.setRoles(Set.of(roleRepository.findByName(RoleEnum.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."))));
 

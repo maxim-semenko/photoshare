@@ -18,9 +18,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "(select subscibe.following.id from Subscribe subscibe where subscibe.user =:user)")
     Page<Post> findAllByUserSubscribes(Pageable pageable, @Param("user") User user);
 
+
     @Query("select post from Post post " +
-            "join BookmarkStorage bookmarkStorage on bookmarkStorage.user =:user " +
-            "join BookmarkItem bookmarkItem on bookmarkItem.post.id = post.id")
+            "join Bookmark bookmark on bookmark.post.id = post.id " +
+            "where bookmark.user=:user")
     Page<Post> findAllByUserBookmarks(Pageable pageable, @Param("user") User user);
 
 }

@@ -1,17 +1,18 @@
 import {Route, Routes} from "react-router-dom";
-import ProfilePage from "./component/page/profile/ProfilePage";
-import NewsPage from "./component/page/news/NewsPage";
-import NotFoundPage from "./component/page/NotFoundPage";
+import ProfilePage from "./component/page/user/profile/ProfilePage";
+import NewsPage from "./component/page/user/news/NewsPage";
+import NotFoundPage from "./component/page/user/NotFoundPage";
 import SignUpPage from "./component/page/auth/RegisterPage";
 import LoginPage from "./component/page/auth/LoginPage";
 import ProtectedRoute from "./component/common/ProtectedRoute";
 import './style/App.css';
 import SearchPage from "./component/page/SearchPage";
-import FeedbackPage from "./component/page/FeedbackPage";
-import BookmarkPage from "./component/page/BookmarkPage";
-import SettingsPage from "./component/page/SettingsPage";
-import MessagesPage from "./component/page/messanger/MessagesPage";
+import FeedbackPage from "./component/page/user/FeedbackPage";
+import BookmarkPage from "./component/page/user/BookmarkPage";
+import SettingsPage from "./component/page/user/SettingsPage";
+import MessagesPage from "./component/page/user/messanger/MessagesPage";
 import CreatePostDialog from "./component/common/dialog/CreatePostDialog";
+import EditProfilePage from "./component/page/user/profile/EditProfilePage";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="register" element={<ProtectedRoute><SignUpPage/></ProtectedRoute>}/>
                 <Route path="login" element={<ProtectedRoute><LoginPage/></ProtectedRoute>}/>
                 <Route path="profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
+                <Route path="edit" element={<ProtectedRoute><EditProfilePage/></ProtectedRoute>}/>
                 <Route path="news" element={<ProtectedRoute><NewsPage/></ProtectedRoute>}/>
                 <Route path="search" element={<ProtectedRoute><SearchPage/></ProtectedRoute>}/>
                 <Route path="messages" element={<ProtectedRoute><MessagesPage/></ProtectedRoute>}/>

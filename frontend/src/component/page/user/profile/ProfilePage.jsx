@@ -5,15 +5,16 @@ import {Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import DrawerComponent from "../../common/DrawerComponent";
-import HeaderComponent from "../../common/HeaderComponent";
-import PostService from "../../../service/PostService";
-import PostsList from "./PostsList";
+import DrawerComponent from "../../../common/DrawerComponent";
+import HeaderComponent from "../../../common/HeaderComponent";
 import AboutProfile from "./AboutProfile";
 import ImageProfile from "./ImageProfile";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import CreatePostDialog from "../../common/dialog/CreatePostDialog";
+import CreatePostDialog from "../../../common/dialog/CreatePostDialog";
+import PostListComponent from "../../../common/PostListComponent";
+import {getAllPostsByUserId} from "../../../../redux/post/PostAction";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -39,17 +40,14 @@ const paperStyle = {
 
 function ProfilePage() {
     const classes = useStyles();
+    const dispatch = useDispatch()
+
+    const {posts, totalElements} = useSelector(state => state.dataPosts)
     const user = JSON.parse(localStorage.getItem("user"))
-    const [posts, setPosts] = useState([])
-    const [totalPosts, setTotalPosts] = useState(0)
     const [openCreatePostDialog, setOpenCreatePostDialog] = useState(false);
 
-
     useEffect(() => {
-        PostService.getAllPostsByUserId(user.id).then(resp => {
-            setPosts(resp.data.content)
-            setTotalPosts(resp.data.totalElements)
-        })
+        dispatch(getAllPostsByUserId(user.id))
     }, [])
 
     const handleClickOpen = () => {
@@ -75,7 +73,7 @@ function ProfilePage() {
                                 <Paper style={paperStyle}>
                                     <Grid container spacing={3}>
                                         <ImageProfile/>
-                                        <AboutProfile totalPosts={totalPosts}/>
+                                        <AboutProfile totalPosts={totalElements}/>
                                     </Grid>
                                     <br/>
                                     <b>All posts:</b>
@@ -87,7 +85,9 @@ function ProfilePage() {
                                             color="success">
                                         New post
                                     </Button>
-                                    <PostsList posts={posts}/>
+                                    <div>
+                                        <PostListComponent xs={12} md={12} lg={4} postsList={posts} height={360}/>
+                                    </div>
                                 </Paper>
                             </Grid>
                         </Grid>
