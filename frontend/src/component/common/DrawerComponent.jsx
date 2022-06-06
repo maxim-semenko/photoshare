@@ -14,6 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import SearchIcon from '@mui/icons-material/Search';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import {Link, useNavigate} from "react-router-dom";
 import AuthService from "../../service/AuthService";
 
@@ -26,6 +27,7 @@ const linkStyle = {
 
 function DrawerComponent(props) {
     const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"))
 
     const logoutHandler = () => {
         AuthService.logout().then(() => {
@@ -95,6 +97,20 @@ function DrawerComponent(props) {
                         <ListItemText primary={"Logout"}/>
                     </ListItem>
                 </List>
+                {
+                    user.roles.includes("ROLE_ADMIN") ?
+                        <div>
+                            <Divider/>
+                            <Link to={"/administrator"} style={linkStyle}>
+                                <ListItem button>
+                                    <ListItemIcon><AdminPanelSettingsIcon/></ListItemIcon>
+                                    <ListItemText primary={"Administrator"}/>
+                                </ListItem>
+                            </Link>
+                        </div>
+                        :
+                        null
+                }
             </Box>
         </Drawer>
     );

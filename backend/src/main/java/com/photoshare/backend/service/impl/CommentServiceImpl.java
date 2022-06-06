@@ -1,6 +1,6 @@
 package com.photoshare.backend.service.impl;
 
-import com.photoshare.backend.controller.dto.request.CreatedCommentRequest;
+import com.photoshare.backend.controller.dto.request.CreateCommentRequest;
 import com.photoshare.backend.entity.Comment;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.entity.User;
@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public Comment save(CreatedCommentRequest request) {
+    public Comment save(CreateCommentRequest request) {
         Post post = postService.findById(request.getPostId());
         User user = userService.findById(request.getUserId());
 

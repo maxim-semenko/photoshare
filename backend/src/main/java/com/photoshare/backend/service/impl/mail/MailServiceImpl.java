@@ -1,7 +1,7 @@
 package com.photoshare.backend.service.impl.mail;
 
 
-import com.photoshare.backend.controller.dto.request.RequestSendMessageDTO;
+import com.photoshare.backend.controller.dto.request.SendMessageRequest;
 import com.photoshare.backend.entity.User;
 import com.photoshare.backend.entity.enums.MailMessageTypeEnum;
 import com.photoshare.backend.entity.mail.MailCode;
@@ -47,7 +47,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public Boolean performMessage(RequestSendMessageDTO requestSendMessageDTO) {
+    public Boolean performMessage(SendMessageRequest requestSendMessageDTO) {
         User user = userService.findByEmail(requestSendMessageDTO.getEmail());
         MailTypeMessage mailTypeMessage = mailTypeMessageService
                 .findByName(MailMessageTypeEnum.valueOf(requestSendMessageDTO.getTypeMessage()));

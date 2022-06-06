@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
 import {Paper} from "@mui/material";
@@ -7,6 +7,11 @@ import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
 import HeaderComponent from "../../common/HeaderComponent";
 import DrawerComponent from "../../common/DrawerComponent";
+import Button from "@mui/material/Button";
+import ChangePasswordDialog from "../../common/dialog/ChangePasswordDialog";
+import DeleteAccountDialog from "../../common/dialog/DeleteAccountDialog";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -32,9 +37,20 @@ const useStyles = makeStyles((theme) => ({
 
 function SettingsPage() {
     const classes = useStyles();
+    const [openChangePasswordDialog, setOpenChangePasswordDialog] = useState(false)
+    const [openDeleteAccountDialog, setOpenDeleteAccountDialog] = useState(false)
+
 
     return (
         <div>
+            <ChangePasswordDialog
+                open={openChangePasswordDialog}
+                close={() => setOpenChangePasswordDialog(false)}
+            />
+            <DeleteAccountDialog
+                open={openDeleteAccountDialog}
+                close={() => setOpenDeleteAccountDialog(false)}
+            />
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <HeaderComponent/>
@@ -45,7 +61,25 @@ function SettingsPage() {
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={12} lg={12}>
                                 <Paper className={classes.paper}>
-                                    <h1>SETTINGS PAGE</h1>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={<ChangeCircleIcon/>}
+                                        size="large"
+                                        onClick={() => setOpenChangePasswordDialog(true)}
+                                        style={{marginTop: "1px", justifyContent: "flex-start"}}
+                                    >
+                                        Change password
+                                    </Button>
+                                    <br/>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={<DeleteForeverIcon/>}
+                                        size="large"
+                                        onClick={() => setOpenDeleteAccountDialog(true)}
+                                        style={{marginTop: "1px", justifyContent: "flex-start"}}
+                                    >
+                                        Delete account
+                                    </Button>
                                 </Paper>
                             </Grid>
                         </Grid>

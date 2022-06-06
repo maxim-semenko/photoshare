@@ -1,7 +1,6 @@
 package com.photoshare.backend.entity;
 
 import com.photoshare.backend.entity.enums.FeedbackStatusEnum;
-import com.photoshare.backend.entity.enums.FeedbackTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

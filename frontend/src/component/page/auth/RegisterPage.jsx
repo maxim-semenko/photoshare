@@ -11,6 +11,10 @@ import Container from '@mui/material/Container';
 import Copyright from "../../common/Copyright";
 import UserValidator from "../../../validator/UserValidator";
 import {Link} from "react-router-dom";
+import AuthService from "../../../service/AuthService";
+import {Alert, Collapse} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const paper = {
     marginTop: '64px',
@@ -46,6 +50,9 @@ export default function SignUp() {
     const [usernameError, setUsernameError] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+
+    const [showError, setShowError] = useState(false)
+    const [textError, setTextError] = useState('')
 
 
     const handlerChangeFirstname = (event) => {
@@ -103,20 +110,16 @@ export default function SignUp() {
                 email: email,
                 password: password,
             }
-            // AuthService.register(request)
-            //     .then(response => {
-            //         console.log(response.data)
-            // setShowSuccessfulSignUp(true)
-            // setTimeout(function () {
-            //     if (props.show) {
-            //         props.onHide()
-            //     }
-            // }, 5000);
-            // })
-            // .catch(error => {
-            //     console.log(error.response.data)
-            //     // setShowErrorSignUp(error.response.data.message)
-            // })
+            AuthService.register(request)
+                .then(response => {
+                    console.log(response.data)
+
+                })
+                .catch(error => {
+                    console.log(error.response.data)
+                    setShowError(true)
+                    setTextError(error.response.data.message)
+                })
         }
 
     }
@@ -133,6 +136,25 @@ export default function SignUp() {
                     Sign up
                 </Typography>
                 <form style={form} noValidate>
+                    <Collapse in={showError}>
+                        <Alert
+                            severity="error"
+                            action={
+                                <IconButton
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setShowError(false);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit"/>
+                                </IconButton>
+                            }
+                            sx={{mb: 2}}
+                        >
+                            {textError}
+                        </Alert>
+                    </Collapse>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField

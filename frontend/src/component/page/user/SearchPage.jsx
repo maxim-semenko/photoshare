@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
-import {Paper} from "@mui/material";
+import {CircularProgress, ListItem, ListItemAvatar, ListItemButton, ListItemText, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
 import {alpha, styled} from "@mui/material/styles";
-import HeaderComponent from "../common/HeaderComponent";
-import DrawerComponent from "../common/DrawerComponent";
+import HeaderComponent from "../../common/HeaderComponent";
+import DrawerComponent from "../../common/DrawerComponent";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-import UserService from "../../service/UserService";
+import UserService from "../../../service/UserService";
 import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import Avatar from "@mui/material/Avatar";
 
 
 const Search = styled('div')(({theme}) => ({
@@ -22,7 +24,6 @@ const Search = styled('div')(({theme}) => ({
         backgroundColor: alpha(theme.palette.common.black, 0.15),
     },
     marginRight: theme.spacing(2),
-    // marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
         marginLeft: theme.spacing(3),
@@ -70,16 +71,56 @@ function SearchPage() {
     const classes = useStyles();
     const [username, setUsername] = useState('')
     const [users, setUsers] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [isSearched, setIsSearched] = useState(false)
 
     const changeUsernameHandler = (event) => {
         setUsername(event.target.value)
     }
 
     const searchHandle = () => {
+        setLoading(true)
+        setIsSearched(true)
         UserService.getAllByUsername(username)
             .then(response => {
                 setUsers(response.data.content)
             })
+            .finally(() => setLoading(false))
+    }
+
+    const ResultList = () => {
+        if (loading) {
+            return (
+                <Box display="flex" justifyContent="center">
+                    <CircularProgress/>
+                </Box>
+            )
+        } else if (users.length === 0 && isSearched) {
+            return (
+                <Box display="flex" justifyContent="center">
+                    Not found...
+                </Box>
+            )
+        } else {
+            return (
+                <div>
+                    {
+                        users.map((user, index) => {
+                            return (
+                                <ListItem key={index} disablePadding>
+                                    <ListItemButton>
+                                        <ListItemAvatar>
+                                            <Avatar src={user.image}/>
+                                        </ListItemAvatar>
+                                        <ListItemText primary={user.username}/>
+                                    </ListItemButton>
+                                </ListItem>
+                            )
+                        })
+                    }
+                </div>
+            )
+        }
     }
 
     return (
@@ -117,13 +158,11 @@ function SearchPage() {
                                             >Search</Button>
                                         </Grid>
                                     </Grid>
-                                    {
-                                        users.map(user => (
-                                            <div>
-                                                {user.username}
-                                            </div>
-                                        ))
-                                    }
+                                    <div style={{padding: "0 4% 0% 4%"}}>
+                                        <List sx={{width: '100%', maxWidth: '92%', bgcolor: 'background.paper'}}>
+                                            {ResultList()}
+                                        </List>
+                                    </div>
                                 </Paper>
                             </Grid>
                         </Grid>

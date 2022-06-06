@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
-import {Paper} from "@mui/material";
+import {CircularProgress, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
@@ -47,6 +47,8 @@ function NewsPage() {
                     setCurrentPage(prevState => prevState + 1)
                 })
                 .finally(() => setLoadingPosts(false))
+        } else {
+            setLoadingPosts(false)
         }
     }, [loadingPosts])
 
@@ -82,6 +84,15 @@ function NewsPage() {
                                     style={{paddingTop: "3%"}}
                                 >
                                     <PostListComponent xs={12} md={12} lg={12} postsList={posts} height={600}/>
+                                    <br/>
+                                    {
+                                        loadingPosts && posts.length !== 0 ?
+                                            <Box display="flex" justifyContent="center">
+                                                <CircularProgress/>
+                                            </Box>
+                                            :
+                                            null
+                                    }
                                 </Grid>
                             </Paper>
                         </Grid>

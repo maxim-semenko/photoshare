@@ -12,8 +12,10 @@ import UserValidator from "../../../validator/UserValidator";
 import AuthService from "../../../service/AuthService";
 import {Cookies} from "react-cookie"
 import {Link, useNavigate} from 'react-router-dom';
-
 import jwt from 'jwt-decode'
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
+import {Alert, Collapse} from "@mui/material";
 
 const root = {
     height: '100vh',
@@ -47,6 +49,11 @@ const submit = {
     margin: '24px 0px 16px',
 }
 
+const linkStyle = {
+    textDecoration: 'none',
+    color: 'rgb(33,33,33)'
+}
+
 export default function LoginPage() {
     const navigate = useNavigate();
     const cookies = new Cookies()
@@ -56,6 +63,9 @@ export default function LoginPage() {
 
     const [usernameError, setUsernameError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+
+    const [showError, setShowError] = useState(false)
+    const [textError, setTextError] = useState('')
 
     const handlerChangeUsername = (event) => {
         setUsername(event.target.value)
@@ -102,17 +112,16 @@ export default function LoginPage() {
                         maxAge: 86400000
                     })
 
-                    // addHandler(ChatPage.getMessage)
-                    // connect(response.data.user.username)
-                    //     .then(() => {
-                    //     })
                     setTimeout(function () {
                         navigate('/profile');
                     }, 1000);
                 })
                 .catch(error => {
                     console.log(error.response.data)
-                    // setShowErrorSignUp(error.response.data.message)
+                    setShowError(true)
+                    if (error.response.status === 404) {
+                        setTextError("Error! Your account was not found. Try again.")
+                    }
                 })
         }
 
@@ -127,6 +136,25 @@ export default function LoginPage() {
                     <Avatar style={avatar}><LockOutlinedIcon/></Avatar>
                     <Typography component="h1" variant="h5">Sign in</Typography>
                     <form style={form} noValidate>
+                        <Collapse in={showError}>
+                            <Alert
+                                severity="error"
+                                action={
+                                    <IconButton
+                                        color="inherit"
+                                        size="small"
+                                        onClick={() => {
+                                            setShowError(false);
+                                        }}
+                                    >
+                                        <CloseIcon fontSize="inherit"/>
+                                    </IconButton>
+                                }
+                                sx={{mb: 2}}
+                            >
+                                {textError}
+                            </Alert>
+                        </Collapse>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -164,10 +192,10 @@ export default function LoginPage() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to={""} variant="body2">Forgot password?</Link>
+                                <Link to={"restore-password"} style={linkStyle}>Forgot password?</Link>
                             </Grid>
                             <Grid item>
-                                <Link to={"/register"} variant="body2">{"Don't have an account? Sign Up"}</Link>
+                                <Link to={"/register"} style={linkStyle}>{"Don't have an account? Sign Up"}</Link>
                             </Grid>
                         </Grid>
                         <Box mt={5}>

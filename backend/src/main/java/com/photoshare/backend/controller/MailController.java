@@ -1,7 +1,7 @@
 package com.photoshare.backend.controller;
 
 
-import com.photoshare.backend.controller.dto.request.RequestSendMessageDTO;
+import com.photoshare.backend.controller.dto.request.SendMessageRequest;
 import com.photoshare.backend.service.impl.mail.MailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +33,7 @@ public class MailController {
 
     @PostMapping("")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<Boolean> sendMessage(@Valid @RequestBody RequestSendMessageDTO request) {
+    public ResponseEntity<Boolean> sendMessage(@Valid @RequestBody SendMessageRequest request) {
         return new ResponseEntity<>(mailService.performMessage(request), HttpStatus.OK);
     }
 

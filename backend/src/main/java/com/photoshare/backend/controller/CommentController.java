@@ -1,6 +1,6 @@
 package com.photoshare.backend.controller;
 
-import com.photoshare.backend.controller.dto.request.CreatedCommentRequest;
+import com.photoshare.backend.controller.dto.request.CreateCommentRequest;
 import com.photoshare.backend.entity.Comment;
 import com.photoshare.backend.service.impl.CommentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class CommentController {
 
     @PostMapping("")
     @PreAuthorize("hasRole('USER') and #request.userId == authentication.principal.id")
-    public ResponseEntity<Comment> saveComment(@Valid @RequestBody CreatedCommentRequest request) {
+    public ResponseEntity<Comment> saveComment(@Valid @RequestBody CreateCommentRequest request) {
         return new ResponseEntity<>(commentService.save(request), HttpStatus.OK);
     }
 

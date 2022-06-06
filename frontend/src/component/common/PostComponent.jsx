@@ -17,7 +17,7 @@ import LikeService from "../../service/LikeService";
 import StarIcon from '@mui/icons-material/Star';
 import BookmarkService from "../../service/BookmarkService";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {deletePostById} from "../../redux/post/PostAction";
 
 const ExpandMore = styled((props) => {
@@ -148,10 +148,13 @@ export default function PostComponent(props) {
     return (
         <Card>
             <CardHeader avatar={<Avatar alt="Remy Sharp" src={image}/>}
-                        action={
+                        action={user.id === props.object.user.id ?
                             <IconButton aria-label="settings" onClick={() => remove(props.object.id)}>
                                 <DeleteIcon/>
-                            </IconButton>}
+                            </IconButton>
+                            :
+                            null
+                        }
                         title={<b>{props.object.user.username}</b>}
                         subheader={moment(props.object.createdDate).format('MMMM D YYYY, h:mm A')}
             />

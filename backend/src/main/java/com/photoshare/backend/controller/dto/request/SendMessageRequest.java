@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class RequestSendMessageDTO {
+public class SendMessageRequest {
 
     @NotNull
     private String email;

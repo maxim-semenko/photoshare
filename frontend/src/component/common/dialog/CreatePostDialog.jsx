@@ -5,7 +5,6 @@ import Dialog from '@mui/material/Dialog';
 import Button from "@mui/material/Button";
 import {DialogActions, DialogContent, TextField} from "@mui/material";
 import FileService from "../../../service/FileService";
-import PostService from "../../../service/PostService";
 import {useDispatch, useSelector} from "react-redux";
 import {createPost} from "../../../redux/post/PostAction";
 
@@ -77,7 +76,7 @@ export default function CreatePostDialog(props) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.close}>Cancel</Button>
-                <Button onClick={saveHandler}>Save</Button>
+                <Button onClick={saveHandler}>Create</Button>
             </DialogActions>
         </Dialog>
     );
