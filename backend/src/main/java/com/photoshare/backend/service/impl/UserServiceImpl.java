@@ -1,12 +1,16 @@
 package com.photoshare.backend.service.impl;
 
+import com.photoshare.backend.controller.dto.request.UpdatePasswordRequest;
+import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.entity.User;
 import com.photoshare.backend.exception.ResourseNotFoundException;
+import com.photoshare.backend.exception.UserPasswordNotMatchesException;
 import com.photoshare.backend.repository.UserRepository;
 import com.photoshare.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -28,10 +35,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Boolean deleteById(Long id) {
+    public MessageResponse deleteById(Long id) {
         User user = findById(id);
         userRepository.delete(user);
-        return true;
+        return new MessageResponse("Account was deleted successfully!");
+    }
+
+    @Override
+    public MessageResponse updatePasswordById(UpdatePasswordRequest updatePasswordRequest, Long id) {
+        String oldPassword = updatePasswordRequest.getOldPassword();
+        String newPassword = updatePasswordRequest.getNewPassword();
+        User existUser = findById(id);
+
+        if (!passwordEncoder.matches(oldPassword, existUser.getPassword())) {
+            throw new UserPasswordNotMatchesException("User password not matches!");
+        }
+
+        existUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(existUser);
+
+        return new MessageResponse("User password was updated successfully!");
     }
 
     @Override

@@ -83,7 +83,14 @@ function NewsPage() {
                                     alignItems="center"
                                     style={{paddingTop: "3%"}}
                                 >
-                                    <PostListComponent xs={12} md={12} lg={12} postsList={posts} height={600}/>
+                                    {
+                                        loadingPosts && posts.length === 0 ?
+                                            <Box display="flex" justifyContent="center">
+                                                <CircularProgress/>
+                                            </Box>
+                                            :
+                                            <PostListComponent xs={12} md={12} lg={12} postsList={posts} height={600}/>
+                                    }
                                     <br/>
                                     {
                                         loadingPosts && posts.length !== 0 ?

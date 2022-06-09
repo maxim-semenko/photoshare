@@ -1,5 +1,7 @@
 package com.photoshare.backend.service;
 
+import com.photoshare.backend.controller.dto.request.UpdatePasswordRequest;
+import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,8 @@ public interface UserService {
 
     User findById(Long id);
 
-    Boolean deleteById(Long id);
+    MessageResponse deleteById(Long id);
+
+    MessageResponse updatePasswordById(UpdatePasswordRequest updatePasswordRequest, Long id);
 
 }

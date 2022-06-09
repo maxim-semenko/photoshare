@@ -45,6 +45,21 @@ class UserService {
         })
     }
 
+    /**
+     * Update user's password by id.
+     * @param request data
+     * @param id user's id
+     * @returns {Promise<AxiosResponse<any>>} AxiosResponse
+     */
+    async updatePasswordById(request, id) {
+        console.log(`${API_URL}/${id}/password/`)
+        return axios.patch(`${API_URL}/${id}/password/`, request, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            },
+        })
+    }
+
 }
 
 export default new UserService()

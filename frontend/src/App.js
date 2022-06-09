@@ -15,6 +15,8 @@ import CreatePostDialog from "./component/common/dialog/CreatePostDialog";
 import EditProfilePage from "./component/page/user/profile/EditProfilePage";
 import AccountPage from "./component/page/user/AccountPage";
 import AdminProfile from "./component/page/admin/AdminProfile";
+import AllUsersPage from "./component/page/admin/AllUsersPage";
+import AllFeedbacksPage from "./component/page/admin/AllFeedbacksPage";
 
 function App() {
     return (
@@ -34,6 +36,8 @@ function App() {
                 <Route path="settings" element={<ProtectedRoute><SettingsPage/></ProtectedRoute>}/>
                 <Route path="test" element={<ProtectedRoute><CreatePostDialog/></ProtectedRoute>}/>
                 <Route path="administrator" element={<ProtectedRoute><AdminProfile/></ProtectedRoute>}/>
+                <Route path="administrator/users" element={<ProtectedRoute><AllUsersPage/></ProtectedRoute>}/>
+                <Route path="administrator/feedbacks" element={<ProtectedRoute><AllFeedbacksPage/></ProtectedRoute>}/>
                 <Route path='*' exact={true} element={<NotFoundPage/>}/>
             </Routes>
         </div>

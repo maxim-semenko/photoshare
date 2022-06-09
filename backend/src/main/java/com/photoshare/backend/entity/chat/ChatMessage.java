@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +40,8 @@ public class ChatMessage {
 
     private String content;
 
-    private Date timestamp;
+    @CreatedDate
+    private Date createdDate;
 
     @Override
     public String toString() {
@@ -50,7 +52,7 @@ public class ChatMessage {
                 ", sender=" + sender +
                 ", recipient=" + recipient +
                 ", content='" + content + '\'' +
-                ", timestamp=" + timestamp +
+                ", createdDate=" + createdDate +
                 '}';
     }
 }

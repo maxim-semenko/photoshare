@@ -1,5 +1,7 @@
 package com.photoshare.backend.controller;
 
+import com.photoshare.backend.controller.dto.request.UpdatePasswordRequest;
+import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.controller.dto.response.UserResponse;
 import com.photoshare.backend.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -63,8 +69,15 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') and #id == authentication.principal.id")
-    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
+    public ResponseEntity<MessageResponse> deleteById(@PathVariable Long id) {
         return new ResponseEntity<>(userService.deleteById(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/password")
+    @PreAuthorize("hasRole('USER') and #id == authentication.principal.id")
+    public ResponseEntity<MessageResponse> updatePassword(@PathVariable Long id,
+                                                          @Valid @RequestBody UpdatePasswordRequest request) {
+        return new ResponseEntity<>(userService.updatePasswordById(request, id), HttpStatus.OK);
     }
 
 }

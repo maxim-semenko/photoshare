@@ -32,7 +32,6 @@ public class Bookmark {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User user;
 
     private Date createdDate;

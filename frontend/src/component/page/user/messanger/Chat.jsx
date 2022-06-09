@@ -13,6 +13,7 @@ import ChatRoomService from "../../../../service/ChatRoomService";
 import SockJS from "sockjs-client";
 import {over} from "stompjs";
 import ListFriends from "./ListFriends";
+import moment from "moment-timezone";
 
 const useStyles = makeStyles({
     table: {
@@ -93,6 +94,7 @@ const Chat = () => {
                 sender: currentChatRoom.sender,
                 recipient: currentChatRoom.recipient,
                 content: currentText,
+                createdDate: new Date(),
             };
             setMessages([...messages, chatMessage])
             stompClient.send("/app/send-message", {}, JSON.stringify(chatMessage));
@@ -128,12 +130,12 @@ const Chat = () => {
         }
     }
 
-    const LeftMessage = (content, index) => {
+    const LeftMessage = (message, index) => {
         return (
             <ListItem key={index}>
                 <Grid container>
                     <Grid item xs={12}>
-                        <ListItemText align="left" primary={content} style={{
+                        <ListItemText align="left" primary={message.content} style={{
                             backgroundColor: "#616062",
                             color: "white",
                             display: "inline-block",
@@ -145,18 +147,18 @@ const Chat = () => {
                         }}
                         />
                     </Grid>
-                    <ListItemText align="left" secondary="09:31"/>
+                    <ListItemText align="left" secondary={moment(message.createdDate).format('MMMM D YYYY, h:mm A')}/>
                 </Grid>
             </ListItem>
         )
     }
 
-    const RightMessage = (content, index) => {
+    const RightMessage = (message, index) => {
         return (
             <ListItem key={index}>
                 <Grid container>
                     <Grid item xs={12}>
-                        <ListItemText align="right" primary={content}
+                        <ListItemText align="right" primary={message.content}
                                       style={{
                                           backgroundColor: "#6c359d",
                                           color: "white",
@@ -169,7 +171,7 @@ const Chat = () => {
                                       }}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <ListItemText align="right" secondary="09:30"/>
+                        <ListItemText align="right" secondary={moment(message.createdDate).format('MMMM D YYYY, h:mm A')}/>
                     </Grid>
                 </Grid>
             </ListItem>
@@ -183,9 +185,15 @@ const Chat = () => {
 
     const PrintMessage = (message, index) => {
         if (message.sender.username === user.username) {
-            return RightMessage(message.content, index)
+            return RightMessage(message, index)
         } else {
-            return LeftMessage(message.content, index)
+            return LeftMessage(message, index)
+        }
+    }
+
+    const handleEnterKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            sendMessageHandler()
         }
     }
 
@@ -228,6 +236,7 @@ const Chat = () => {
                                 <Grid container style={{padding: '20px'}}>
                                     <Grid item xs={11}>
                                         <TextField
+                                            onKeyDown={handleEnterKeyDown}
                                             label="Type message"
                                             fullWidth
                                             autoComplete="off"

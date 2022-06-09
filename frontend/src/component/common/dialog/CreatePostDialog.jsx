@@ -5,27 +5,35 @@ import Dialog from '@mui/material/Dialog';
 import Button from "@mui/material/Button";
 import {DialogActions, DialogContent, TextField} from "@mui/material";
 import FileService from "../../../service/FileService";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {createPost} from "../../../redux/post/PostAction";
+import "../../../style/TextError.css"
 
 export default function CreatePostDialog(props) {
     const dispatch = useDispatch()
-    const {posts, totalElements} = useSelector(state => state.dataPosts)
 
     const [image, setImage] = useState("")
+    const [description, setDescription] = useState("")
+
     const [imageError, setImageError] = useState('')
-    const user = JSON.parse(localStorage.getItem("user"))
+    const [descriptionError, setDescriptionError] = useState("")
 
     const saveHandler = () => {
-        const request = {
-            userId: user.id,
-            image: image,
-            description: "empty"
+        if (image !== "") {
+            const request = {
+                userId: JSON.parse(localStorage.getItem("user")).id,
+                image: image,
+                description: description,
+            }
+            dispatch(createPost(request))
+                .then(() => {
+                    console.log("SUCCESS")
+                    props.close()
+                })
+        } else {
+            setImageError("Please, select your photo!")
+            setDescriptionError("Your description is so long")
         }
-        dispatch(createPost(request))
-            .then(() => {
-                console.log("SUCCESS")
-            })
     };
 
     const changeImageHandler = async (event) => {
@@ -33,7 +41,6 @@ export default function CreatePostDialog(props) {
         const base64 = await FileService.convertBase64(file);
         setImage(await FileService.convertBase64(file))
         setImageError('')
-
 
         const img = document.createElement("img");
         img.setAttribute("src", base64)
@@ -46,11 +53,7 @@ export default function CreatePostDialog(props) {
         if (image !== '') {
             return (
                 <div style={{textAlign: "center"}}>
-                    <img style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                    }}
-                         src={image} alt={"upload"}/>
+                    <img style={{maxWidth: "100%", height: "auto"}} src={image} alt={"upload"}/>
                 </div>
             )
         }
@@ -61,13 +64,17 @@ export default function CreatePostDialog(props) {
             <DialogTitle>Create a new post</DialogTitle>
             <DialogContent>
                 <Button variant="contained" component="label" style={{marginBottom: "10px"}}>
-                    Upload image<input type="file" hidden onChange={changeImageHandler}/>
+                    Upload image<input type="file" accept=".jpg, .jpeg, .png" hidden onChange={changeImageHandler}/>
                 </Button>
+                <p className="text-error"
+                   style={{visibility: imageError ? 'visible' : 'hidden'}}>{imageError}</p>
                 {ShowImage()}
                 <TextField
                     autoFocus
                     multiline
                     rows={4}
+                    error={descriptionError !== ''}
+                    helperText={descriptionError ? descriptionError : ''}
                     margin="dense"
                     label="Description (not optional)"
                     fullWidth
@@ -75,7 +82,7 @@ export default function CreatePostDialog(props) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.close}>Cancel</Button>
+                <Button onClick={props.close}>Close</Button>
                 <Button onClick={saveHandler}>Create</Button>
             </DialogActions>
         </Dialog>

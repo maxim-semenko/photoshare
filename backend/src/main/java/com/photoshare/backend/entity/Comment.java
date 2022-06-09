@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,12 +32,14 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     @Size(min = 1, max = 1024)
     private String content;
 
+    @CreatedDate
     private Date createdAt;
 
 }

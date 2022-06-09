@@ -121,6 +121,8 @@ export default function LoginPage() {
                     setShowError(true)
                     if (error.response.status === 404) {
                         setTextError("Error! Your account was not found. Try again.")
+                    } else if (error.response.status === 401) {
+                        setTextError("Error! Your username or password is not correct. Try again.")
                     }
                 })
         }

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
-import {Paper} from "@mui/material";
+import {CircularProgress, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
@@ -41,8 +41,7 @@ const paperStyle = {
 function ProfilePage() {
     const classes = useStyles();
     const dispatch = useDispatch()
-
-    const {posts, totalElements} = useSelector(state => state.dataPosts)
+    const {posts, loadingPosts, totalElements} = useSelector(state => state.dataPosts)
     const user = JSON.parse(localStorage.getItem("user"))
     const [openCreatePostDialog, setOpenCreatePostDialog] = useState(false);
 
@@ -58,9 +57,15 @@ function ProfilePage() {
         setOpenCreatePostDialog(false);
     };
 
+    const DisplayDialogs = () => {
+        if (openCreatePostDialog) {
+            return <CreatePostDialog open={openCreatePostDialog} close={handleClose}/>
+        }
+    }
+
     return (
         <div>
-            <CreatePostDialog open={openCreatePostDialog} close={handleClose}/>
+            {DisplayDialogs()}
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <HeaderComponent/>
@@ -86,7 +91,15 @@ function ProfilePage() {
                                         New post
                                     </Button>
                                     <div>
-                                        <PostListComponent xs={12} md={12} lg={4} postsList={posts} height={360}/>
+                                        {
+                                            loadingPosts ?
+                                                <Grid container spacing={3} direction="column" alignItems="center"
+                                                      style={{paddingTop: "3%"}}>
+                                                    <CircularProgress/>
+                                                </Grid>
+                                                :
+                                                <PostListComponent xs={12} md={12} lg={4} postsList={posts} height={360}/>
+                                        }
                                     </div>
                                 </Paper>
                             </Grid>

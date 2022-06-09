@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
-import {Paper} from "@mui/material";
+import {CircularProgress, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
@@ -82,7 +82,15 @@ function BookmarkPage() {
                                     alignItems="center"
                                     style={{paddingTop: "3%"}}
                                 >
-                                    <PostListComponent xs={12} md={12} lg={12} postsList={posts} height={600}/>
+                                    {
+                                        loading && posts.length === 0?
+                                            <Grid container spacing={3} direction="column" alignItems="center"
+                                                  style={{paddingTop: "3%"}}>
+                                                <CircularProgress/>
+                                            </Grid>
+                                            :
+                                            <PostListComponent xs={12} md={12} lg={12} postsList={posts} height={600}/>
+                                    }
                                 </Grid>
                             </Paper>
                         </Grid>
