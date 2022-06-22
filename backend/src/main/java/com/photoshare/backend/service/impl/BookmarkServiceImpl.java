@@ -3,7 +3,7 @@ package com.photoshare.backend.service.impl;
 import com.photoshare.backend.entity.Bookmark;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.entity.User;
-import com.photoshare.backend.exception.ResourseExistsException;
+import com.photoshare.backend.exception.ResourseAlreadyExistsException;
 import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.BookmarkRepository;
 import com.photoshare.backend.service.BookmarkService;
@@ -38,7 +38,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
         Optional<Bookmark> optionalBookmark = bookmarkRepository.findByPostAndUser(post, user);
         if (optionalBookmark.isPresent()) {
-            throw new ResourseExistsException("Bookmark exists already!");
+            throw new ResourseAlreadyExistsException("Bookmark exists already!");
         }
 
         Bookmark bookmark = new Bookmark();

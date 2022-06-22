@@ -31,7 +31,7 @@ public class MailController {
         this.mailService = mailService;
     }
 
-    @PostMapping("")
+    @PostMapping("/")
     @PreAuthorize("permitAll()")
     public ResponseEntity<Boolean> sendMessage(@Valid @RequestBody SendMessageRequest request) {
         return new ResponseEntity<>(mailService.performMessage(request), HttpStatus.OK);

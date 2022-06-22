@@ -10,6 +10,7 @@ const initialState = {
     totalElements: 0,
     totalPages: 0,
     numberOfElements: 0,
+    isOpenAbout: false,
 }
 
 const postReducers = (state = initialState, action = {}) => {
@@ -60,6 +61,12 @@ const postReducers = (state = initialState, action = {}) => {
             return {
                 ...state,
                 loadingPost: action.payload
+            }
+        case types.SET_IS_OPEN_ABOUT:
+            console.log("BBBBBBBBBBBBBBBb")
+            return {
+                ...state,
+                isOpenAbout: true
             }
         default:
             return state

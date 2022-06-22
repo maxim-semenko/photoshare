@@ -194,10 +194,10 @@ export default function LoginPage() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link to={"restore-password"} style={linkStyle}>Forgot password?</Link>
+                                <Link to={"/restore-password"} style={linkStyle}>Forgot password?</Link>
                             </Grid>
                             <Grid item>
-                                <Link to={"/register"} style={linkStyle}>{"Don't have an account? Sign Up"}</Link>
+                                <Link to={"/register"} style={linkStyle}>Don't have an account? Sign Up</Link>
                             </Grid>
                         </Grid>
                         <Box mt={5}>

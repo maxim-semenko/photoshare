@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
-public class ResourseExistsException extends RuntimeException {
-    public ResourseExistsException(String message) {
+public class ResourseAlreadyExistsException extends RuntimeException {
+    public ResourseAlreadyExistsException(String message) {
         super(message);
     }
 }

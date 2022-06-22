@@ -33,7 +33,7 @@ function DeleteAccountDialog(props) {
                             />
                         </Grid>
                         <Grid item alignItems="stretch" style={{display: "flex"}}>
-                            <Button color="success" variant="contained">Send</Button>
+                            <Button color="primary" variant="contained">Send</Button>
                         </Grid>
                     </Grid>
                     <TextField

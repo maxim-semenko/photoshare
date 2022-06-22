@@ -10,15 +10,17 @@ import image from '../../image/img.png'
 import moment from "moment-timezone";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useDispatch} from "react-redux";
-import {getPostById} from "../../redux/post/PostAction";
+import {getPostById, setIsOpenAbout} from "../../redux/post/PostAction";
 import PostActionCreateDeleteLike from "./PostActionCreateDeleteLike";
 import PostActionCreateDeleteBookmark from "./PostActionCreateDeleteBookmark";
 import RemovePostDialog from "./dialog/RemovePostDialog";
+import AboutPostDialog from "./dialog/AboutPostDialog";
 
 export default function PostComponent(props) {
     const user = JSON.parse(localStorage.getItem("user"))
     const dispatch = useDispatch()
     const [openRemovePostDialog, setOpenRemovePostDialog] = useState(false)
+    const [openAboutPostDialog, setOpenAboutPostDialog] = useState(false)
 
     const [isContainBookmark, setIsContainBookmark] = React.useState(false);
     const [isContainLike, setIsContainLike] = React.useState(false);
@@ -52,11 +54,23 @@ export default function PostComponent(props) {
         setOpenRemovePostDialog(true)
     }
 
+    const handleAboutPost = (id) => {
+        dispatch(getPostById(id))
+        dispatch(setIsOpenAbout(true))
+        setOpenAboutPostDialog(true)
+    }
+
     const DisplayDialogs = () => {
         if (openRemovePostDialog) {
             return <RemovePostDialog
                 open={openRemovePostDialog}
                 close={() => setOpenRemovePostDialog(false)}
+            />
+        }
+        if (openAboutPostDialog) {
+            return <AboutPostDialog
+                open={openAboutPostDialog}
+                close={() => setOpenAboutPostDialog(false)}
             />
         }
     }
@@ -75,7 +89,14 @@ export default function PostComponent(props) {
                         title={<b>{props.object.user.username}</b>}
                         subheader={moment(props.object.createdDate).format('MMMM D YYYY, h:mm A')}
             />
-            <CardMedia component="img" height={props.height} image={props.object.image} alt="post-image"/>
+            <CardMedia
+                component="img"
+                height={props.height}
+                image={props.object.image}
+                alt="post-image"
+                style={{cursor: "pointer"}}
+                onClick={() => handleAboutPost(props.object.id)}
+            />
             {/*<CardContent>*/}
             {/*    <Typography variant="body2" color="text.secondary">{props.object.description}</Typography>*/}
             {/*</CardContent>*/}

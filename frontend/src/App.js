@@ -17,6 +17,7 @@ import AccountPage from "./component/page/user/AccountPage";
 import AdminProfile from "./component/page/admin/AdminProfile";
 import AllUsersPage from "./component/page/admin/AllUsersPage";
 import AllFeedbacksPage from "./component/page/admin/AllFeedbacksPage";
+import RestorePasswordPage from "./component/page/auth/RestorePasswordPage";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/" element={<ProtectedRoute><NewsPage/></ProtectedRoute>}/>
                 <Route path="register" element={<ProtectedRoute><SignUpPage/></ProtectedRoute>}/>
                 <Route path="login" element={<ProtectedRoute><LoginPage/></ProtectedRoute>}/>
+                <Route path="restore-password" element={<RestorePasswordPage/>}/>
                 <Route path="profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
                 <Route path="account/:username" element={<ProtectedRoute><AccountPage/></ProtectedRoute>}/>
                 <Route path="edit" element={<ProtectedRoute><EditProfilePage/></ProtectedRoute>}/>

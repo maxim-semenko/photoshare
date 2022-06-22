@@ -8,6 +8,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Avatar from "@mui/material/Avatar";
 import image from "../../image/img.png";
+import {Link} from "react-router-dom";
 
 const Search = styled('div')(({theme}) => ({
     position: 'relative',
@@ -62,16 +63,18 @@ export default function HeaderComponent() {
                 </Typography>
                 <Box sx={{flexGrow: 1}}/>
                 <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon/>
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{'aria-label': 'search'}}
-                        />
-                    </Search>
-                    <Avatar alt="Remy Sharp" src={image}/>
+                    {/*<Search>*/}
+                    {/*    <SearchIconWrapper>*/}
+                    {/*        <SearchIcon/>*/}
+                    {/*    </SearchIconWrapper>*/}
+                    {/*    <StyledInputBase*/}
+                    {/*        placeholder="Search…"*/}
+                    {/*        inputProps={{'aria-label': 'search'}}*/}
+                    {/*    />*/}
+                    {/*</Search>*/}
+                    <Link to={"/profile"}>
+                        <Avatar alt="Remy Sharp" src={image}/>
+                    </Link>
                 </Box>
             </Toolbar>
         </AppBar>
