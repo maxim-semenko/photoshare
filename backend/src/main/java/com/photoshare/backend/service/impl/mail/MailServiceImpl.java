@@ -11,6 +11,7 @@ import com.photoshare.backend.repository.MailCodeRepository;
 import com.photoshare.backend.service.MailService;
 import com.photoshare.backend.service.impl.UserServiceImpl;
 import com.photoshare.backend.util.GeneratorUtil;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.Optional;
  * @version 1.0
  */
 @Service
+@AllArgsConstructor
 @Slf4j
 public class MailServiceImpl implements MailService {
 
@@ -32,19 +34,6 @@ public class MailServiceImpl implements MailService {
     private final MailTypeMessageServiceImpl mailTypeMessageService;
     private final MailMessageServiceImpl mailMessageService;
     private final MailCodeRepository mailCodeRepository;
-
-    @Autowired
-    public MailServiceImpl(SenderMailServiceImpl senderMailService,
-                           UserServiceImpl userService,
-                           MailTypeMessageServiceImpl mailTypeMessageService,
-                           MailMessageServiceImpl mailMessageService,
-                           MailCodeRepository mailCodeRepository) {
-        this.senderMailService = senderMailService;
-        this.userService = userService;
-        this.mailTypeMessageService = mailTypeMessageService;
-        this.mailMessageService = mailMessageService;
-        this.mailCodeRepository = mailCodeRepository;
-    }
 
     @Override
     public Boolean performMessage(SendMessageRequest requestSendMessageDTO) {

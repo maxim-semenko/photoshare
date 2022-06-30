@@ -4,7 +4,7 @@ import com.photoshare.backend.controller.dto.request.UpdatePasswordRequest;
 import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.controller.dto.response.UserResponse;
 import com.photoshare.backend.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,14 +22,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@AllArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
-
-    @Autowired
-    public UserController(UserServiceImpl userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
@@ -43,7 +39,7 @@ public class UserController {
         return new ResponseEntity<>(UserResponse.mapListUserToDTO(userService.findAll(pageable)), HttpStatus.OK);
     }
 
-    @GetMapping("/byUsername/{username}")
+    @GetMapping("/byUsername/{username}/all")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<UserResponse>> findAllUsersByUsername(Pageable pageable, @PathVariable String username) {
         return new ResponseEntity<>(
@@ -51,7 +47,13 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}/followers")
+    @GetMapping("/byUsername/{username}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<UserResponse> findUserByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(UserResponse.mapUserToDTO(userService.findByUsername(username)), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/followers")
     @PreAuthorize("permitAll()")
     public ResponseEntity<Page<UserResponse>> findAllFollowersByUserId(@PathVariable Long id, Pageable pageable) {
         return new ResponseEntity<>(
@@ -59,7 +61,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}/followings")
+    @GetMapping("/{id}/followings")
     @PreAuthorize("permitAll()")
     public ResponseEntity<Page<UserResponse>> findAllFollowingsByUserId(@PathVariable Long id, Pageable pageable) {
         return new ResponseEntity<>(

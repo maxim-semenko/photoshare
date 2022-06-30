@@ -16,20 +16,11 @@ const ExpandMore = styled((props) => {
 
 function PostActionCreateDeleteBookmark(props) {
     const user = JSON.parse(localStorage.getItem("user"))
-    const [isContainBookmark, setIsContainBookmark] = React.useState(false);
+    const [isContainBookmark, setIsContainBookmark] = React.useState(null);
 
     useEffect(() => {
-        setIsContainBookmark(checkBookmark(props.post.bookmarks, user.id))
-    }, [props.post.bookmarks, user.id])
-
-    const checkBookmark = (bookmarks, userId) => {
-        for (let key in bookmarks) {
-            if (bookmarks[key].user.id === userId) {
-                return true
-            }
-        }
-        return false
-    }
+        setIsContainBookmark(props.isContain)
+    }, [])
 
     const addBookmark = (postId, userId) => {
         setIsContainBookmark(true)
@@ -57,12 +48,17 @@ function PostActionCreateDeleteBookmark(props) {
 
     return (
         <ExpandMore>
-            <StarIcon
-                style={isContainBookmark ? {fill: "#ffe900"} : null}
-                onClick={isContainBookmark ?
-                    () => deleteBookmark(props.post.id, user.id) :
-                    () => addBookmark(props.post.id, user.id)}
-            />
+            {
+                isContainBookmark !== null ?
+                    <StarIcon
+                        style={isContainBookmark ? {fill: "#ffe900"} : null}
+                        onClick={isContainBookmark ?
+                            () => deleteBookmark(props.post.id, user.id) :
+                            () => addBookmark(props.post.id, user.id)}
+                    />
+                    :
+                    null
+            }
         </ExpandMore>
     )
 }

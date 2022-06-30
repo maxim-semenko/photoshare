@@ -14,6 +14,7 @@ import UserService from "../../../service/UserService";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Avatar from "@mui/material/Avatar";
+import {Link} from "react-router-dom";
 
 
 const Search = styled('div')(({theme}) => ({
@@ -69,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchPage() {
     const classes = useStyles();
+    const currentUser = JSON.parse(localStorage.getItem("user"))
     const [username, setUsername] = useState('')
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
@@ -107,14 +109,22 @@ function SearchPage() {
                     {
                         users.map((user, index) => {
                             return (
-                                <ListItem key={index} disablePadding>
-                                    <ListItemButton>
-                                        <ListItemAvatar>
-                                            <Avatar src={user.image}/>
-                                        </ListItemAvatar>
-                                        <ListItemText primary={user.username}/>
-                                    </ListItemButton>
-                                </ListItem>
+                                <Link
+                                    to={currentUser.username === user.username ?
+                                        `/profile` :
+                                        `/account/${user.username}`
+                                    }
+                                    style={{textDecoration: "none", color: "black"}}
+                                >
+                                    <ListItem key={index} disablePadding>
+                                        <ListItemButton>
+                                            <ListItemAvatar>
+                                                <Avatar src={user.image}/>
+                                            </ListItemAvatar>
+                                            <ListItemText primary={user.username}/>
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Link>
                             )
                         })
                     }

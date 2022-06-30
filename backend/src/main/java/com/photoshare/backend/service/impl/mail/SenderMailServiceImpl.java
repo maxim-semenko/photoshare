@@ -1,8 +1,8 @@
 package com.photoshare.backend.service.impl.mail;
 
 import com.photoshare.backend.service.SenderMailService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,14 +15,11 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
+@AllArgsConstructor
 @Slf4j
 public class SenderMailServiceImpl implements SenderMailService {
-    private final JavaMailSender mailSender;
 
-    @Autowired
-    public SenderMailServiceImpl(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+    private final JavaMailSender mailSender;
 
     @Override
     public void sendMessage(String emailTo, String subject, String message) {

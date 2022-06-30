@@ -10,7 +10,6 @@ const initialState = {
     totalElements: 0,
     totalPages: 0,
     numberOfElements: 0,
-    isOpenAbout: false,
 }
 
 const postReducers = (state = initialState, action = {}) => {
@@ -26,9 +25,7 @@ const postReducers = (state = initialState, action = {}) => {
             }
         case types.GET_POST_BY_ID:
             return {
-                ...state,
-                post: action.payload,
-                loadingPost: false,
+                ...state, post: action.payload, loadingPost: false,
             }
         case types.CREATE_POST:
             return {
@@ -44,29 +41,19 @@ const postReducers = (state = initialState, action = {}) => {
             }
         case types.SET_CURRENT_PAGE_POST:
             return {
-                ...state,
-                currentPage: action.payload
+                ...state, currentPage: action.payload
             }
         case types.SET_SIZE_PAGE_POST:
             return {
-                ...state,
-                sizePage: action.payload
+                ...state, sizePage: action.payload
             }
         case types.SET_LOADING_POSTS:
             return {
-                ...state,
-                loadingPosts: action.payload
+                ...state, loadingPosts: action.payload
             }
         case types.SET_LOADING_POST:
             return {
-                ...state,
-                loadingPost: action.payload
-            }
-        case types.SET_IS_OPEN_ABOUT:
-            console.log("BBBBBBBBBBBBBBBb")
-            return {
-                ...state,
-                isOpenAbout: true
+                ...state, loadingPost: action.payload
             }
         default:
             return state

@@ -4,7 +4,7 @@ import PostComponent from "./PostComponent";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {CircularProgress} from "@mui/material";
 
-export default function VirtualizedListComponent(props) {
+export default function VirtualizedListOneItemComponent(props) {
     return (
         <div>
             <InfiniteScroll
@@ -15,8 +15,8 @@ export default function VirtualizedListComponent(props) {
             >
                 {
                     props.list.map(item => (
-                        <ListItem component="div" disablePadding>
-                            <div style={{width: "70%"}}>
+                        <ListItem component="div">
+                            <div style={{width: "70%", paddingBottom: "1%"}}>
                                 <PostComponent object={item} height={500}/>
                             </div>
                         </ListItem>

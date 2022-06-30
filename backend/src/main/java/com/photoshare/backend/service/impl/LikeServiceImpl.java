@@ -6,27 +6,20 @@ import com.photoshare.backend.entity.User;
 import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.LikeRepository;
 import com.photoshare.backend.service.LikeService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@AllArgsConstructor
 @Slf4j
 public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository likeRepository;
     private final UserServiceImpl userService;
     private final PostServiceImpl postService;
-
-    @Autowired
-    public LikeServiceImpl(LikeRepository likeRepository,
-                           UserServiceImpl userService,
-                           PostServiceImpl postService) {
-        this.likeRepository = likeRepository;
-        this.userService = userService;
-        this.postService = postService;
-    }
 
     @Override
     public Like save(Long postId, Long userId) {

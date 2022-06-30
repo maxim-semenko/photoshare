@@ -6,8 +6,16 @@ const cookies = new Cookies();
 
 class UserService {
 
-    async getAllByUsername(username, page = 0, size = 0) {
+    async getUserByUsername(username) {
         return axios.get(`${API_URL}/byUsername/${username}`, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
+    async getAllByUsername(username, page = 0, size = 0) {
+        return axios.get(`${API_URL}/byUsername/${username}/all`, {
             params: {
                 sort: 'username,asc',
                 page: page,
@@ -20,7 +28,7 @@ class UserService {
     }
 
     async getAllFollowersByUserId(userId, page = 0, size = 0) {
-        return axios.get(`${API_URL}/users/${userId}/followers`, {
+        return axios.get(`${API_URL}/${userId}/followers`, {
             params: {
                 sort: 'username,asc',
                 page: page,
@@ -33,7 +41,7 @@ class UserService {
     }
 
     async getAllFollowingsByUserId(userId, page = 0, size = 0) {
-        return axios.get(`${API_URL}/users/${userId}/followings`, {
+        return axios.get(`${API_URL}/${userId}/followings`, {
             params: {
                 sort: 'username,asc',
                 page: page,

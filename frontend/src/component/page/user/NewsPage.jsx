@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from "@mui/material/Box";
-import {CircularProgress} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import {makeStyles} from "@mui/styles";
-import HeaderComponent from "../../../common/HeaderComponent";
-import DrawerComponent from "../../../common/DrawerComponent";
-import PostService from "../../../../service/PostService";
-import VirtualizedListComponent from "../../../common/VirtualizedListComponent";
-import {useDispatch} from "react-redux";
+import HeaderComponent from "../../common/HeaderComponent";
+import DrawerComponent from "../../common/DrawerComponent";
+import PostService from "../../../service/PostService";
+import VirtualizedListOneItemComponent from "../../common/VirtualizedListOneItemComponent";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -55,23 +53,28 @@ function NewsPage() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Grid
-                                container
-                                spacing={3}
-                                direction="column"
-                                style={{paddingTop: "2%", paddingLeft: "21%"}}
-                            >
+                    {
+                        posts.length !== 0 ?
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Grid
+                                        container
+                                        spacing={3}
+                                        direction="column"
+                                        style={{paddingTop: "2%", paddingLeft: "23%"}}
+                                    >
 
-                                <VirtualizedListComponent
-                                    list={posts}
-                                    scrollEvent={() => setCurrentPage(prevState => prevState + 1)}
-                                    hasNext={posts.length < totalElements}
-                                />
+                                        <VirtualizedListOneItemComponent
+                                            list={posts}
+                                            scrollEvent={() => setCurrentPage(prevState => prevState + 1)}
+                                            hasNext={posts.length < totalElements}
+                                        />
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Grid>
+                            :
+                            null
+                    }
                 </Container>
             </main>
         </Box>

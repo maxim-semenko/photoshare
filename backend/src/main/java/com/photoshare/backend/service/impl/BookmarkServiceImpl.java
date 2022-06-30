@@ -7,6 +7,7 @@ import com.photoshare.backend.exception.ResourseAlreadyExistsException;
 import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.BookmarkRepository;
 import com.photoshare.backend.service.BookmarkService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,20 +16,12 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BookmarkServiceImpl implements BookmarkService {
 
     private final BookmarkRepository bookmarkRepository;
     private final UserServiceImpl userService;
     private final PostServiceImpl postService;
-
-    @Autowired
-    public BookmarkServiceImpl(BookmarkRepository bookmarkRepository,
-                               UserServiceImpl userService,
-                               PostServiceImpl postService) {
-        this.bookmarkRepository = bookmarkRepository;
-        this.userService = userService;
-        this.postService = postService;
-    }
 
     @Transactional
     @Override

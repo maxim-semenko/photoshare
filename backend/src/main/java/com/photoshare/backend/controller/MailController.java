@@ -3,6 +3,7 @@ package com.photoshare.backend.controller;
 
 import com.photoshare.backend.controller.dto.request.SendMessageRequest;
 import com.photoshare.backend.service.impl.mail.MailServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,10 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/v1/mail")
+@AllArgsConstructor
 public class MailController {
 
     private final MailServiceImpl mailService;
-
-    @Autowired
-    public MailController(MailServiceImpl mailService) {
-        this.mailService = mailService;
-    }
 
     @PostMapping("/")
     @PreAuthorize("permitAll()")

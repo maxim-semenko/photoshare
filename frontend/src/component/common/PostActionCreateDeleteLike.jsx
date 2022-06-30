@@ -6,22 +6,13 @@ import LikeService from "../../service/LikeService";
 
 function PostActionCreateDeleteLike(props) {
     const user = JSON.parse(localStorage.getItem("user"))
-    const [isContainLike, setIsContainLike] = React.useState(false);
+    const [isContainLike, setIsContainLike] = React.useState(null);
     const [countLikes, setCountLikes] = React.useState(0);
 
     useEffect(() => {
-        setIsContainLike(checkLike(props.post.likes, user.id))
+        setIsContainLike(props.isContain)
         setCountLikes(props.post.likes.length)
-    }, [props.post.likes, user.id])
-
-    const checkLike = (likes, userId) => {
-        for (let key in likes) {
-            if (likes[key].user.id === userId) {
-                return true
-            }
-        }
-        return false
-    }
+    }, [])
 
     const addLike = (postId, userId) => {
         setIsContainLike(true)
@@ -53,13 +44,19 @@ function PostActionCreateDeleteLike(props) {
 
     return (
         <IconButton aria-label="add to favorites">
-            <Badge badgeContent={countLikes === 0 ? '0' : countLikes} color="primary">
-                <FavoriteIcon style={isContainLike ? {fill: "red"} : null}
-                              onClick={isContainLike ?
-                                  () => deleteLike(props.post.id, user.id) :
-                                  () => addLike(props.post.id, user.id)}
-                />
-            </Badge>
+            {
+                isContainLike !== null ?
+                    <Badge badgeContent={countLikes === 0 ? '0' : countLikes} color="primary">
+                        <FavoriteIcon style={isContainLike ? {fill: "red"} : null}
+                                      onClick={isContainLike ?
+                                          () => deleteLike(props.post.id, user.id) :
+                                          () => addLike(props.post.id, user.id)}
+                        />
+                    </Badge>
+                    :
+                    null
+            }
+
         </IconButton>)
 }
 

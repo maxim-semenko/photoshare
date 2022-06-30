@@ -41,11 +41,6 @@ export const setLoadingPost = (loading) => ({
     payload: loading
 })
 
-export const setIsOpenAbout = (open) => ({
-    type: types.SET_IS_OPEN_ABOUT,
-    payload: open
-})
-
 //============================================ Axios requests ==========================================================
 
 export const getAllPostsByUserId = (userId, currentPage = 0, sizePage = 0) => {

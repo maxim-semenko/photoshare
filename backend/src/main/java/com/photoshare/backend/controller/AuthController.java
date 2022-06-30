@@ -5,6 +5,7 @@ import com.photoshare.backend.controller.dto.request.RegisterRequest;
 import com.photoshare.backend.controller.dto.response.JwtResponse;
 import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.service.impl.AuthServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +19,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@AllArgsConstructor
 public class AuthController {
 
     private final AuthServiceImpl authService;
-
-    @Autowired
-    public AuthController(AuthServiceImpl authService) {
-        this.authService = authService;
-    }
 
     @PostMapping("/register")
     @PreAuthorize("permitAll()")

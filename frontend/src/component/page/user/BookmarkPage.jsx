@@ -7,7 +7,7 @@ import {makeStyles} from "@mui/styles";
 import HeaderComponent from "../../common/HeaderComponent";
 import DrawerComponent from "../../common/DrawerComponent";
 import PostService from "../../../service/PostService";
-import VirtualizedListComponent from "../../common/VirtualizedListComponent";
+import VirtualizedListOneItemComponent from "../../common/VirtualizedListOneItemComponent";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,13 +37,12 @@ function BookmarkPage() {
     const [totalElements, setTotalElements] = useState(2)
 
     useEffect(() => {
-        if (posts.length < totalElements) {
             PostService.getAllBookmarkPostsByUserId(user.id, currentPage, 2)
                 .then(response => {
                     setTotalElements(response.data.totalElements)
+                    console.log(response.data)
                     setPosts([...posts, ...response.data.content])
                 })
-        }
     }, [currentPage])
 
     return (
@@ -54,22 +53,27 @@ function BookmarkPage() {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={12} lg={12}>
-                            <Grid
-                                container
-                                spacing={3}
-                                direction="column"
-                                style={{paddingTop: "2%", paddingLeft: "21%"}}
-                            >
-                                <VirtualizedListComponent
-                                    list={posts}
-                                    scrollEvent={() => setCurrentPage(prevState => prevState + 1)}
-                                    hasNext={posts.length < totalElements}
-                                />
+                    {
+                        posts.length !== 0 ?
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <Grid
+                                        container
+                                        spacing={3}
+                                        direction="column"
+                                        style={{paddingTop: "2%", paddingLeft: "23%"}}
+                                    >
+                                        <VirtualizedListOneItemComponent
+                                            list={posts}
+                                            scrollEvent={() => setCurrentPage(prevState => prevState + 1)}
+                                            hasNext={posts.length < totalElements}
+                                        />
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Grid>
+                            :
+                            null
+                    }
                 </Container>
             </main>
         </Box>

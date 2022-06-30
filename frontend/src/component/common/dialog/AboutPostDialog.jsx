@@ -7,15 +7,13 @@ import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import image from "../../../image/img.png";
 import moment from "moment-timezone";
-import CardActions from "@mui/material/CardActions";
 import Card from "@mui/material/Card";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import CloseIcon from '@mui/icons-material/Close';
-import PostActionCreateDeleteLike from "../PostActionCreateDeleteLike";
-import PostActionCreateDeleteBookmark from "../PostActionCreateDeleteBookmark";
+import CommentsPostComponent from "../CommentsPostComponent";
 
 function AboutPostDialog(props) {
 
@@ -62,6 +60,7 @@ function AboutPostDialog(props) {
                                     <Typography variant="body2" color="text.secondary">{post.description}</Typography>
                                 </CardContent>
                             </Card>
+                            <CommentsPostComponent/>
                         </div>
                 }
             </DialogContent>

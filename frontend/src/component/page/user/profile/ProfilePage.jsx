@@ -77,8 +77,8 @@ function ProfilePage() {
                             <Grid item xs={12} md={12} lg={12}>
                                 <Paper style={paperStyle}>
                                     <Grid container spacing={3}>
-                                        <ImageProfile/>
-                                        <AboutProfile totalPosts={totalElements}/>
+                                        <ImageProfile user={user}/>
+                                        <AboutProfile totalPosts={totalElements} user={user}/>
                                     </Grid>
                                     <br/>
                                     <b>All posts:</b>
@@ -98,7 +98,8 @@ function ProfilePage() {
                                                     <CircularProgress/>
                                                 </Grid>
                                                 :
-                                                <PostListComponent xs={12} md={12} lg={4} postsList={posts} height={360}/>
+                                                <PostListComponent xs={12} md={12} lg={4} postsList={posts}
+                                                                   height={360}/>
                                         }
                                     </div>
                                 </Paper>

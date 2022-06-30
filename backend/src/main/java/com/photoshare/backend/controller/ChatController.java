@@ -2,6 +2,7 @@ package com.photoshare.backend.controller;
 
 import com.photoshare.backend.entity.chat.ChatMessage;
 import com.photoshare.backend.service.impl.ChatServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -11,14 +12,10 @@ import org.springframework.stereotype.Controller;
 import java.util.Objects;
 
 @Controller
+@AllArgsConstructor
 public class ChatController {
 
     private final ChatServiceImpl chatService;
-
-    @Autowired
-    public ChatController(ChatServiceImpl chatService) {
-        this.chatService = chatService;
-    }
 
     @MessageMapping("/chat/addUser")
     public String addUser(@Payload String username, SimpMessageHeaderAccessor headerAccessor) {

@@ -6,6 +6,7 @@ import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.entity.User;
 import com.photoshare.backend.repository.CommentRepository;
 import com.photoshare.backend.service.CommentService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,21 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
+@AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostServiceImpl postService;
     private final UserServiceImpl userService;
-
-    @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository,
-                              PostServiceImpl postService,
-                              UserServiceImpl userService) {
-        this.commentRepository = commentRepository;
-        this.postService = postService;
-        this.userService = userService;
-    }
-
 
     @Override
     public Comment save(CreateCommentRequest request) {

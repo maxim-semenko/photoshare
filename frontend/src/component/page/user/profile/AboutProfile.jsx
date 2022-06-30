@@ -15,19 +15,18 @@ const Item = styled(Button)(({theme}) => ({
 }));
 
 function AboutProfile(props) {
-    const user = JSON.parse(localStorage.getItem("user"))
     const [followersList, setFollowersList] = useState([])
     const [followingsList, setFollowingsList] = useState([])
     const [openAllFollowersDialog, setOpenAllFollowersDialog] = useState(false)
     const [openAllFollowingDialog, setOpenAllFollowingDialog] = useState(false)
 
     useEffect(() => {
-        UserService.getAllFollowersByUserId(user.id)
+        UserService.getAllFollowersByUserId(props.user.id)
             .then(response => {
                 console.log(response.data)
                 setFollowersList(response.data.content)
             })
-        UserService.getAllFollowingsByUserId(user.id)
+        UserService.getAllFollowingsByUserId(props.user.id)
             .then(response => {
                 console.log(response.data)
                 setFollowingsList(response.data.content)
@@ -62,7 +61,7 @@ function AboutProfile(props) {
                 close={handleCloseAllFollowingsDialog}
                 data={followingsList}
             />
-            <b>{user.firstname} {user.lastname} ({user.username})</b>
+            <b>{props.user.firstname} {props.user.lastname} ({props.user.username})</b>
             <Divider/>
             <Stack
                 direction="row"
@@ -73,7 +72,7 @@ function AboutProfile(props) {
                 <Item onClick={handleOpenAllFollowersDialog}>Followers {followersList.length}</Item>
                 <Item onClick={handleOpenAllFollowingDialog}>Following {followingsList.length}</Item>
             </Stack>
-            <b>{user.about}</b>
+            <b>{props.user.about}</b>
         </Grid>
     );
 }

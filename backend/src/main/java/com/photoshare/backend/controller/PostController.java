@@ -3,6 +3,7 @@ package com.photoshare.backend.controller;
 import com.photoshare.backend.controller.dto.request.CreatePostRequest;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.service.impl.PostServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,14 +22,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/posts")
+@AllArgsConstructor
 public class PostController {
 
     private final PostServiceImpl postService;
-
-    @Autowired
-    public PostController(PostServiceImpl postService) {
-        this.postService = postService;
-    }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")

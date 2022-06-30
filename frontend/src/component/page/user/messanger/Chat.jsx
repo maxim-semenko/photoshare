@@ -171,7 +171,8 @@ const Chat = () => {
                                       }}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <ListItemText align="right" secondary={moment(message.createdDate).format('MMMM D YYYY, h:mm A')}/>
+                        <ListItemText align="right"
+                                      secondary={moment(message.createdDate).format('MMMM D YYYY, h:mm A')}/>
                     </Grid>
                 </Grid>
             </ListItem>

@@ -21,7 +21,7 @@ import com.photoshare.backend.repository.UserRepository;
 import com.photoshare.backend.security.JwtUtils;
 import com.photoshare.backend.service.AuthService;
 import com.photoshare.backend.service.impl.mail.MailTypeMessageServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,32 +34,16 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    AuthenticationManager authenticationManager;
-    UserRepository userRepository;
-    RoleRepository roleRepository;
-    PasswordEncoder passwordEncoder;
-    JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
     private final MailTypeMessageServiceImpl mailTypeMessageService;
     private final MailCodeRepository mailCodeRepository;
-
-    @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager,
-                           UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder,
-                           JwtUtils jwtUtils,
-                           MailTypeMessageServiceImpl mailTypeMessageService,
-                           MailCodeRepository mailCodeRepository) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtils = jwtUtils;
-        this.mailTypeMessageService = mailTypeMessageService;
-        this.mailCodeRepository = mailCodeRepository;
-    }
 
     @Override
     public MessageResponse register(RegisterRequest request) {
