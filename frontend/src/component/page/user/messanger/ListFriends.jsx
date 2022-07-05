@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from "@mui/styles";
 import {ListItem, ListItemIcon, ListItemText} from "@mui/material";
 import {FixedSizeList} from "react-window";
@@ -18,18 +18,23 @@ const currentUser = JSON.parse(localStorage.getItem("user"))
 
 function ListFriends(props) {
     const classes = useStyles();
+    const [selectedId, setSelectedId] = useState(0)
 
 
     function renderRow({data, index, style}) {
         const user = data[index];
         return (
             <ListItem button style={style} key={index}
-                      onClick={() => props.getChatRoom(currentUser.id, user.following.id)}>
+                      onClick={() => {
+                          props.getChatRoom(currentUser.id, user.id);
+                          setSelectedId(user.id)
+                      }}>
                 <ListItemIcon>
-                    <Avatar alt={user.following.username}
-                            src={user.following.image}/>
+                    <Avatar alt={user.username} src={user.image}/>
                 </ListItemIcon>
-                <ListItemText primary={user.following.username}/>
+                <ListItemText primary={
+                    selectedId === user.id ? (user.username + ' (selected)') : user.username
+                }/>
             </ListItem>
         );
     }

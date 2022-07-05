@@ -10,6 +10,8 @@ public interface UserService {
 
     Page<User> findAll(Pageable pageable);
 
+    User findById(Long id);
+
     User findByUsername(String username);
 
     User findByEmail(String email);
@@ -19,8 +21,6 @@ public interface UserService {
     Page<User> findAllFollowersByUserId(Pageable pageable, Long userId);
 
     Page<User> findAllFollowingsByUserId(Pageable pageable, Long userId);
-
-    User findById(Long id);
 
     MessageResponse deleteById(Long id);
 

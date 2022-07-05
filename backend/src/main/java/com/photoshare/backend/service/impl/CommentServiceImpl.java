@@ -4,10 +4,10 @@ import com.photoshare.backend.controller.dto.request.CreateCommentRequest;
 import com.photoshare.backend.entity.Comment;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.entity.User;
+import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.CommentRepository;
 import com.photoshare.backend.service.CommentService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -38,7 +38,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment delete(Long postId, Long userId) {
-        return null;
+        Post post = postService.findById(postId);
+        User user = userService.findById(userId);
+
+        Comment comment = commentRepository.findByPostAndUser(post, user)
+                .orElseThrow(() -> new ResourseNotFoundException("Comment not found!"));
+
+        commentRepository.delete(comment);
+
+        return comment;
     }
 
     @Override

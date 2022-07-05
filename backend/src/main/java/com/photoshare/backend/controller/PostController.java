@@ -4,6 +4,7 @@ import com.photoshare.backend.controller.dto.request.CreatePostRequest;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.service.impl.PostServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/posts")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostController {
 
     private final PostServiceImpl postService;

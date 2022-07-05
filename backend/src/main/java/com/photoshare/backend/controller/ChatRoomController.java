@@ -4,6 +4,7 @@ import com.photoshare.backend.entity.chat.ChatMessage;
 import com.photoshare.backend.entity.chat.ChatRoom;
 import com.photoshare.backend.service.impl.ChatRoomServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/chat-rooms")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ChatRoomController {
 
     private final ChatRoomServiceImpl chatRoomService;

@@ -3,6 +3,7 @@ package com.photoshare.backend.controller;
 import com.photoshare.backend.entity.Bookmark;
 import com.photoshare.backend.service.impl.BookmarkServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/bookmarks")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookmarkController {
 
     private final BookmarkServiceImpl bookmarkService;

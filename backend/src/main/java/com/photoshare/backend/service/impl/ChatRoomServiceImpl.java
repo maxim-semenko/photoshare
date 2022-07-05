@@ -7,6 +7,7 @@ import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.ChatMessageRepository;
 import com.photoshare.backend.repository.ChatRoomRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ChatRoomServiceImpl {
 
     private final ChatRoomRepository chatRoomRepository;

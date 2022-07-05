@@ -2,6 +2,7 @@ package com.photoshare.backend.service.impl.mail;
 
 import com.photoshare.backend.service.SenderMailService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @version 1.0
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class SenderMailServiceImpl implements SenderMailService {
 

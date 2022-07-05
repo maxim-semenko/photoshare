@@ -4,6 +4,7 @@ import com.photoshare.backend.controller.dto.request.CreateCommentRequest;
 import com.photoshare.backend.entity.Comment;
 import com.photoshare.backend.service.impl.CommentServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/comments")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentController {
 
     private final CommentServiceImpl commentService;

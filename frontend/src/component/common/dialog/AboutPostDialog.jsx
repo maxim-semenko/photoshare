@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {CardContent, CircularProgress, DialogContent} from "@mui/material";
 import Box from "@mui/material/Box";
@@ -16,14 +16,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import CommentsPostComponent from "../CommentsPostComponent";
 
 function AboutPostDialog(props) {
-
     const dispatch = useDispatch()
     const {post, loadingPost} = useSelector(state => state.dataPosts)
     const user = JSON.parse(localStorage.getItem("user"))
-
-    useEffect(() => {
-        // var clone = element.cloneNode(true);
-    }, [])
 
     return (
         <Dialog open={props.open} onClose={props.close} fullWidth maxWidth="lg">
@@ -60,7 +55,7 @@ function AboutPostDialog(props) {
                                     <Typography variant="body2" color="text.secondary">{post.description}</Typography>
                                 </CardContent>
                             </Card>
-                            <CommentsPostComponent/>
+                            <CommentsPostComponent postId={post.id}/>
                         </div>
                 }
             </DialogContent>

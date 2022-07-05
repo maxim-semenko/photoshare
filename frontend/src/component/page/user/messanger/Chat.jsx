@@ -14,6 +14,7 @@ import SockJS from "sockjs-client";
 import {over} from "stompjs";
 import ListFriends from "./ListFriends";
 import moment from "moment-timezone";
+import UserService from "../../../../service/UserService";
 
 const useStyles = makeStyles({
     table: {
@@ -50,11 +51,17 @@ const Chat = () => {
 
     useEffect(() => {
         connect()
-        SubscribeService.getAllByUserId(user.id)
+        UserService.getAllFollowingsByUserId(user.id)
             .then(response => {
+                console.log(response.data)
                 setUsers(response.data.content)
                 setContainerUsers(response.data.content)
             })
+        // SubscribeService.getAllByUserId(user.id)
+        //     .then(response => {
+        //         setUsers(response.data.content)
+        //         setContainerUsers(response.data.content)
+        //     })
     }, [])
 
     useEffect(() => {
@@ -109,7 +116,6 @@ const Chat = () => {
                 ChatRoomService.getHistory(responseChatRoom.data.id)
                     .then(responseMessages => {
                         setMessages(responseMessages.data)
-                        console.log("AAAA")
                     })
             })
     }
@@ -124,7 +130,7 @@ const Chat = () => {
             setUsers(containerUsers);
         } else {
             const filterUserList = containerUsers.filter(user => {
-                return user.following.username.toLowerCase().includes(value.toLowerCase())
+                return user.username.toLowerCase().includes(value.toLowerCase())
             })
             setUsers(filterUserList)
         }

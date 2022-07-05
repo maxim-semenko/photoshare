@@ -69,7 +69,10 @@ public class User extends BaseEntity {
 
     @NotNull
     @CreatedDate
-    private Date registerDate = new Date();
+    private Date registerDate;
+
+//    @NotNull !!
+    private Boolean isAccountNonLocked = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore

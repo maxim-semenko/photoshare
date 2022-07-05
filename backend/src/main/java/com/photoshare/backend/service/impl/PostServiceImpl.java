@@ -6,16 +6,16 @@ import com.photoshare.backend.entity.User;
 import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.PostRepository;
 import com.photoshare.backend.service.PostService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -58,6 +58,7 @@ public class PostServiceImpl implements PostService {
         return postRepository.findAllByUserBookmarks(pageable, user);
     }
 
+    @Transactional
     @Override
     public Post deleteById(Long id) {
         Post post = findById(id);

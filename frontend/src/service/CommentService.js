@@ -16,7 +16,7 @@ class CommentService {
     async getAllCommentsByPostId(postId, page = 0, size = 0) {
         return axios.get(`${API_URL}/posts/${postId}`, {
             params: {
-                sort: 'createdDate,desc',
+                sort: 'createdAt,desc',
                 page: page,
                 size: size,
             },
@@ -39,8 +39,8 @@ class CommentService {
         })
     }
 
-    async deleteCommentById(id) {
-        return axios.delete(`${API_URL}/${id}`, {
+    async deleteCommentByCommentIdAndUserId(commentId, userId) {
+        return axios.delete(`${API_URL}/${commentId}/users/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${cookies.get("token")}`,
             }

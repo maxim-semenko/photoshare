@@ -5,6 +5,7 @@ import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.controller.dto.response.UserResponse;
 import com.photoshare.backend.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,19 +23,19 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserServiceImpl userService;
 
     @GetMapping("/{id}")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserResponse> findUserById(@PathVariable Long id) {
         return new ResponseEntity<>(UserResponse.mapUserToDTO(userService.findById(id)), HttpStatus.OK);
     }
 
     @GetMapping("/")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<UserResponse>> findAllUsers(Pageable pageable) {
         return new ResponseEntity<>(UserResponse.mapListUserToDTO(userService.findAll(pageable)), HttpStatus.OK);
     }
@@ -54,7 +55,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/followers")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<UserResponse>> findAllFollowersByUserId(@PathVariable Long id, Pageable pageable) {
         return new ResponseEntity<>(
                 UserResponse.mapListUserToDTO(userService.findAllFollowersByUserId(pageable, id)),
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/followings")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<UserResponse>> findAllFollowingsByUserId(@PathVariable Long id, Pageable pageable) {
         return new ResponseEntity<>(
                 UserResponse.mapListUserToDTO(userService.findAllFollowingsByUserId(pageable, id)),

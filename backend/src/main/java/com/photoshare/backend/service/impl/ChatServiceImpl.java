@@ -4,11 +4,12 @@ import com.photoshare.backend.entity.chat.ChatMessage;
 import com.photoshare.backend.repository.ChatMessageRepository;
 import com.photoshare.backend.service.ChatService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
