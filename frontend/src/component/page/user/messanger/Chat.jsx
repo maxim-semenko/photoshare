@@ -8,7 +8,6 @@ import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import SendIcon from '@mui/icons-material/Send';
 import image from "../../../../image/img.png";
-import SubscribeService from "../../../../service/SubscribeService";
 import ChatRoomService from "../../../../service/ChatRoomService";
 import SockJS from "sockjs-client";
 import {over} from "stompjs";
@@ -45,9 +44,12 @@ const Chat = () => {
     const [containerUsers, setContainerUsers] = useState([])
     const [currentChatRoom, setCurrentChatRoom] = useState(null)
     const [messages, setMessages] = useState([])
-    const [currentText, setCurrentText] = useState("")
     const [connected, setConnected] = useState(false)
     const chatRef = useRef(null);
+
+
+    const messageInputRef = useRef(null);
+
 
     useEffect(() => {
         connect()
@@ -57,11 +59,7 @@ const Chat = () => {
                 setUsers(response.data.content)
                 setContainerUsers(response.data.content)
             })
-        // SubscribeService.getAllByUserId(user.id)
-        //     .then(response => {
-        //         setUsers(response.data.content)
-        //         setContainerUsers(response.data.content)
-        //     })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -95,17 +93,20 @@ const Chat = () => {
 
     const sendMessageHandler = () => {
         if (stompClient !== null) {
-            const chatMessage = {
-                chatRoom: currentChatRoom,
-                chatCode: currentChatRoom.chatCode,
-                sender: currentChatRoom.sender,
-                recipient: currentChatRoom.recipient,
-                content: currentText,
-                createdDate: new Date(),
-            };
-            setMessages([...messages, chatMessage])
-            stompClient.send("/app/send-message", {}, JSON.stringify(chatMessage));
-            setCurrentText("")
+            let textMessage = messageInputRef.current.value
+            if (textMessage.length > 0 && textMessage.length < 2049) {
+                const chatMessage = {
+                    chatRoom: currentChatRoom,
+                    chatCode: currentChatRoom.chatCode,
+                    sender: currentChatRoom.sender,
+                    recipient: currentChatRoom.recipient,
+                    content: textMessage,
+                    createdDate: new Date(),
+                };
+                setMessages([...messages, chatMessage])
+                stompClient.send("/app/send-message", {}, JSON.stringify(chatMessage));
+                messageInputRef.current.value = ""
+            }
         }
     }
 
@@ -118,10 +119,6 @@ const Chat = () => {
                         setMessages(responseMessages.data)
                     })
             })
-    }
-
-    const handlerChangeText = (event) => {
-        setCurrentText(event.target.value)
     }
 
     const handlerSearchUsername = (event) => {
@@ -177,8 +174,10 @@ const Chat = () => {
                                       }}/>
                     </Grid>
                     <Grid item xs={12}>
-                        <ListItemText align="right"
-                                      secondary={moment(message.createdDate).format('MMMM D YYYY, h:mm A')}/>
+                        <ListItemText
+                            align="right"
+                            secondary={moment(message.createdDate).format('MMMM D YYYY, h:mm A')}
+                        />
                     </Grid>
                 </Grid>
             </ListItem>
@@ -206,8 +205,6 @@ const Chat = () => {
 
     return (
         <div>
-            <Grid container>
-            </Grid>
             <Grid container component={Paper} className={classes.chatSection}>
                 <Grid item xs={3} className={classes.borderRight500}>
                     <List>
@@ -247,8 +244,9 @@ const Chat = () => {
                                             label="Type message"
                                             fullWidth
                                             autoComplete="off"
-                                            value={currentText}
-                                            onChange={handlerChangeText}/>
+                                            inputRef={messageInputRef}
+                                            // onChange={handlerChangeText}
+                                        />
                                     </Grid>
                                     <Grid xs={1} align="right">
                                         <Fab color="primary" disabled={!connected} onClick={() => sendMessageHandler()}>

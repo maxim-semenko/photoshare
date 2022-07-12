@@ -9,8 +9,10 @@ public interface CommentService {
 
     Page<Comment> findAllByPostId(Pageable pageable, Long postId);
 
+    Comment findById(Long id);
+
     Comment save(CreateCommentRequest request);
 
-    Comment delete(Long postId, Long userId);
+    Comment deleteByCommentIdAndUserId(Long commentId, Long userId);
 
 }

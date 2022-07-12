@@ -45,7 +45,7 @@ const contentStyle = {
 
 function AccountPage(props) {
     const classes = useStyles();
-    let { username } = useParams();
+    let {username} = useParams();
 
     const dispatch = useDispatch()
     const [posts, setPosts] = useState([])
@@ -69,11 +69,19 @@ function AccountPage(props) {
 
     }, [])
 
+    const showImageProfile = () => {
+        if (user !== null) {
+            return <ImageProfile user={user}/>
+        }
+    }
+
     const showAboutProfile = () => {
         if (user !== null) {
             return <AboutProfile totalPosts={totalElements} user={user}/>
         }
     }
+
+
 
     return (
         <Box sx={{display: 'flex'}}>
@@ -87,7 +95,7 @@ function AccountPage(props) {
                         <Grid item xs={12} md={12} lg={12}>
                             <Paper style={{padding: '24px 24px 24px 24px'}}>
                                 <Grid container spacing={3}>
-                                    <ImageProfile/>
+                                    {showImageProfile()}
                                     {showAboutProfile()}
                                 </Grid>
                                 <br/>

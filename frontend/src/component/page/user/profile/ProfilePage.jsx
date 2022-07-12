@@ -47,6 +47,7 @@ function ProfilePage() {
 
     useEffect(() => {
         dispatch(getAllPostsByUserId(user.id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleClickOpen = () => {

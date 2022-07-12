@@ -3,9 +3,7 @@ package com.photoshare.backend.controller;
 import com.photoshare.backend.controller.dto.request.CreateCommentRequest;
 import com.photoshare.backend.entity.Comment;
 import com.photoshare.backend.service.impl.CommentServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -34,16 +32,22 @@ public class CommentController {
         return new ResponseEntity<>(commentService.findAllByPostId(pageable, postId), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Comment> findCommentById(@PathVariable Long id) {
+        return new ResponseEntity<>(commentService.findById(id), HttpStatus.OK);
+    }
+
     @PostMapping("")
     @PreAuthorize("hasRole('USER') and #request.userId == authentication.principal.id")
     public ResponseEntity<Comment> saveComment(@Valid @RequestBody CreateCommentRequest request) {
         return new ResponseEntity<>(commentService.save(request), HttpStatus.OK);
     }
 
-    @DeleteMapping("/posts/{postId}/users/{userId}")
+    @DeleteMapping("/{commentId}/users/{userId}")
     @PreAuthorize("hasRole('USER') and #userId == authentication.principal.id")
-    public ResponseEntity<Comment> deleteComment(@PathVariable Long postId, @PathVariable Long userId) {
-        return new ResponseEntity<>(commentService.delete(postId, userId), HttpStatus.OK);
+    public ResponseEntity<Comment> deleteComment(@PathVariable Long commentId, @PathVariable Long userId) {
+        return new ResponseEntity<>(commentService.deleteByCommentIdAndUserId(commentId, userId), HttpStatus.OK);
     }
 
 }

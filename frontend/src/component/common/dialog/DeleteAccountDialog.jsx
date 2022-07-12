@@ -6,21 +6,15 @@ import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 
-const form = {
-    width: '100%',
-    marginTop: '8px',
-}
-
-const submit = {
-    margin: '24px 0px 16px',
-}
-
 function DeleteAccountDialog(props) {
     return (
         <Dialog open={props.open} onClose={props.close} fullWidth maxWidth="sm">
             <DialogTitle>Delete account</DialogTitle>
             <DialogContent>
-                <form style={form} noValidate>
+                <form style={{
+                    width: '100%',
+                    marginTop: '8px',
+                }} noValidate>
                     <Grid container>
                         <Grid item xs={10.49} md={10.49} lg={10.49}>
                             <TextField
@@ -52,7 +46,7 @@ function DeleteAccountDialog(props) {
                         fullWidth
                         variant="contained"
                         color="error"
-                        style={submit}
+                        style={{margin: '24px 0px 16px'}}
                         // onClick={handlerSignIn}
                     >
                         Delete account

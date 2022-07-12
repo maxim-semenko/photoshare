@@ -23,42 +23,25 @@ function AboutProfile(props) {
     useEffect(() => {
         UserService.getAllFollowersByUserId(props.user.id)
             .then(response => {
-                console.log(response.data)
                 setFollowersList(response.data.content)
             })
         UserService.getAllFollowingsByUserId(props.user.id)
             .then(response => {
-                console.log(response.data)
                 setFollowingsList(response.data.content)
             })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    const handleOpenAllFollowersDialog = () => {
-        setOpenAllFollowersDialog(true);
-    };
-
-    const handleCloseAllFollowersDialog = () => {
-        setOpenAllFollowersDialog(false);
-    };
-
-    const handleOpenAllFollowingDialog = () => {
-        setOpenAllFollowingDialog(true);
-    };
-
-    const handleCloseAllFollowingsDialog = () => {
-        setOpenAllFollowingDialog(false);
-    };
 
     return (
         <Grid item xs={12} md={12} lg={10}>
             <AllFollowersDialog
                 open={openAllFollowersDialog}
-                close={handleCloseAllFollowersDialog}
+                close={() => setOpenAllFollowersDialog(false)}
                 data={followersList}
             />
             <AllFollowingDialog
                 open={openAllFollowingDialog}
-                close={handleCloseAllFollowingsDialog}
+                close={() => setOpenAllFollowingDialog(false)}
                 data={followingsList}
             />
             <b>{props.user.firstname} {props.user.lastname} ({props.user.username})</b>
@@ -69,8 +52,8 @@ function AboutProfile(props) {
                 spacing={2}
             >
                 <Item>Posts {props.totalPosts}</Item>
-                <Item onClick={handleOpenAllFollowersDialog}>Followers {followersList.length}</Item>
-                <Item onClick={handleOpenAllFollowingDialog}>Following {followingsList.length}</Item>
+                <Item onClick={() => setOpenAllFollowersDialog(true)}>Followers {followersList.length}</Item>
+                <Item onClick={() => setOpenAllFollowingDialog(true)}>Following {followingsList.length}</Item>
             </Stack>
             <b>{props.user.about}</b>
         </Grid>

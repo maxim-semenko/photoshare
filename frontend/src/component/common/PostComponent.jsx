@@ -32,6 +32,7 @@ export default function PostComponent(props) {
     useEffect(() => {
         setIsContainBookmark(checkBookmark(props.object.bookmarks, user.id))
         setIsContainLike(checkLike(props.object.likes, user.id))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const checkBookmark = (bookmarks, userId) => {

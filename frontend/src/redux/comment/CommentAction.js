@@ -1,9 +1,15 @@
 import * as types from "./CommentActionType"
 import CommentService from "../../service/CommentService";
+import {setLoadingPost} from "../post/PostAction";
 
 const gotCommentsSuccess = (comments) => ({
-    type: types.GET_COMMENTS_BY_FILM_ID,
+    type: types.GET_COMMENTS_BY_POST_ID,
     payload: comments,
+})
+
+const gotCommentSuccess = (comment) => ({
+    type: types.GET_COMMENTS_BY_ID,
+    payload: comment,
 })
 
 const createdCommentSuccess = (comment) => ({
@@ -31,6 +37,15 @@ export const setLoadingComments = (loading) => ({
     payload: loading
 })
 
+export const setLoadingComment = (loading) => ({
+    type: types.SET_LOADING_COMMENT,
+    payload: loading
+})
+
+export const resetDate = () => ({
+    type: types.RESET_DATA
+})
+
 //============================================ Axios requests ==========================================================
 
 export const getAllCommentsByPostId = (postId, currentPage = 0, sizePage = 0) => {
@@ -46,6 +61,23 @@ export const getAllCommentsByPostId = (postId, currentPage = 0, sizePage = 0) =>
             })
             .finally(() => {
                 setLoadingComments(false)
+            })
+    }
+}
+
+export const getCommentById = (id) => {
+    return function (dispatch) {
+        dispatch(setLoadingComment(true))
+        CommentService.getCommentById(id)
+            .then((resp) => {
+                dispatch(gotCommentSuccess(resp.data))
+                console.log(resp.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            .finally(() => {
+                setLoadingComment(false)
             })
     }
 }

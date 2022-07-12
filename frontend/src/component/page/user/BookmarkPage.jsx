@@ -37,12 +37,12 @@ function BookmarkPage() {
     const [totalElements, setTotalElements] = useState(2)
 
     useEffect(() => {
-            PostService.getAllBookmarkPostsByUserId(user.id, currentPage, 2)
-                .then(response => {
-                    setTotalElements(response.data.totalElements)
-                    console.log(response.data)
-                    setPosts([...posts, ...response.data.content])
-                })
+        PostService.getAllBookmarkPostsByUserId(user.id, currentPage, 2)
+            .then(response => {
+                setTotalElements(response.data.totalElements)
+                console.log(response.data)
+                setPosts([...posts, ...response.data.content])
+            })
     }, [currentPage])
 
     return (

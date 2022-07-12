@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import List from "@mui/material/List";
 import {Fab, ListItem, ListItemAvatar, ListItemButton, ListItemText, TextField} from "@mui/material";
@@ -6,61 +6,77 @@ import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import SendIcon from "@mui/icons-material/Send";
 import {useDispatch, useSelector} from "react-redux";
-import {createComment, getAllCommentsByPostId, setCurrentPage} from "../../redux/comment/CommentAction";
+import {createComment, getAllCommentsByPostId, getCommentById, setCurrentPage} from "../../redux/comment/CommentAction";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment-timezone";
+import RemoveCommentDialog from "./dialog/RemoveCommentDialog";
 
 function CommentPostComponent(props) {
     const dispatch = useDispatch()
     const {comments, currentPage, totalElements} = useSelector(state => state.dataComments)
-
     const user = JSON.parse(localStorage.getItem("user"))
 
-    const [commentText, setCommentText] = useState("")
+    const [openRemoveCommentDialog, setOpenRemoveCommentDialog] = useState(false)
+
+    const commentInputRef = useRef(null);
 
     useEffect(() => {
-        dispatch(getAllCommentsByPostId(props.postId, currentPage, 5))
-    }, [currentPage])
+        console.log(props.postId)
+        dispatch(getAllCommentsByPostId(props.postId, 0, 5))
+    }, [])
 
     const fetchMoreData = () => {
         let page = currentPage + 1;
         dispatch(setCurrentPage(page))
+        dispatch(getAllCommentsByPostId(props.postId, page, 5))
+
     };
 
     const sendComment = () => {
         let request = {
             postId: props.postId,
             userId: user.id,
-            content: commentText
+            content: commentInputRef.current.value
         }
 
-        setCommentText("")
+        commentInputRef.current.value = ""
         dispatch(createComment(request))
             .then((response) => {
                 console.log(response)
-
             })
             .catch(error => {
                 console.log(error)
             })
     }
 
-    const handlerChangeCommentText = (e) => {
-        setCommentText(e.target.value)
+    const handleRemoveComment = (id) => {
+        dispatch(getCommentById(id))
+        setOpenRemoveCommentDialog(true)
+    }
+
+    const DisplayDialogs = () => {
+        if (openRemoveCommentDialog) {
+            return <RemoveCommentDialog
+                open={openRemoveCommentDialog}
+                close={() => setOpenRemoveCommentDialog(false)}
+            />
+        }
     }
 
     return (
         <div>
+            {DisplayDialogs()}
             <Grid container style={{paddingTop: '20px', paddingBottom: "20px"}}>
                 <Grid item xs={11}>
                     <TextField
                         // onKeyDown={handleEnterKeyDown}
+                        type={"text"}
                         label="Type comment"
                         fullWidth
                         autoComplete="off"
-                        value={commentText}
-                        onChange={handlerChangeCommentText}
+                        // value={commentText}
+                        inputRef={commentInputRef}
                     />
                 </Grid>
                 <Grid xs={1} align="right">
@@ -70,7 +86,7 @@ function CommentPostComponent(props) {
                 </Grid>
             </Grid>
             {/*<hr/>*/}
-            <div id="scrollableDiv" style={{height: 400, overflow: "auto", paddingBottom: "20px"}}>
+            <div id="scrollableDiv" style={{maxHeight: 420, overflow: "auto", paddingBottom: "20px"}}>
                 <InfiniteScroll
                     dataLength={comments.length}
                     next={fetchMoreData}
@@ -91,7 +107,8 @@ function CommentPostComponent(props) {
                                                 secondaryAction={
                                                     comment.user.id === user.id ?
                                                         <IconButton edge="end" aria-label="delete">
-                                                            <DeleteIcon/>
+                                                            <DeleteIcon
+                                                                onClick={() => handleRemoveComment(comment.id)}/>
                                                         </IconButton>
                                                         :
                                                         null

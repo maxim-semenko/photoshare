@@ -4,7 +4,6 @@ import com.photoshare.backend.controller.dto.request.UpdatePasswordRequest;
 import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.controller.dto.response.UserResponse;
 import com.photoshare.backend.service.impl.UserServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

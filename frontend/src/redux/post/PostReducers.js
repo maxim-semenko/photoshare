@@ -25,7 +25,8 @@ const postReducers = (state = initialState, action = {}) => {
             }
         case types.GET_POST_BY_ID:
             return {
-                ...state, post: action.payload, loadingPost: false,
+                ...state, post: action.payload,
+                loadingPost: false,
             }
         case types.CREATE_POST:
             return {

@@ -12,6 +12,7 @@ function PostActionCreateDeleteLike(props) {
     useEffect(() => {
         setIsContainLike(props.isContain)
         setCountLikes(props.post.likes.length)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const addLike = (postId, userId) => {

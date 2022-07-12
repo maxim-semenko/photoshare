@@ -37,12 +37,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment delete(Long postId, Long userId) {
-        Post post = postService.findById(postId);
+    public Comment deleteByCommentIdAndUserId(Long commentId, Long userId) {
         User user = userService.findById(userId);
-
-        Comment comment = commentRepository.findByPostAndUser(post, user)
-                .orElseThrow(() -> new ResourseNotFoundException("Comment not found!"));
+        Comment comment = findById(commentId);
 
         commentRepository.delete(comment);
 
@@ -54,4 +51,11 @@ public class CommentServiceImpl implements CommentService {
         Post post = postService.findById(postId);
         return commentRepository.findAllByPost(pageable, post);
     }
+
+    @Override
+    public Comment findById(Long id) {
+        return commentRepository.findById(id)
+                .orElseThrow(() -> new ResourseNotFoundException("Comment not found!"));
+    }
+
 }

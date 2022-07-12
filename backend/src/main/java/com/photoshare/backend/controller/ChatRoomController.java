@@ -3,7 +3,6 @@ package com.photoshare.backend.controller;
 import com.photoshare.backend.entity.chat.ChatMessage;
 import com.photoshare.backend.entity.chat.ChatRoom;
 import com.photoshare.backend.service.impl.ChatRoomServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -21,7 +21,6 @@ import com.photoshare.backend.repository.UserRepository;
 import com.photoshare.backend.security.JwtUtils;
 import com.photoshare.backend.service.AuthService;
 import com.photoshare.backend.service.impl.mail.MailTypeMessageServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

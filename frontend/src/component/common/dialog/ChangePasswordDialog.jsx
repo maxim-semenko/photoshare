@@ -9,15 +9,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import UserService from "../../../service/UserService";
 import UserValidator from "../../../validator/UserValidator";
 
-const form = {
-    width: '100%',
-    marginTop: '8px',
-}
-
-const submit = {
-    margin: '24px 0px 16px',
-}
-
 function ChangePasswordDialog(props) {
 
     const [oldPassword, setOldPassword] = useState('')
@@ -89,7 +80,10 @@ function ChangePasswordDialog(props) {
         <Dialog open={props.open} onClose={props.close} fullWidth maxWidth="sm">
             <DialogTitle>Change password</DialogTitle>
             <DialogContent>
-                <form style={form} noValidate>
+                <form style={{
+                    width: '100%',
+                    marginTop: '8px',
+                }} noValidate>
                     <Collapse in={showError}>
                         <Alert
                             severity="error"
@@ -156,7 +150,7 @@ function ChangePasswordDialog(props) {
                         fullWidth
                         variant="contained"
                         color="success"
-                        style={submit}
+                        style={{margin: '24px 0px 16px'}}
                         onClick={handlerChangePassword}
                     >
                         Change password

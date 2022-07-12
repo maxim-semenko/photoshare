@@ -1,6 +1,5 @@
 package com.photoshare.backend.service.impl;
 
-import com.photoshare.backend.entity.Bookmark;
 import com.photoshare.backend.entity.Like;
 import com.photoshare.backend.entity.Post;
 import com.photoshare.backend.entity.User;
@@ -8,12 +7,9 @@ import com.photoshare.backend.exception.ResourseAlreadyExistsException;
 import com.photoshare.backend.exception.ResourseNotFoundException;
 import com.photoshare.backend.repository.LikeRepository;
 import com.photoshare.backend.service.LikeService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

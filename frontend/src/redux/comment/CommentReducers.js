@@ -2,9 +2,11 @@ import * as types from "./CommentActionType"
 
 const initialState = {
     comments: [],
+    comment: null,
     loadingComments: true,
+    loadingComment: true,
     currentPage: 0,
-    sizePage: 9,
+    sizePage: 5,
     totalElements: 0,
     totalPages: 0,
     numberOfElements: 0,
@@ -12,14 +14,21 @@ const initialState = {
 
 const commentReducers = (state = initialState, action = {}) => {
     switch (action.type) {
-        case types.GET_COMMENTS_BY_FILM_ID:
+        case types.GET_COMMENTS_BY_POST_ID:
             return {
                 ...state,
-                comments: state.comments.concat(action.payload.content),
+                comments: action.payload.pageable.pageNumber === 0 ?
+                    action.payload.content :
+                    state.comments.concat(action.payload.content),
                 totalElements: action.payload.totalElements,
                 totalPages: action.payload.totalPages,
                 numberOfElements: action.payload.numberOfElements,
                 loadingComments: false,
+            }
+        case types.GET_COMMENTS_BY_ID:
+            return {
+                ...state, comment: action.payload,
+                loadingComment: false,
             }
         case types.CREATE_COMMENT:
             return {
@@ -44,6 +53,10 @@ const commentReducers = (state = initialState, action = {}) => {
         case types.SET_LOADING_COMMENTS:
             return {
                 ...state, loadingComments: action.payload
+            }
+        case types.SET_LOADING_COMMENT:
+            return {
+                ...state, loadingComment: action.payload
             }
         default:
             return state

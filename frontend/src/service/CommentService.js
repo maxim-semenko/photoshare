@@ -26,6 +26,14 @@ class CommentService {
         })
     }
 
+    async getCommentById(id) {
+        return axios.get(`${API_URL}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
     /**
      * Method that create a new comment.
      * @param request data of a new comment

@@ -20,6 +20,7 @@ function PostActionCreateDeleteBookmark(props) {
 
     useEffect(() => {
         setIsContainBookmark(props.isContain)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const addBookmark = (postId, userId) => {

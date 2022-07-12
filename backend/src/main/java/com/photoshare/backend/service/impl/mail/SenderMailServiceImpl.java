@@ -1,7 +1,6 @@
 package com.photoshare.backend.service.impl.mail;
 
 import com.photoshare.backend.service.SenderMailService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
