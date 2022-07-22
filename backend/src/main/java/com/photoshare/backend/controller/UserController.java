@@ -1,6 +1,9 @@
 package com.photoshare.backend.controller;
 
 import com.photoshare.backend.controller.dto.request.UpdatePasswordRequest;
+import com.photoshare.backend.controller.dto.request.UpdateUserIsNonLockedRequest;
+import com.photoshare.backend.controller.dto.request.UpdateUserRequest;
+import com.photoshare.backend.controller.dto.request.UpdateUserRolesRequest;
 import com.photoshare.backend.controller.dto.response.MessageResponse;
 import com.photoshare.backend.controller.dto.response.UserResponse;
 import com.photoshare.backend.service.impl.UserServiceImpl;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<UserResponse>> findAllUsers(Pageable pageable) {
         return new ResponseEntity<>(UserResponse.mapListUserToDTO(userService.findAll(pageable)), HttpStatus.OK);
     }
@@ -69,6 +73,15 @@ public class UserController {
                 HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER') and #id == authentication.principal.id")
+    public ResponseEntity<UserResponse> updateById(@PathVariable Long id,
+                                                   @Valid @RequestBody UpdateUserRequest request) {
+        return new ResponseEntity<>(
+                UserResponse.mapUserToDTO(userService.updateById(request, id)),
+                HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('USER') and #id == authentication.principal.id")
     public ResponseEntity<MessageResponse> deleteById(@PathVariable Long id) {
@@ -80,6 +93,37 @@ public class UserController {
     public ResponseEntity<MessageResponse> updatePassword(@PathVariable Long id,
                                                           @Valid @RequestBody UpdatePasswordRequest request) {
         return new ResponseEntity<>(userService.updatePasswordById(request, id), HttpStatus.OK);
+    }
+
+    /**
+     * Method that updates user's locked value.
+     *
+     * @param id      user's id
+     * @param request DTO class
+     * @return updated user
+     */
+    @PatchMapping("/{id}/locked")
+    @PreAuthorize("hasRole('ADMIN') and #id != authentication.principal.id")
+    public ResponseEntity<UserResponse> updateLocked(@PathVariable Long id,
+                                                     @RequestBody UpdateUserIsNonLockedRequest request) {
+        return new ResponseEntity<>(
+                UserResponse.mapUserToDTO(userService.updateUserIsNonLockerById(request, id)),
+                HttpStatus.OK);
+    }
+
+    /**
+     * Method that updates user's roles value.
+     *
+     * @param id      user's id
+     * @param request DTO class
+     * @return updated user
+     */
+    @PatchMapping("/{id}/roles")
+    @PreAuthorize("hasRole('ADMIN') and #id != authentication.principal.id")
+    public ResponseEntity<UserResponse> updateRoles(@PathVariable Long id, @RequestBody UpdateUserRolesRequest request) {
+        return new ResponseEntity<>(
+                UserResponse.mapUserToDTO(userService.updateUserRolesById(request, id)),
+                HttpStatus.OK);
     }
 
 }

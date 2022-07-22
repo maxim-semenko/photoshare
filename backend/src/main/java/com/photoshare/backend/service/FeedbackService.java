@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 
 public interface FeedbackService {
 
+    Page<Feedback> findAllFeedbacks(Pageable pageable);
+
     Page<FeedbackType> findAllFeedbackType(Pageable pageable);
 
     Page<FeedbackStatus> findAllFeedbackStatus(Pageable pageable);

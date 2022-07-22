@@ -2,8 +2,10 @@ package com.photoshare.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.photoshare.backend.entity.chat.ChatRoom;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -31,6 +33,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity {
 
@@ -39,13 +43,13 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(unique = true)
-    @Size(min = 7, max = 40)
+    @Size(min = 7, max = 50)
     @NotBlank
     @Email
     private String email;
 
     @NotBlank
-    @Size(min = 8, max = 255)
+    @Size(min = 8, max = 256)
     @JsonIgnore
     private String password;
 
@@ -60,7 +64,7 @@ public class User extends BaseEntity {
     @Size(min = 2, max = 30)
     private String lastname;
 
-    @Size(min = 2, max = 100)
+    @Size(min = 2, max = 256)
     private String about;
 
     @Column(columnDefinition = "MEDIUMBLOB")
@@ -71,7 +75,7 @@ public class User extends BaseEntity {
     @CreatedDate
     private Date registerDate;
 
-    //    @NotNull !!
+    @NotNull
     private Boolean isAccountNonLocked = true;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)

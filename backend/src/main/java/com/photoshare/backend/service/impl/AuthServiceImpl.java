@@ -29,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -62,8 +63,9 @@ public class AuthServiceImpl implements AuthService {
         user.setLastname(request.getLastname());
         user.setAbout(request.getAbout());
         user.setImage(request.getImage());
+        user.setRegisterDate(new Date());
         user.setRoles(Set.of(roleRepository.findByName(RoleEnum.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Role was not found!"))));
+                .orElseThrow(() -> new ResourseNotFoundException("Role not found!"))));
 
         userRepository.save(user);
 
@@ -97,6 +99,9 @@ public class AuthServiceImpl implements AuthService {
                 if (Objects.equals(mailCode.getCode(), request.getEmailCode())) {
                     user.setPassword(passwordEncoder.encode(request.getNewPassword()));
                     userRepository.save(user);
+
+                    mailCode.setIsValid(false);
+                    mailCodeRepository.save(mailCode);
                 } else {
                     mailCode.setCountAttempts(mailCode.getCountAttempts() + 1);
                     if (mailCode.getCountAttempts().equals(5)) {
@@ -107,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
                     throw new MailCodeException("Mail code is not equals. Try again!");
                 }
             } else {
-                throw new MailCodeException("Mail code is invalid. Send message again!");
+                throw new MailCodeException("Mail code is invalid. Send code again!");
             }
         }
 

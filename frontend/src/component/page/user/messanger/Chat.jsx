@@ -69,7 +69,7 @@ const Chat = () => {
     }, [messages])
 
     const connect = () => {
-        let sock = new SockJS('//localhost:8090/ws');
+        let sock = new SockJS('//localhost:8095/ws');
         stompClient = over(sock);
         stompClient.connect({}, onConnected, onError);
     }

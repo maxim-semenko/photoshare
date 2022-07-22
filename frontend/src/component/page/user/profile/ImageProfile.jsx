@@ -13,6 +13,44 @@ const linkStyle = {
 }
 
 function ImageProfile(props) {
+
+    const user = JSON.parse(localStorage.getItem("user"))
+
+    const showEditProfile = () => {
+        if (user.id === props.user.id) {
+            return (
+                <Link to={"/edit"} style={linkStyle}>
+                    <Button fullWidth
+                            variant="contained"
+                            color="primary"
+                            startIcon={<CloudUploadIcon/>}
+                            style={{marginTop: "1px"}}>
+                        Edit profile
+                    </Button>
+                </Link>
+            )
+        } else {
+            return (
+                <div>
+
+                    <Button fullWidth
+                            variant="contained"
+                            color="success"
+                            style={{marginTop: "1px"}}>
+                        Subscribe
+                    </Button>
+                    <Button fullWidth
+                            variant="contained"
+                            color="primary"
+                            style={{marginTop: "1px"}}>
+                        Write message
+                    </Button>
+                </div>
+
+            )
+        }
+    }
+
     return (
         <Grid item xs={12} md={12} lg={2}>
             <Card sx={{maxWidth: 160}}>
@@ -23,15 +61,7 @@ function ImageProfile(props) {
                     image={props.user.image !== null ? props.user.image : image}
                     alt="Paella dish"
                 />
-                <Link to={"/edit"} style={linkStyle}>
-                    <Button fullWidth
-                            variant="contained"
-                            color="primary"
-                            startIcon={<CloudUploadIcon/>}
-                            style={{marginTop: "1px"}}>
-                        Edit profile
-                    </Button>
-                </Link>
+                {showEditProfile()}
             </Card>
         </Grid>
     );

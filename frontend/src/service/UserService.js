@@ -6,6 +6,27 @@ const cookies = new Cookies();
 
 class UserService {
 
+    async getAllUsers(page = 0, size = 0) {
+        return axios.get(`${API_URL}/`, {
+            params: {
+                sort: 'registerDate,desc',
+                page: page,
+                size: size,
+            },
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
+    async getUserById(id) {
+        return axios.get(`${API_URL}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
     async getUserByUsername(username) {
         return axios.get(`${API_URL}/byUsername/${username}`, {
             headers: {
@@ -64,6 +85,23 @@ class UserService {
         return axios.patch(`${API_URL}/${id}/password/`, request, {
             headers: {
                 'Authorization': `Bearer ${cookies.get("token")}`,
+            },
+        })
+    }
+
+    async updateUserIsNonLockedById(request, id) {
+        return axios.patch(`${API_URL}/${id}/locked`, request, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`
+            },
+        })
+    }
+
+    async updateUserRolesById(request, id) {
+        return axios.patch(`${API_URL}/${id}/roles`, request, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}
+                `
             },
         })
     }

@@ -5,7 +5,7 @@ const initialState = {
     post: null,
     loadingPosts: true,
     loadingPost: true,
-    currentPage: 1,
+    currentPage: 0,
     sizePage: 9,
     totalElements: 0,
     totalPages: 0,

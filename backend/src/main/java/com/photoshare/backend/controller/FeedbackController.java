@@ -27,6 +27,12 @@ public class FeedbackController {
 
     private final FeedbackService feedbackService;
 
+    @GetMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Page<Feedback>> findAllFeedbacks(Pageable pageable) {
+        return new ResponseEntity<>(feedbackService.findAllFeedbacks(pageable), HttpStatus.OK);
+    }
+
     @GetMapping("/types")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Page<FeedbackType>> findAllFeedbackType(Pageable pageable) {
@@ -47,7 +53,7 @@ public class FeedbackController {
 
     //////////////////////////////
     @PatchMapping("/status")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Feedback> updateStatus(CreateFeedbackRequest request) {
         return new ResponseEntity<>(feedbackService.create(request), HttpStatus.CREATED);
     }

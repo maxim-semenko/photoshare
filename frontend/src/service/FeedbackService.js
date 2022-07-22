@@ -20,6 +20,27 @@ class FeedbackService {
         })
     }
 
+    async getAllFeedbacks(page = 0, size = 0) {
+        return axios.get(`${API_URL}/`, {
+            params: {
+                sort: 'registerDate,desc',
+                page: page,
+                size: size,
+            },
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
+    async getUserById(id) {
+        return axios.get(`${API_URL}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${cookies.get("token")}`,
+            }
+        })
+    }
+
     async create(request) {
         return axios.post(`${API_URL}/`, request, {
             headers: {

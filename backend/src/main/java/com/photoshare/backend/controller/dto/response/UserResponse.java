@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,8 @@ public class UserResponse {
     private String email;
     private String image;
     private String about;
+    private Date registerDate;
+    private Boolean isAccountNonLocked;
     private Set<String> roles;
 
     public static UserResponse mapUserToDTO(User user) {
@@ -36,6 +39,8 @@ public class UserResponse {
         userResponse.setEmail(user.getEmail());
         userResponse.setImage(user.getImage());
         userResponse.setAbout(user.getAbout());
+        userResponse.setRegisterDate(user.getRegisterDate());
+        userResponse.setIsAccountNonLocked(user.getIsAccountNonLocked());
         userResponse.setRoles(roles);
 
         return userResponse;

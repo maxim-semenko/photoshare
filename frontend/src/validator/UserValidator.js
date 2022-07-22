@@ -59,10 +59,23 @@ class UserValidator {
             error = 'password cannot be empty!';
         } else if (password.length < 8) {
             error = 'password is too short!';
-        } else if (password.length > 255) {
+        } else if (password.length > 256) {
             error = 'password is too long!';
         }
         return error
+    }
+
+    // About errors
+    validateAbout(about) {
+        let error = "";
+        if (about || about !== '') {
+            if (about.length < 2) {
+                error = 'about is too short!';
+            } else if (about.length > 256) {
+                error = 'about is too long!';
+            }
+            return error
+        }
     }
 
     validateAllWithoutPassword(firstname, lastname, username, email) {
@@ -105,6 +118,24 @@ class UserValidator {
         }
     }
 
+    validateForEditUser(firstname, lastname, username, email, about) {
+        let firstnameError = this.validateFirstname(firstname)
+        let lastnameError = this.validateLastname(lastname)
+        let usernameError = this.validateUsername(username)
+        let emailError = this.validateEmail(email)
+        let aboutError = this.validateAbout(about)
+
+        return {
+            firstnameError,
+            lastnameError,
+            usernameError,
+            emailError,
+            aboutError
+        }
+    }
+
 }
 
-export default new UserValidator()
+export default new
+
+UserValidator()

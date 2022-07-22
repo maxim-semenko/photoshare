@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Set;
 
 @Service
@@ -25,6 +26,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final FeedbackTypeRepository feedbackTypeRepository;
     private final FeedbackStatusRepository feedbackStatusRepository;
+
+    @Override
+    public Page<Feedback> findAllFeedbacks(Pageable pageable) {
+        return feedbackRepository.findAll(pageable);
+    }
 
     @Override
     public Page<FeedbackType> findAllFeedbackType(Pageable pageable) {
@@ -44,6 +50,7 @@ public class FeedbackServiceImpl implements FeedbackService {
                 .content(request.getContent())
                 .feedbackType(findFeedbackTypeByName(FeedbackTypeEnum.valueOf(request.getType())))
                 .feedbackStatuses(Set.of(findFeedbackStatusByName(FeedbackStatusEnum.NOT_VIEW)))
+                .createdDate(new Date())
                 .build();
 
         return feedbackRepository.save(feedback);
